@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body{
+			background-color: gray;
+		}
+		form{
+			
+			background: rgba(0,0,0,0.5);
+			color: #fff;
+			position: absolute;
+			//background-color: white;
+			width:600px;
+			height: 600px;
+			margin-left: 100px;
+			margin-top: 50px;
+			padding-left: 20px;
+			padding-top: 20px;
+		}
+		input{
+			font-size:20px;
+			//width:320px;
+		}
+	</style>
+
+</head>
+<body>
+<form method="POST" action="">
+	<table>
+		<tr>
+			<th colspan="4">EMPLOYEE REGISTRATION FORM</th>
+		</tr>
+		<tr>
+			<td>Upload image:</td>
+			<td><input type="file" name="file_upload"></td>
+		</tr>
+		<tr>
+			<td>Firstname:</td>
+			<td><input type="text" name="emp_firstname" placeholder="Enter the firstname"></td>
+		</tr>
+		<tr>
+			<td>Lastname:</td>
+			<td><input type="text" name="emp_lastname" placeholder="Enter the lastname"></td>
+		</tr>
+		<tr>
+			<td>Gender:</td>
+			<td><input type="radio" name="emp_gender">Male
+				<input type="radio" name="emp_gender">female</td>
+		</tr>
+		<tr>
+			<td>Date of birth:</td>
+			<td><input type="date" name="emp_dob"></td>
+		</tr>
+		<tr>
+			<td>Address:</td>
+			<td><textarea rows="5" name="emp_address" placeholder="Enter address"></textarea></td>
+		</tr>
+		<tr>
+			<td>Mobile No:</td>
+			<td><input type="text" name="emp_mobileno" placeholder="Enter Mobile Number"></td>
+		</tr>
+		<tr>
+			<td>Email:</td>
+			<td><input type="text" name="emp_email" placeholder="Register using active email id"></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><input type="password" name="emp_password" placeholder="Enter a password"></td>
+		</tr>
+		<tr>
+			<td>Designation:</td>
+			<td><input type="checkbox" name="emp_designation">Project Manager
+				<input type="checkbox" name="emp_designation">Team Lead
+				<input type="checkbox" name="emp_designation">Software Engg
+				<input type="checkbox" name="emp_designation">Tester</td>
+		</tr>
+		<tr>
+			<td>Employee Qualification:</td>
+			<td><input type="text" name="emp_qualification" placeholder="Enter employee qualification"></td>
+		</tr>
+		<tr>
+			<td>Employee Experiance(in yr):</td>
+			<td><input type="text" name="emp_experiance" placeholder="Enter the No. of years of experiance"></td>
+		</tr>
+		<tr>
+			<td>Date of join:</td>
+			<td><input type="date" name="emp_joindt"></td>
+		</tr>
+		<tr>
+			<td>Basic salary:</td>
+			<td><input type="text" name="emp_salary" placeholder="Enter the basic salary"></td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="Submit"></td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>

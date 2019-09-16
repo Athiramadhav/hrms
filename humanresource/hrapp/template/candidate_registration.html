@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		form{
+			position: absolute;
+			background-color: white;
+			width:500px;
+			height: 600px;
+			margin-left: 200px;
+			margin-top: 50px;
+		}
+		input{
+			border-radius: 10px;
+			padding-left: 10px;
+		}
+	</style>
+</head>
+<body>
+<form method="POST" action="">
+	<table>
+		<tr>
+			<th colspan="4">CANDIDATE REGISTRATION FORM</th>
+		</tr>
+		<tr>
+			<td>Name:</td>
+			<td><input type="text" name="candidatename" placeholder="Enter your full name"></td>
+		</tr>
+		<tr>
+			<td>Gender:</td>
+			<td colspan="3"><input type="radio" name="gender">Male
+				<input type="radio" name="gender">Female</td>
+		</tr>
+		<tr>
+			<td>Date of birth:</td>
+			<td><input type="date" name="dob"></td>
+		</tr>
+		<tr>
+			<td>Address:</td>
+			<td><textarea rows="5" name="address" placeholder="Enter your address"></textarea></td>
+		</tr>
+		<tr>
+			<td>Mobile No:</td>
+			<td><input type="text" name="mobileno" placeholder="Enter Mobile Number"></td>
+		</tr>
+		<tr>
+			<td>Qualification:</td>
+			<td><input type="text" name="qualification" placeholder="Enter your qualification"></td>
+		</tr>
+		<tr>
+			<td>Year of pass:</td>
+			<td><input type="text" name="yrofpass" placeholder="Enter year of pass"></td>
+		</tr>
+		<tr>
+			<td>Experiance:</td>
+			<td><input type="checkbox" name="experiance">Yes
+				<input type="checkbox" name="experiance">No</td>
+		</tr>
+		<tr>
+			<td>Email:</td>
+			<td><input type="text" name="email" placeholder="Register using active email id"></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><input type="password" name="password" placeholder="Enter a password"></td>
+		</tr>
+		<tr>
+			<td>Upload resume:</td>
+			<td><input type="file" name="file_upload"></td>
+		</tr>
+		<tr>
+		<td><input type="submit" value="submit"></td>
+	</tr>
+	</table>
+</form>
+</body>
+</html>
