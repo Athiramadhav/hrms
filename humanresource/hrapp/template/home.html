@@ -65,7 +65,7 @@
 			height: 40px;
 			margin-left: 40px;
 		}
-		a{	
+		#a{	
 			color: white;
 			position: absolute;
 			text-decoration: none;
@@ -81,7 +81,14 @@
 		p{
 			color:white;
 		}
-		footer{
+		#a1{
+			text-decoration: none;
+			color: white;
+		}
+		#footer{
+			background-color: black;
+			width: 100%;
+			height: 80px;
 			margin-top: 600px;
 		}
 
@@ -130,7 +137,7 @@
 			<li> SERVICES </li>
 			<li> ABOUT </li>
 			<li> CONTACT </li>
-			<li>CANDIDATE REGISTER</li>
+			<li>REGISTRATION</li>
 		</ul>
 	</nav>
 </header>
@@ -145,12 +152,14 @@
 	<input type="password" name="password" placeholder= "Password" id="password_id"><br><br>
 	<input type="submit" value="Login" id="btn" onclick="return data()"><br><br><br>
 	<i class="fa fa-lock icon"></i>
-	<a href="">Forgot your password?</a>
+	<a href="" id="a">Forgot your password?</a>
 	</div>
 	</form>
-	<div>
+	<div id="footer">
 <footer>
-	<p>Contact information:<a href="mailto:extend@gmail.com">extend@gmail.com</a></p>
+	<p>Contact information:</p>
+	<p><a href="mailto:extend@gmail.com" id="a1">extend@gmail.com</a></p>
+	<p>999-000-123</a></p>
 </footer>
 </div>
 </body>
