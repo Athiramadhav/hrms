@@ -7,23 +7,27 @@ from .models import *
 
 def userLogin(request):
 	template = loader.get_template('login.html')
+	context={}
+	return HttpResponse(template.render(context,request))
+	if request=='POST'
 	try:
 
 		lusername=request.POST.get('username')
 		lpassword=request.POST.get('password')
-		context={}
-		check_user=Register.objects.filter(email=lusername, password=lpassword).exists()
-		if check_user:
-			login_objs=Login(username=lusername, password=lpassword)
-			login_objs.save()
-			return render(request, 'home.html',context)
+		#check_user=Company.objects.filter(email=lusername, password=lpassword).exists()
+		#if check_user:
+		#login_objs=Login(username=lusername, password=lpassword)
+		#login_objs.save()
+		return render(request, 'admin_home.html')
 	except Exception as e:
 		print(str(e))
 		return HttpResponse("login failed")
-	return HttpResponse("unsuccessful login")
+	return render(request, 'login.html')
+
+	               
 
 
-def registerData(request):
+def hrRegistration(request):
 	try:
 		vfirstname=request.POST.get('fname')
 		vlastname=request.POST.get('lname')
