@@ -75,19 +75,26 @@ button:hover {
 <body>
 
 <div class="container">
-  <h2>EXAMINATION DETAIL</h2>  
+  <h2>INTERVIEW DETAIL</h2>  
   <hr> 
   <div class="form-group">
-    <label>Start Date</label>
-    <input type="date" name="start_dt" class="form-control">
-    <label>Start Time</label>
-    <input type="time" name="start_time" class="form-control">
-    <label>End Date</label>
-    <input type="date" name="end_dt" class="form-control">
-    <label>End Time</label>
-    <input type="time" name="end_time" class="form-control">
-    <label>Duration</label>
-    <input type="time" name="duration" class="form-control">
+    <label>Candidate id</label>
+    <input type="text" name="candidtae_id" class="form-control">
+    <label>Candidate Name</label>
+    <input type="text" name="candidtae_name" class="form-control">
+    <label>Interview Type:</label>
+    <select class="form-control">
+      <option selected="">select</option>
+      <option>Face to face</option>
+      <option>Video call</option>
+      <option>Voice call</option>
+    </select>
+    <label>Interview Date</label>
+    <input type="date" name="interview_dt" class="form-control">
+    <label>Interview Time</label>
+    <input type="time" name="interview_time" class="form-control">
+    <label>Location</label>
+    <input type="text" name="location" class="form-control">
 
   </div>      
   <div class="clearfix">

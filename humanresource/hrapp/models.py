@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+
 class CompanyProfile(models.Model):
 	company_title = models.CharField(max_length=20)
 	company_estb_year = models.IntegerField()
@@ -12,14 +13,31 @@ class CompanyProfile(models.Model):
 
 
 class Permission(models.Model):
-	fk_role_id = models.ForeignKey(Company, on_delete=models.CASCADE)
+	fk_role_id = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
 	permission_title = models.CharField(max_length=20)
+
+
+class EmployeeProfile(models.Model):
+	upload_image= models.FileField(upload_to ='pictures/')
+	fname = models.CharField(max_length=25)
+	lname = models.CharField(max_length=25)
+	gender = models.CharField(max_length=25)
+	dob = models.DateField(max_length=25)
+	address = models.CharField(max_length=50)
+	phone = models.CharField(max_length=25)
+	email = models.CharField(max_length=25)
+	password = models.CharField(max_length=15)
+	designation = models.CharField(max_length=15)
+	emp_qualification = models.CharField(max_length=25)
+	emp_experience = models.CharField(max_length=25)
+	salary = models.CharField(max_length=25)
+	join_date = models.CharField(max_length=25)
 
 
 class Login(models.Model):
 	username = models.CharField(max_length=20)
 	password = models.CharField(max_length=20)
-	fk_role = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+	fk_role_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 
 class Candidate(models.Model):
@@ -37,29 +55,30 @@ class Candidate(models.Model):
 
 class Resume(models.Model):
 	resume= models.FileField(upload_to ='file/')
-	fk_candidate = models.ForeignKey(CandidateRegistration, on_delete=models.CASCADE)
+	fk_candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE)
 
 
 class CandidateExperiance(models.Model):
 	company_name = models.CharField(max_length=20)
 	designation = models.CharField(max_length=15)
 	period = models.IntegerField()
-	fk_candidate = models.ForeignKey(CandidateRegistration, on_delete=models.CASCADE)
+	fk_candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+	fk_resume_id = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
 
 class Interview(models.Model):
 	interview_type = models.CharField(max_length=20)
 	interview_Date = models.DateField()
-	interview_time = models.IntegerField()
+	interview_time = models.TimeField()
 	interview_location = models.CharField(max_length=20)
-	fk_candidate = models.ForeignKey(CandidateRegistration, on_delete=models.CASCADE)
+	fk_candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
 
 
 class CallLetter(models.Model):
-	fk_candidate = models.ForeignKey(CandidateRegistration, on_delete=models.CASCADE)
+	fk_candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
 	post = models.CharField(max_length=20)
 	join_date = models.DateField()
-	join_time = models.CharField(max_length=10)
+	join_time = models.TimeField()
 
 
 class QuestionPaper(models.Model):
@@ -83,8 +102,9 @@ class MockTest(models.Model):
 class ExamDetail(models.Model):
 	exam_startdate = models.DateField()
 	exam_enddate = models.DateField()
-	exam_time = models.CharField(max_length=10)
-	exam_duration = models.CharField(max_length=10)
+	exam_starttime = models.TimeField()
+	exam_endtime= models.TimeField()
+	exam_duration = models.TimeField()
 
 
 class Mail(models.Model):
@@ -95,32 +115,15 @@ class Mail(models.Model):
 
 
 class Result(models.Model):
-	fk_candidate = models.ForeignKey(CandidateRegistration, on_delete=models.CASCADE)
+	fk_candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
 	mark = models.IntegerField()
 	rank = models.CharField(max_length=10)
 
 	
-class EmployeeProfile(models.Model):
-	upload_image= models.FileField(upload_to ='pictures/')
-	fname = models.CharField(max_length=25)
-	lname = models.CharField(max_length=25)
-	gender = models.CharField(max_length=25)
-	dob = models.DateField(max_length=25)
-	address = models.CharField(max_length=50)
-	phone = models.CharField(max_length=25)
-	email = models.CharField(max_length=25)
-	password = models.CharField(max_length=15)
-	designation = models.CharField(max_length=15)
-	emp_qualification = models.CharField(max_length=25)
-	emp_experience = models.CharField(max_length=25)
-	salary = models.CharField(max_length=25)
-	join_date = models.CharField(max_length=25)
-
-
 class Attendance(models.Model):
 	date = models.DateField(max_length=25)
 	time = models.DateField(max_length=25)
-    fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 class ComplaintReg(models.Model):
 	e_name = models.CharField(max_length=25)
@@ -136,17 +139,6 @@ class ComplaintReg(models.Model):
 	time_of_incident = models.DateField(max_length=25)
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
-class PerformanceEvaluation(models.Model):
-	emp_name = models.CharField(max_length=25)
-	emp_dept = models.CharField(max_length=25)
-	date = models.DateField(max_length=25)
-	project = models.CharField(max_length=25)
-	emp_duty = models.CharField(max_length=100)
-	emp_strength = models.CharField(max_length=75)
-	emp_weakness = models.CharField(max_length=75)
-	plan_to_improve = models.CharField(max_length=75)
-	fk_project_id = models.ForeignKey(ProjectRegister, on_delete=models.CASCADE)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 class Intimation(models.Model):
 	emp_name = models.CharField(max_length=25) 
@@ -205,11 +197,11 @@ class CompanyProfile(models.Model):
 	
 class TaskAdd(models.Model):
     fk_project_id  = models.IntegerField(ProjectRegister, max_length=25)
-	task_title = models.CharField(max_length=50)
-	task_priority = models.CharField(max_length=25)
-	task_start_date = models.DateField(max_length=25)
-	task_end_date = models.DateField(max_length=25)
-	team_lead = models.CharField(max_length=50)
+    task_title = models.CharField(max_length=50)
+    task_priority = models.CharField(max_length=25)
+    task_start_date = models.DateField(max_length=25)
+    task_end_date = models.DateField(max_length=25)
+    team_lead = models.CharField(max_length=50)
 	
 
 class CostEstimation(models.Model):
@@ -238,3 +230,16 @@ class Vacany(models.Model):
 	emp_qualification = models.CharField(max_length=25)
 	emp_experience = models.CharField(max_length=25)
 	time_period = models.DateField(max_length=25)
+
+
+class PerformanceEvaluation(models.Model):
+	emp_name = models.CharField(max_length=25)
+	emp_dept = models.CharField(max_length=25)
+	date = models.DateField(max_length=25)
+	project = models.CharField(max_length=25)
+	emp_duty = models.CharField(max_length=100)
+	emp_strength = models.CharField(max_length=75)
+	emp_weakness = models.CharField(max_length=75)
+	plan_to_improve = models.CharField(max_length=75)
+	fk_project_id = models.ForeignKey(ProjectRegister, on_delete=models.CASCADE)
+	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
