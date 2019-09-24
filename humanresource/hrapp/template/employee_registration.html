@@ -1,101 +1,147 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-	<style type="text/css">
-		body{
-			background-color: gray;
-		}
-		form{
-			
-			background: rgba(0,0,0,0.5);
-			color: #fff;
-			position: absolute;
-			//background-color: white;
-			width:600px;
-			height: 600px;
-			margin-left: 100px;
-			margin-top: 50px;
-			padding-left: 20px;
-			padding-top: 20px;
-		}
-		input{
-			font-size:20px;
-			//width:320px;
-		}
-	</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+     width: 100%;
+  }
+}
+</style>
 <body>
-<form method="POST" action="">
-	<table>
-		<tr>
-			<th colspan="4">EMPLOYEE REGISTRATION FORM</th>
-		</tr>
-		<tr>
-			<td>Upload image:</td>
-			<td><input type="file" name="file_upload"></td>
-		</tr>
-		<tr>
-			<td>Firstname:</td>
-			<td><input type="text" name="emp_firstname" placeholder="Enter the firstname"></td>
-		</tr>
-		<tr>
-			<td>Lastname:</td>
-			<td><input type="text" name="emp_lastname" placeholder="Enter the lastname"></td>
-		</tr>
-		<tr>
-			<td>Gender:</td>
-			<td><input type="radio" name="emp_gender">Male
-				<input type="radio" name="emp_gender">female</td>
-		</tr>
-		<tr>
-			<td>Date of birth:</td>
-			<td><input type="date" name="emp_dob"></td>
-		</tr>
-		<tr>
-			<td>Address:</td>
-			<td><textarea rows="5" name="emp_address" placeholder="Enter address"></textarea></td>
-		</tr>
-		<tr>
-			<td>Mobile No:</td>
-			<td><input type="text" name="emp_mobileno" placeholder="Enter Mobile Number"></td>
-		</tr>
-		<tr>
-			<td>Email:</td>
-			<td><input type="text" name="emp_email" placeholder="Register using active email id"></td>
-		</tr>
-		<tr>
-			<td>Password:</td>
-			<td><input type="password" name="emp_password" placeholder="Enter a password"></td>
-		</tr>
-		<tr>
-			<td>Designation:</td>
-			<td><input type="checkbox" name="emp_designation">Project Manager
-				<input type="checkbox" name="emp_designation">Team Lead
-				<input type="checkbox" name="emp_designation">Software Engg
-				<input type="checkbox" name="emp_designation">Tester</td>
-		</tr>
-		<tr>
-			<td>Employee Qualification:</td>
-			<td><input type="text" name="emp_qualification" placeholder="Enter employee qualification"></td>
-		</tr>
-		<tr>
-			<td>Employee Experiance(in yr):</td>
-			<td><input type="text" name="emp_experiance" placeholder="Enter the No. of years of experiance"></td>
-		</tr>
-		<tr>
-			<td>Date of join:</td>
-			<td><input type="date" name="emp_joindt"></td>
-		</tr>
-		<tr>
-			<td>Basic salary:</td>
-			<td><input type="text" name="emp_salary" placeholder="Enter the basic salary"></td>
-		</tr>
-		<tr>
-			<td><input type="submit" value="Submit"></td>
-		</tr>
-	</table>
+
+<form action="/hrapp/"  method="POST" style="border:1px solid #ccc">
+  <div class="container">
+    <h1>EMPLOYEE REGISTRATION</h1>
+    <hr>
+    <div class="form-group">
+      <label>Upload image:</label>
+      <input type="file" name="file_upload" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Firstname:</label>
+      <input type="text" name="emp_firstname" placeholder="Enter the firstname" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Lastname:</label>
+      <input type="text" name="emp_lastname" placeholder="Enter the lastname" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Gender:</label>
+      <input type="radio" name="emp_gender">Male
+        <input type="radio" name="emp_gender">female
+    </div>
+    <div class="form-group">
+      <label>Date of birth:</label>
+      <input type="date" name="emp_dob" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Address:</label>
+      <textarea rows="5" name="emp_address" placeholder="Enter address" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Mobile No:</label>
+      <input type="text" name="emp_mobileno" placeholder="Enter Mobile Number" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Email:</label>
+      <input type="text" name="emp_email" placeholder="Register using active email id" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Password:</label>
+      <input type="password" name="emp_password" placeholder="Enter a password" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Designation:</label>
+      <input type="checkbox" name="emp_designation">Project Manager
+        <input type="checkbox" name="emp_designation">Team Lead
+        <input type="checkbox" name="emp_designation">Software Engg
+        <input type="checkbox" name="emp_designation">Tester
+    </div>
+    <div class="form-group">
+      <label>Employee Qualification:</label>
+      <input type="text" name="emp_qualification" placeholder="Enter employee qualification" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Employee Experiance(in yr):</label>
+      <input type="text" name="emp_experiance" placeholder="Enter the No. of years of experiance" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Date of join:</label>
+      <input type="date" name="emp_joindt" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Basic salary:</label>
+      <input type="text" name="emp_salary" placeholder="Enter the basic salary" class="form-control">
+    </div>
+
+    <div class="clearfix">
+      <button type="button" class="cancelbtn">Cancel</button>
+      <button type="submit" class="signupbtn">Save</button>
+    </div>
+  </div>
 </form>
+
 </body>
 </html>

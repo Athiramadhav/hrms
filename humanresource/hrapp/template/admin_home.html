@@ -8,17 +8,14 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <style>
-    /* Remove the navbar's default margin-bottom and rounded borders */ 
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
       background-color: #826cab;
     }
     
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
+    .row.content {height: 700px}
     
-    /* Set gray background color and 100% height */
     .sidenav {
       text-align: left;
       padding-top: 20px;
@@ -26,14 +23,12 @@
       height: 100%;
     }
     
-    /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
       color: white;
       padding: 15px;
     }
     
-    /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
         height: auto;
@@ -61,12 +56,11 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-home"></span>  Home</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Mail</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>
@@ -74,8 +68,7 @@
   
 <div class="container-fluid text-center">    
   <div class="row content">
-    <div class="col-sm-2 sidenav">
-      <p><a href="#"><span class="glyphicon glyphicon-home"></span>  Home</a></p>
+    <div class="col-md-2 sidenav">
       <p><a href="#"><span class="glyphicon glyphicon-plus"></span>  Register HR</a></p>
       <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  HR Detail</a></p>
       <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  Employee Detail</a></p>
@@ -84,7 +77,7 @@
       <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  Payment Detail</a></p>
       <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  Interview Result</a></p>
     </div>
-    <div class="col-sm-8 text-left"> 
+    <div class="col-md-10 text-left"> 
       <form action="/hrapp/hrregistration" method="POST">
       <h1>Welcome</h1>
       <p>hai</p>

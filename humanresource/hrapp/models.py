@@ -1,16 +1,14 @@
 from django.db import models
 
 # Create your models here.
-class Company(models.Model):
-	company_name = models.CharField(max_length=20)
-	address = models.CharField(max_length=50)
-	email = models.CharField(max_length=20)
-	password= models.CharField(max_length=20)
-
-
-class Role(models.Model):
-	role_title = models.CharField(max_length=15)
-	fk_company_id = models.ForeignKey(Company, on_delete=models.CASCADE)
+class CompanyProfile(models.Model):
+	company_title = models.CharField(max_length=20)
+	company_estb_year = models.IntegerField()
+	address = models.CharField(max_length=100)
+	phone = models.IntegerField()
+	fax = models.IntegerField()
+	website = models.CharField(max_length=25)
+	email = models.CharField(max_length=25)
 
 
 class Permission(models.Model):
@@ -21,10 +19,10 @@ class Permission(models.Model):
 class Login(models.Model):
 	username = models.CharField(max_length=20)
 	password = models.CharField(max_length=20)
-	role = models.CharField(max_length=20)
+	fk_role = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 
-class CandidateRegistration(models.Model):
+class Candidate(models.Model):
 	candidate_name = models.CharField(max_length=20)
 	dob = models.DateField(max_length=20)
 	address = models.CharField(max_length=50)
@@ -66,11 +64,19 @@ class CallLetter(models.Model):
 
 class QuestionPaper(models.Model):
 	question = models.CharField(max_length=50)
+	option1 = models.CharField(max_length=20)
+	option2 = models.CharField(max_length=20)
+	option3 = models.CharField(max_length=20)
+	option4 = models.CharField(max_length=20)
 	answer = models.CharField(max_length=20)
 
 
 class MockTest(models.Model):
 	mock_question = models.CharField(max_length=50)
+	option1 = models.CharField(max_length=20)
+	option2 = models.CharField(max_length=20)
+	option3 = models.CharField(max_length=20)
+	option4 = models.CharField(max_length=20)
 	mock_answer = models.CharField(max_length=20)
 
 
@@ -86,22 +92,6 @@ class Mail(models.Model):
 	to_address = models.CharField(max_length=20)
 	content = models.CharField(max_length=100)
 	attachment = models.FileField(upload_to ='')
-
-
-class HRregistration(models.Model):
-	hr_fname = models.CharField(max_length=25)
-	hr_lname = models.CharField(max_length=25)
-	hr_gender = models.CharField(max_length=25)
-	hr_dob = models.DateField(max_length=25)
-	hr_address = models.CharField(max_length=50)
-	hr_phone = models.CharField(max_length=25)
-	hr_email = models.CharField(max_length=25)
-	hr_password = models.CharField(max_length=15)
-	hr_designation = models.CharField(max_length=15)
-	hr_qualification = models.CharField(max_length=25)
-	hr_experience = models.CharField(max_length=25)
-	hr_salary = models.CharField(max_length=25)
-	hr_join_date = models.CharField(max_length=25)
 
 
 class Result(models.Model):
@@ -127,76 +117,111 @@ class EmployeeProfile(models.Model):
 	join_date = models.CharField(max_length=25)
 
 
-class Resource(models.Model):
-	hardware_req = models.CharField(max_length=50)
-	software_req = models.CharField(max_length=50)
-	eployess_req = models.CharField(max_length=50)
-	expense = models.IntegerField(max_length=25)
-
-
-class Project(models.Model):
-	project_title = models.CharField(max_length=50)
-	project_name = models.CharField(max_length=50)
-	project_sponser = models.CharField(max_length=50)
-	project_manger = models.CharField(max_length=25)
-	team_lead = models.CharField(max_length=50)
-	team_members = models.IntegerField(max_length=25)
-	project_start_date = models.DateField(max_length=25)
-	project_end_date = models.DateField(max_length=25)
-	project_expense = models.IntegerField(max_length=25)
-	fk_resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
-
-
-class ProjectTaskAssign(models.Model):
-	task_title = models.CharField(max_length=50)
-	task_assignee = models.CharField(max_length=30)
-	task_priority = models.CharField(max_length=25)
-	task_start_date = models.DateField(max_length=25)
-	task_end_date = models.DateField(max_length=25)
-	percent_complete = models.IntegerField(max_length=25)
-	task_comment = models.CharField(max_length=50)
-	task_fixed_cost = models.IntegerField(max_length=25)
-	task_estimated_cost = models.IntegerField(max_length=25)
-	task_actual_hours = models.DateField(max_length=25)
-
+class Attendance(models.Model):
+	date = models.DateField(max_length=25)
+	time = models.DateField(max_length=25)
+    fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 class ComplaintReg(models.Model):
+	e_name = models.CharField(max_length=25)
+	e_desgination = models.CharField(max_length=25)
+	e_dept = models.CharField(max_length=25)
+	e_addr = models.CharField(max_length=25)
+	e_phone = models.IntegerField()
 	c_name = models.CharField(max_length=25)
-	complaint_title = models.CharField(max_length=25)
+	complaint_desg = models.CharField(max_length=25)
 	complaint_dept = models.CharField(max_length=25)
 	compaint_description = models.CharField(max_length=60)
 	date_of_incident = models.DateField(max_length=25)
 	time_of_incident = models.DateField(max_length=25)
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
-	
-
-class EmployeeLeave(models.Model):
-	leave_date_from = models.DateField(max_length=25)
-	leave_date_to = models.DateField(max_length=25)
-	no_leaves = models.IntegerField(max_length=25)
-	approved_leave = models.IntegerField(max_length=25)
-	leave_reason = models.DateField(max_length=25)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 class PerformanceEvaluation(models.Model):
-	perform_description = models.CharField(max_length=100)
-	epmloyee_strength = models.CharField(max_length=75)
-	epmloyee_weakness = models.CharField(max_length=75)
+	emp_name = models.CharField(max_length=25)
+	emp_dept = models.CharField(max_length=25)
+	date = models.DateField(max_length=25)
+	project = models.CharField(max_length=25)
+	emp_duty = models.CharField(max_length=100)
+	emp_strength = models.CharField(max_length=75)
+	emp_weakness = models.CharField(max_length=75)
 	plan_to_improve = models.CharField(max_length=75)
-	fk_project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
+	fk_project_id = models.ForeignKey(ProjectRegister, on_delete=models.CASCADE)
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
+class Intimation(models.Model):
+	emp_name = models.CharField(max_length=25) 
+	date = models.DateField(max_length=25)
+	mail = models.CharField(max_length=25)
+	dept = models.CharField(max_length=25)
+	reason = models.CharField(max_length=50)
+	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+
+class EmployeeLeave(models.Model):
+	emp_name = models.CharField(max_length=50)
+	dept = models.CharField(max_length=50)
+	leave_available = models.IntegerField()
+	leave_taken = models.IntegerField()
+	leave_remains = models.IntegerField()
+	leave_type = models.CharField(max_length=50)
+	from_date = models.DateField(max_length=50)
+	to_date = models.DateField(max_length=50)
+	no_of_days = models.IntegerField()
+	leave_reason = models.CharField(max_length=50)
+ 	
+class ProjectRegister(models.Model):
+	project_title = models.CharField(max_length=50)
+	project_sponser = models.CharField(max_length=50)
+	project_manger = models.CharField(max_length=25)
+	project_cost = models.IntegerField()
+	project_start_date = models.DateField(max_length=25)
+	project_end_date = models.DateField(max_length=25)
+	project_expense = models.IntegerField(max_length=25)
+
+
+class Resource(models.Model):
+	hardware_req = models.CharField(max_length=50)
+	software_req = models.CharField(max_length=50)
+	equipment_req = models.CharField(max_length=50)
+
+
+class ResourceAllocate(models.Model):
+	project_title = models.CharField(max_length=25)
+	dept = models.CharField(max_length=25)
+	task_title = models.CharField(max_length=25)
+	resource_type = models.CharField(max_length=25)
+	resource_available = models.CharField(max_length=25)
+	resource_allocated = models.CharField(max_length=25)
+
+
+class CompanyProfile(models.Model):
+	company_title = models.CharField(max_length=20)
+	company_estb_year = models.IntegerField()
+	address = models.CharField(max_length=100)
+	phone = models.IntegerField()
+	fax = models.IntegerField()
+	website = models.CharField(max_length=25)
+	email = models.CharField(max_length=25)
+
+	
+class TaskAdd(models.Model):
+    fk_project_id  = models.IntegerField(ProjectRegister, max_length=25)
+	task_title = models.CharField(max_length=50)
+	task_priority = models.CharField(max_length=25)
+	task_start_date = models.DateField(max_length=25)
+	task_end_date = models.DateField(max_length=25)
+	team_lead = models.CharField(max_length=50)
+	
+
 class CostEstimation(models.Model):
-	software_cost = models.IntegerField(max_length=60)
-	hardware_cost = models.IntegerField(max_length=60)
-	infrastructure_cost = models.IntegerField(max_length=60)
-	implementaion_cost = models.IntegerField(max_length=60)
-	total_cost = models.IntegerField(max_length=60)
+	software_cost = models.IntegerField()
+	hardware_cost = models.IntegerField()
+	equipment_cost = models.IntegerField()
+	total_cost = models.IntegerField()
 
 
-class TaskReminder(models.Model):
-	task_reminder_end_date = models.DateField(max_length=25)
+class TaskAssign(models.Model):
+	team_lead = models.CharField(max_length=25)
+	reminder = models.DateField(max_length=25)
 	fk_task_id = models.IntegerField(max_length=25)
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
@@ -205,3 +230,11 @@ class Intimation(models.Model):
 	intimation_date = models.DateField(max_length=25)
 	intimation_description = models.CharField(max_length=60)
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+
+class Vacany(models.Model):
+	no_of_vacanies = models.IntegerField(max_length=25)
+	dept_name = models.CharField(max_length=25)
+	post = models.CharField(max_length=25)
+	emp_qualification = models.CharField(max_length=25)
+	emp_experience = models.CharField(max_length=25)
+	time_period = models.DateField(max_length=25)
