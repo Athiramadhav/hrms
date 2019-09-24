@@ -123,21 +123,6 @@ class Result(models.Model):
 class Location(models.Model):
 	location = models.CharField(max_length=25)
 
-class EmployeeProfile(models.Model):
-	upload_image= models.FileField(upload_to ='pictures/')
-	fname = models.CharField(max_length=25)
-	lname = models.CharField(max_length=25)
-	gender = models.CharField(max_length=25)
-	dob = models.DateField(max_length=25)
-	address = models.CharField(max_length=50)
-	phone = models.CharField(max_length=25)
-	email = models.CharField(max_length=25)
-	password = models.CharField(max_length=15)
-	designation = models.CharField(max_length=15)
-	emp_qualification = models.CharField(max_length=25)
-	emp_experience = models.CharField(max_length=25)
-	salary = models.CharField(max_length=25)
-	join_date = models.CharField(max_length=25)
 
 
 class Project(models.Model):
