@@ -15,10 +15,10 @@ def userLogin(request):
 			lpassword = request.POST.get('password')
 			check_user=Login.objects.get(username=lusername, password=lpassword)
 			return render(request,'admin_home.html')
-		except Exception as e:
+	except Exception as e:
 			print(str(e))
 			return HttpResponse("login failed")
-		return render(request, 'login.html')
+	return render(request, 'login.html')
 
 
 def registration(request):
