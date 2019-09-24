@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+  *{
+    box-sizing: border-box;
+  }
+
+body {
+  margin: 0;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #826cab;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav input[type=text] {
+  float: right;
+  padding: 6px;
+  margin-top: 8px;
+  margin-right: 16px;
+  border: none;
+  font-size: 17px;
+}
+  
+  .topnav input[type=text] {
+    border: 1px solid #ccc;  
+  }
+
+  .sidenav {
+  height: 100%;
+  width: 180px;
+  position: fixed;
+  z-index: 1;
+  top: 10;
+  left: 0;
+  background-color: #f1f1f1 ;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 13px;
+  color: #6D6F72 ;
+  display: block;
+  font-size: 15px;
+}
+
+.sidenav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+
+.topnav-right{
+  float: right;
+}
+.topnav-header{
+  float: right;
+  padding: 10px;
+}
+
+@media screen and (max-width: 767px){
+  .sidenav{
+    height: auto;
+    padding: 15px;
+  }
+  .row.content{height: auto;}
+}
+.container{
+  margin-left: 170px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+   
+   <div class="topnav-right">
+      <a href="#home"><i class="fa fa-fw fa-home"></i>Home</a>
+      <a href="project_register.html"><i class=""></i>Project</a>
+      
+      <a href=""><i class="fa fa-fw fa-user"></i>Profile</a>
+      <a href=""><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      <a href=""><i class="fa fa-sign-out"></i>Log Out</a>
+   </div>
+</div>
+
+<div class="sidenav">
+    <a href="leave_form.html"> Apply Leave </a>
+    <a href="attendance.html">Mark Time & Attendance</a>
+    <a href="task_assign_table.html">Tasks </a> <!--  employee set task reminder and view assigend task -->
+    <a href="payroll.html">Payroll</a>
+    <a href="work_upload.html">Work Upload</a>
+    <a href="">Notification</a> <!-- intimation  to be added-->
+    <a href="emp_complaint_form.html"> File Complaint</a>
+    <a href="">Report</a>
+</div>
+
+<div class="container">
+  <h2>Mark Time & Attendance</h2>
+  <div class="topnav-header">
+    <label>Date</label>&nbsp;<input type="date" name="">&nbsp;&nbsp;&nbsp;
+    <label>Time</label>&nbsp;<input type="Time" name="">
+    <button  type="button" class="btn btn-primary">SAVE</button>
+</div>
+
+  <div class="form-group">
+    <table class="table table-striped">
+       <thead>
+          <tr>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+          </tr>
+      </thead>
+    </table>
+    <button class="btn btn-primary"></button>
+  </div>
+ </div>
+</body>
+</html>

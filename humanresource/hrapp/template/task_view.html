@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<title></title>
+	<style type="text/css">
+		*{
+    box-sizing: border-box;
+  }
+
+body {
+  margin: 0;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #826cab;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav input[type=text] {
+  float: right;
+  padding: 6px;
+  margin-top: 8px;
+  margin-right: 16px;
+  border: none;
+  font-size: 17px;
+}
+  
+  .topnav input[type=text] {
+    border: 1px solid #ccc;  
+  }
+
+  .sidenav {
+  height: 100%;
+  width: 172px;
+  position: fixed;
+  z-index: 1;
+  top: 10;
+  left: 0;
+  background-color: #f1f1f1 ;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 13px;
+  color: #6D6F72 ;
+  display: block;
+}
+
+.rightbar{
+  height: 100%;
+  width: 332px;
+  position: fixed;
+  z-index: 1;
+  /*top: 10;*/
+  right: 0;
+  background-color: #FDF2E9;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+.topnav-right{
+  float: right;
+}
+.container{
+  margin-left: 180px;
+  font-size: 12px;
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="topnav">
+   
+   <div class="topnav-right">
+      <a href="#home"><i class="fa fa-fw fa-home"></i>Home</a>
+      <a href="project_register.html"><i class=""></i>Project</a>
+      
+      <a href=""><i class="fa fa-fw fa-user"></i>Profile</a>
+      <a href=""><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      <a href=""><i class="fa fa-sign-out"></i>Log Out</a>
+   </div>
+</div>
+
+<div class="sidenav">
+  <a href="">Company Profile</a>
+  <a href="">Leave Management</a>
+  <a href="">Time & Attendance</a>
+  <a href="">Roster Management</a>
+  <a href="">Payroll Management</a>
+  <a href="emp_performance_evaluation.html">Performance Evaluation</a>
+  <a href="">Resource Management</a>
+  <a href="">Report</a>
+</div>
+	
+	<div class="container">
+		<form>
+		<h2>TASK VIEW</h2>
+		<table  class="table table-hover">
+			<tr>
+				<th>Task Title</th>
+				<th>Assignee</th>
+				<th>Status</th>
+				<th>Priority</th>
+				<th>Start Date<input type="date" name="start_date"></th>
+				<th>End Date<input type="date" name="due_date"></th>
+				<th>Percent Task Completed</th>
+				<th>Comments</th>
+				<th>Fixed Cost</th>
+				<th>Estimated Cost</th>
+				<th>Actual Hours</th>
+			</tr><br>
+			<td><button class="btn btn-primary">submit</button></td>
+		</table>
+
+	</form>
+		
+	</div>
+
+</body>
+</html>

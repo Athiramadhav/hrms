@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+  *{
+    box-sizing: border-box;
+  }
+
+body {
+  margin: 0;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #826cab;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav input[type=text] {
+  float: right;
+  padding: 6px;
+  margin-top: 8px;
+  margin-right: 16px;
+  border: none;
+  font-size: 17px;
+}
+  
+  .topnav input[type=text] {
+    border: 1px solid #ccc;  
+  }
+
+  .sidenav {
+  height: 100%;
+  width: 180px;
+  position: fixed;
+  z-index: 1;
+  top: 10;
+  left: 0;
+  background-color: #f1f1f1 ;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 13px;
+  color: #6D6F72 ;
+  display: block;
+  font-size: 15px;
+}
+
+.sidenav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav-right{
+  float: right;
+}
+.topnav-header{
+  float: right;
+  padding: 10px;
+}
+.container{
+  margin-left: 170px;
+}
+
+</style>
+<script type="text/javascript">
+	function registration(){
+		name = document.getElementById('name')
+		id = document.getElementById('id')
+		post = document.getElementById('post')
+		dept = document.getElementsClassName('dept')
+		addr = document.getElementById('addr')
+		phone = document.getElementById('phone')
+		cname = document.getElementById('compname')
+		cpost = document.getElementById('cpost')
+		cdept = document.getElementById('cdept')
+		act = document.getElementById('act')
+		date =document.getElementById('date')
+		time =document.getElementById('time')
+		error = 0;
+		   
+
+	}
+</script>
+</head>
+<body>
+
+<div class="topnav">
+   
+   <div class="topnav-right">
+      <a href="#home"><i class="fa fa-fw fa-home"></i>Home</a>
+      <a href="project_register.html"><i class=""></i>Project</a>
+      
+      <a href=""><i class="fa fa-fw fa-user"></i>Profile</a>
+      <a href=""><i class="fa fa-fw fa-envelope"></i>Mail</a>
+      <a href=""><i class="fa fa-sign-out"></i>Log Out</a>
+   </div>
+</div>
+
+<div class="sidenav">
+    <a href="leave_form.html"> Apply Leave </a>
+    <a href="attendance.html">Mark Time & Attendance</a>
+    <a href="task_assign_table.html">Tasks </a> <!--  employee set task reminder and view assigend task -->
+    <a href="payroll.html">Payroll</a>
+    <a href="work_upload.html">Work Upload</a>
+    <a href="">Notification</a> <!-- intimation  to be added-->
+    <a href="emp_complaint_form.html"> File Complaint</a>
+    <a href="">Report</a>
+</div>
+
+	<div class="container">
+		<h2>COMPLAINT REGISTRATION</h2>
+		<form action="/hrapp/complaintreg/" method="POST">
+			<div class="form-group">
+				<label>Name</label>
+			    <input type="text" id="name" placeholder="" class="form-control"><span style="color: red" id="msg"></span><br>
+
+			    <label>Id</label>
+			    <input type="text" id="id" placeholder="" class="form-control"><br>
+
+			    <label>Designation</label>
+			    <select class="form-control" id="post">
+			    	<option>Staff</option>
+			    	<option>Faculty</option>
+			    	<option>Other</option>
+			    </select><br>
+
+			    <label>Departement</label>
+			    <select class="form-control" class="dept">
+			    	<option>Planning</option>
+			    	<option>Designing</option>
+			    	<option>Coding</option>
+			    	<option>Development</option>
+			    	<option>Testing</option>
+			    </select><br>
+
+			    <label>Address</label>
+			    <textarea class="form-control" id="addr"></textarea><br>
+
+			    <label>Phone</label>
+			    <input type="text" id="phone" placeholder="" class="form-control"><br>
+
+			    <h4>Complaint Filed Against:</h4>
+			    <label>Name</label>
+			    <input type="text" id="compname" placeholder=" Enter Name" class="form-control"><br>
+
+			    <label>Designation</label>
+			    <select class="form-control" id="cpost">
+			    	<option>Staff</option>
+			    	<option>Faculty</option>
+			    	<option>Other</option>
+			    </select><br>
+
+			    <label>Departement</label>
+			    <select class="form-control" class="cdept">
+			    	<option>Planning</option>
+			    	<option>Designing</option>
+			    	<option>Coding</option>
+			    	<option>Development</option>
+			    	<option>Testing</option>
+			    </select><br>
+
+			    <label>Please describe the specific act(s)</label>
+			    <textarea class="form-control" id="act"></textarea><br>
+
+			    <label>Date</label>
+			    <input type="Date" name="" id="date" placeholder="Enter the date of incident"><br>
+
+			    <label>Time</label>
+			    <input type="Time" name="" id="time" placeholder="Enter the time of incident"><br>
+            </form>
+
+				
+			</div>
+			
+	<button type="submit" class="btn btn-default" onclick="registration()">Submit</button>
+	</div>
+
+</body>
+</html>

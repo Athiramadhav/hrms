@@ -120,12 +120,39 @@ class Result(models.Model):
 	rank = models.CharField(max_length=10)
 
 	
-class Attendance(models.Model):
-	date = models.DateField(max_length=25)
-	time = models.DateField(max_length=25)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+class Location(models.Model):
+	location = models.CharField(max_length=25)
 
-class ComplaintReg(models.Model):
+class EmployeeProfile(models.Model):
+	upload_image= models.FileField(upload_to ='pictures/')
+	fname = models.CharField(max_length=25)
+	lname = models.CharField(max_length=25)
+	gender = models.CharField(max_length=25)
+	dob = models.DateField(max_length=25)
+	address = models.CharField(max_length=50)
+	phone = models.CharField(max_length=25)
+	email = models.CharField(max_length=25)
+	password = models.CharField(max_length=15)
+	designation = models.CharField(max_length=15)
+	emp_qualification = models.CharField(max_length=25)
+	emp_experience = models.CharField(max_length=25)
+	salary = models.CharField(max_length=25)
+	join_date = models.CharField(max_length=25)
+
+
+class Project(models.Model):
+	project_title = models.CharField(max_length=50)
+	project_sponser = models.CharField(max_length=50)
+	project_manger = models.CharField(max_length=25)
+	project_cost = models.IntegerField()
+	project_start_date = models.DateField(max_length=25)
+	project_end_date = models.DateField(max_length=25)
+	project_expense = models.IntegerField(max_length=25)
+
+
+
+
+class Complaint(models.Model):
 	e_name = models.CharField(max_length=25)
 	e_desgination = models.CharField(max_length=25)
 	e_dept = models.CharField(max_length=25)
@@ -140,17 +167,7 @@ class ComplaintReg(models.Model):
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 
-class Intimation(models.Model):
-	emp_name = models.CharField(max_length=25) 
-	date = models.DateField(max_length=25)
-	mail = models.CharField(max_length=25)
-	dept = models.CharField(max_length=25)
-	reason = models.CharField(max_length=50)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
-
 class EmployeeLeave(models.Model):
-	emp_name = models.CharField(max_length=50)
-	dept = models.CharField(max_length=50)
 	leave_available = models.IntegerField()
 	leave_taken = models.IntegerField()
 	leave_remains = models.IntegerField()
@@ -159,16 +176,8 @@ class EmployeeLeave(models.Model):
 	to_date = models.DateField(max_length=50)
 	no_of_days = models.IntegerField()
 	leave_reason = models.CharField(max_length=50)
+	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
  	
-class ProjectRegister(models.Model):
-	project_title = models.CharField(max_length=50)
-	project_sponser = models.CharField(max_length=50)
-	project_manger = models.CharField(max_length=25)
-	project_cost = models.IntegerField()
-	project_start_date = models.DateField(max_length=25)
-	project_end_date = models.DateField(max_length=25)
-	project_expense = models.IntegerField(max_length=25)
-
 
 class Resource(models.Model):
 	hardware_req = models.CharField(max_length=50)
@@ -183,26 +192,24 @@ class ResourceAllocate(models.Model):
 	resource_type = models.CharField(max_length=25)
 	resource_available = models.CharField(max_length=25)
 	resource_allocated = models.CharField(max_length=25)
-
-
-class CompanyProfile(models.Model):
-	company_title = models.CharField(max_length=20)
-	company_estb_year = models.IntegerField()
-	address = models.CharField(max_length=100)
-	phone = models.IntegerField()
-	fax = models.IntegerField()
-	website = models.CharField(max_length=25)
-	email = models.CharField(max_length=25)
-
+	fk_resource_id = models.ForeignKey(Resource, on_delete=models.CASCADE)
+	fk_project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
 	
+
+
 class TaskAdd(models.Model):
-    fk_project_id  = models.IntegerField(ProjectRegister, max_length=25)
+    fk_project_id  = models.IntegerField(Project, max_length=25)
     task_title = models.CharField(max_length=50)
     task_priority = models.CharField(max_length=25)
     task_start_date = models.DateField(max_length=25)
     task_end_date = models.DateField(max_length=25)
     team_lead = models.CharField(max_length=50)
 	
+class TaskAssign(models.Model):
+	team_lead = models.CharField(max_length=25)
+	fk_employee_id = models.IntegerField(EmployeeProfile, max_length=25)
+	fk_task_id = models.IntegerField(TaskAdd, max_length=25)
+	reminder = models.DateField(max_length=25)
 
 class CostEstimation(models.Model):
 	software_cost = models.IntegerField()
@@ -211,14 +218,8 @@ class CostEstimation(models.Model):
 	total_cost = models.IntegerField()
 
 
-class TaskAssign(models.Model):
-	team_lead = models.CharField(max_length=25)
-	reminder = models.DateField(max_length=25)
-	fk_task_id = models.IntegerField(max_length=25)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
-
 class Intimation(models.Model):
-	to_address = models.CharField(max_length=50)
+	mail = models.CharField(max_length=50)
 	intimation_date = models.DateField(max_length=25)
 	intimation_description = models.CharField(max_length=60)
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
@@ -231,7 +232,6 @@ class Vacany(models.Model):
 	emp_experience = models.CharField(max_length=25)
 	time_period = models.DateField(max_length=25)
 
-
 class PerformanceEvaluation(models.Model):
 	emp_name = models.CharField(max_length=25)
 	emp_dept = models.CharField(max_length=25)
@@ -241,5 +241,5 @@ class PerformanceEvaluation(models.Model):
 	emp_strength = models.CharField(max_length=75)
 	emp_weakness = models.CharField(max_length=75)
 	plan_to_improve = models.CharField(max_length=75)
-	fk_project_id = models.ForeignKey(ProjectRegister, on_delete=models.CASCADE)
+	fk_project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
