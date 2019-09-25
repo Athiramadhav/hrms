@@ -14,17 +14,17 @@ def userLogin(request):
 			lusername = request.POST.get('username')
 			lpassword = request.POST.get('password')
 			check_user=Login.objects.get(username=lusername, password=lpassword)
-			return render(request,'admin_home.html')
+			return HttpResponse('successfull')
+		return render(request,'hr_home.html')
 	except Exception as e:
-		print(str(e))
-		return HttpResponse("login failed")
-	return render(request, 'login.html')
+			print(str(e))
+			return render(request, 'login.html')
 
 
 def registration(request):
 	try:
-		if request.method=='POST':
-			vupload_image = request.FILE['file_upload']
+		if request.method=='POST' and request.FILES['file_upload']:
+			vupload_image = request.FILES['file_upload']
 			vfname = request.Post.get('emp_firstname')
 			vlname = request.Post.get('emp_lastname')
 			vgender = request.Post.get('emp_gender')
@@ -41,10 +41,52 @@ def registration(request):
 			emp_detail = EmployeeProfile(upload_image=vupload_image,fname=vfname,lname=vlname,gender=vgender,dob=vdob,address=vaddress,
 				phone=vphone,email=vemail,password=vpassword,designation=vdesignation,emp_qualification=vqualification,emp_experience=vexperience,
 				salary=vsalary,join_date=vjoin_date)
-			return HttpResponse('registration successfull')
+			print(emp_detail)
+			emp_detail.save()
+			return HttpResponse('registration succecssful')
+		return render(request,'employee_registration.html')
 	except Exception as e:
 		print(str(e))
 		return HttpResponse('registration failed')
+		#return render(request, 'employee_registration.html')
+
+def employeeDetail(request):
+	user_objs = EmployeeProfile.objects.all()
+	user=[]
+	context={}
+	for user_obj in user_objs:
+		user.append(user_obj.upload_image)
+		user.append(user_obj.fname)
+		user.append(user_obj.lname)
+		user.append(user_obj.gender)
+		user.append(user_obj.dob)
+		user.append(user_obj.adress)
+		user.append(user_obj.phone)
+		user.append(user_obj.email)
+		user.append(user_obj.password)
+		user.append(user_obj.designation)
+		user.append(user_obj.emp_qualification)
+		user.append(user_obj.salary)
+		user.append(user_obj.join_date)
+	context={'userlist':user_objs}
+	return render(request, 'employee_deatil.html',context)
+
+
+def addQuestion(request):
+	try:
+		if request.method=='POST':
+			val_question = request.POST.get('question')
+			val_option1 = request.POST.get('option1')
+			val_option2 = request.POST.get('option2')
+			val_option3 = request.POST.get('option3')
+			val_option4 = request.POST.get('option4')
+			val_ans = request.POSTget('answer')
+			exam_object = QuestionPaper(question=val_question, option1=val_option1, option2=val_option2, option3=val_option3, option4=val_option4, answer=val_ans)
+			exam_object.save()
+			return HttpResponse('saved')
+	except Exception as e:
+		print(str(e))
+		return HttpResponse('not saved')
 
 
 def candidateRegistration(request):
@@ -60,10 +102,12 @@ def candidateRegistration(request):
 			var_experience = request.POST.get('experience')
 			var_email = request.POST.get('email')
 			var_password = request.POST.get('password')
-			upload_resume = request.FILE['file_upload']
+			upload_resume = request.FILES['file_upload']
 			candidate_detail = Candidate(candidate_name=var_candidate_name,dob=var_dob,address=var_address,phone_no=var_phone_no,
 				gender=var_gender,qualification=var_qualification,year_of_pass=var_year_of_pass,experience=var_experience,email=var_email,
 				password=var_password)
+			candidate_detail.save()	
+			resume_detail = Resume(resume='upload_resume',fk_candidate_id=candidate_detail)
 	except Exception as e:
 		print(e)
 
@@ -186,7 +230,7 @@ def projectReg(request):
 			manager = request.POST.get('pmanger')
 			sdate = request.POST.get('psdate')
 			edate = request.POST.get('pedate')
-			reg_obj = ProjectRegister(project_title=title, project_sponser=sponser, project_manager=manager, 
+			reg_obj = Project(project_title=title, project_sponser=sponser, project_manager=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate )
 			reg_obj.save()
 			return HttpResponse("Registration Done")

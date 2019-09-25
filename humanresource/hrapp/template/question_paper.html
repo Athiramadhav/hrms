@@ -73,7 +73,8 @@ button:hover {
 </style>
 </head>
 <body>
-<form method="POST" action="">
+<form method="POST" action="/hrapp/exam/">
+  {% csrf_token %}
 	 <div class="container">
 	 	<h1>QUESTION</h1>
     	<hr>
