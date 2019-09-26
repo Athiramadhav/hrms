@@ -22,33 +22,32 @@ def userLogin(request):
 
 
 def registration(request):
-	try:
-		if request.method=='POST' and request.FILES['file_upload']:
+	if request.method=='POST' and request.FILES['file_upload']:
+		try:
 			vupload_image = request.FILES['file_upload']
-			vfname = request.Post.get('emp_firstname')
-			vlname = request.Post.get('emp_lastname')
-			vgender = request.Post.get('emp_gender')
-			vdob = request.Post.get('emp_dob')
-			vaddress = request.Post.get('emp_address')
-			vphone =request.Post.get('emp_mobileno')
-			vemail = request.Post.get('emp_email')
-			vpassword = request.Post.get('emp_password')
-			vdesignation = request.Post.get('emp_designation')
-			vqualification = request.Post.get('emp_qualification')
-			vexperience = request.Post.get('emp_experience')
-			vsalary = request.Post.get('emp_salary')
-			vjoin_date = request.Post.get('emp_joindt')
+			vfname = request.POST.get('emp_firstname')
+			vlname = request.POST.get('emp_lastname')
+			vgender = request.POST.get('emp_gender')
+			vdob = request.POST.get('emp_dob')
+			vaddress = request.POST.get('emp_address')
+			vphone =request.POST.get('emp_mobileno')
+			vemail = request.POST.get('emp_email')
+			vpassword = request.POST.get('emp_password')
+			vdesignation = request.POST.get('emp_designation')
+			vqualification = request.POST.get('emp_qualification')
+			vexperience = request.POST.get('emp_experience')
+			vsalary = request.POST.get('emp_salary')
+			vjoin_date = request.POST.get('emp_joindt')
 			emp_detail = EmployeeProfile(upload_image=vupload_image,fname=vfname,lname=vlname,gender=vgender,dob=vdob,address=vaddress,
 				phone=vphone,email=vemail,password=vpassword,designation=vdesignation,emp_qualification=vqualification,emp_experience=vexperience,
 				salary=vsalary,join_date=vjoin_date)
 			print(emp_detail)
 			emp_detail.save()
-			return HttpResponse('registration succecssful')
-		return render(request,'employee_registration.html')
-	except Exception as e:
-		print(str(e))
-		return HttpResponse('registration failed')
-		#return render(request, 'employee_registration.html')
+			return HttpResponse('Registerd')
+		except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed")
+	return render(request, 'employee_registration.html')
 
 def employeeDetail(request):
 	user_objs = EmployeeProfile.objects.all()
@@ -90,8 +89,8 @@ def addQuestion(request):
 
 
 def candidateRegistration(request):
-	try:
-		if request.method=='POST':
+	if request.method == 'POST':
+		try:
 			var_candidate_name = request.POST.get('candidatename')
 			var_dob = request.POST.get('dob')
 			var_address = request.POST.get('address')
@@ -108,8 +107,12 @@ def candidateRegistration(request):
 				password=var_password)
 			candidate_detail.save()	
 			resume_detail = Resume(resume='upload_resume',fk_candidate_id=candidate_detail)
-	except Exception as e:
-		print(e)
+			return HttpResponse('Registerd')
+		except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed")
+	return render(request, 'candidate_registration.html')
+
 
 def complaintReg(request):
 	if request.method == 'POST':
