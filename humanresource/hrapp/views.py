@@ -1,24 +1,45 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import Template,loader
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 
 # Create your views here.
 
 def userLogin(request):
-	template = loader.get_template('login.html')
-	context={}
-	return HttpResponse(template.render(context,request))
+	#template = loader.get_template('login.html')
+	#context={}
+	#return HttpResponse(template.render(context,request))
 	try:
 		if request.method == 'POST':
 			lusername = request.POST.get('username')
+			print(lusername)
 			lpassword = request.POST.get('password')
+<<<<<<< HEAD
+			print(lpassword)
+			check_user=EmployeeProfile.objects.get(email=lusername, password=lpassword)
+			if check_user:
+				login_obj = Login(username=lusername, password=lpassword)
+				login_obj.save()
+				return render(request,'hr_home.html')
+		return render(request,'login.html')
+	except Exception as e:
+			print(str(e))
+			return render(request, 'login.html')
+
+def home(request):
+	try:
+		return render(request,'hr_home.html')
+	except Exception as e:
+		print(str(e))
+
+=======
 			check_user=Login.objects.get(username=lusername, password=lpassword)
 			return HttpResponse('successfull')
 		return render(request,'hr_home.html')
 	except Exception as e:
 			print(str(e))
 			return render(request, 'login.html')
+>>>>>>> 77b519a7e2c6cc427a42e373d7894abd1f7872b7
 
 
 def registration(request):
@@ -38,6 +59,22 @@ def registration(request):
 			vexperience = request.POST.get('emp_experience')
 			vsalary = request.POST.get('emp_salary')
 			vjoin_date = request.POST.get('emp_joindt')
+<<<<<<< HEAD
+			check_user_register=EmployeeProfile.objects.filter(email=vemail).exists()
+			if check_user_register==False:
+				emp_detail = EmployeeProfile(upload_image=vupload_image,fname=vfname,lname=vlname,gender=vgender,dob=vdob,address=vaddress,
+				phone=vphone,email=vemail,password=vpassword,designation=vdesignation,emp_qualification=vqualification,emp_experience=vexperience,
+				salary=vsalary,join_date=vjoin_date)
+				emp_detail.save()
+				return HttpResponse('registration succecssful')
+				return render(request,'employee_registration.html')
+		except Exception as e:
+			print(str(e))
+			return HttpResponse('registration failed')
+	return render(request, 'employee_registration.html')
+
+
+=======
 			emp_detail = EmployeeProfile(upload_image=vupload_image,fname=vfname,lname=vlname,gender=vgender,dob=vdob,address=vaddress,
 				phone=vphone,email=vemail,password=vpassword,designation=vdesignation,emp_qualification=vqualification,emp_experience=vexperience,
 				salary=vsalary,join_date=vjoin_date)
@@ -49,6 +86,7 @@ def registration(request):
 			return HttpResponse("Failed")
 	return render(request, 'employee_registration.html')
 
+>>>>>>> 77b519a7e2c6cc427a42e373d7894abd1f7872b7
 def employeeDetail(request):
 	user_objs = EmployeeProfile.objects.all()
 	user=[]
@@ -117,12 +155,17 @@ def candidateRegistration(request):
 				               password=var_password)
 			candidate_detail.save()	
 			resume_detail = Resume(resume='upload_resume',fk_candidate_id=candidate_detail)
+<<<<<<< HEAD
+	except Exception as e:
+		print(e)
+=======
 			return HttpResponse('Registerd')
 		except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed")
 	return render(request, 'candidate_registration.html')
 
+>>>>>>> 77b519a7e2c6cc427a42e373d7894abd1f7872b7
 
 def complaintReg(request):
 	if request.method == 'POST':
@@ -140,7 +183,7 @@ def complaintReg(request):
 			cact =request.POST.get('act')
 			date = request.POST.get('date')
 			time = request.POST.get('time')
-			comp_reg = ComplaintReg(e_name=ename, e_desgination=edesg, e_dept=edept, e_addr=eaddress,
+			comp_reg = Complaint(e_name=ename, e_desgination=edesg, e_dept=edept, e_addr=eaddress,
 			           e_phone=ephone, c_name=cname, complaint_desg=cdesg, complaint_dept=cdept,
 			           compaint_description=cact, date_of_incident=date, time_of_incident=time)
 			comp_reg.save()
@@ -208,11 +251,10 @@ def intimationDetails(request):
 			intimate_obj = Intimation(mail=mail, intimation_date=date, intimation_description=description)
 			intimate_obj.save()
 			return HttpResponse("Intimation Sent")
-			return render(request, 'hr_home.html')
 		except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed To Sent")
-			return render(request, 'intimation.html')
+	return render(request, 'intimation.html')
 
 def leaveApply(request):
 	if request.method =='POST':
