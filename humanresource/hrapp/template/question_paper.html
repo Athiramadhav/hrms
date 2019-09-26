@@ -73,9 +73,10 @@ button:hover {
 </style>
 </head>
 <body>
-<form method="POST" action="/hrapp/exam/">
+    <div class="container">
+<form method = "POST" action = "/hrapp/exam/">
   {% csrf_token %}
-	 <div class="container">
+	 
 	 	<h1>QUESTION</h1>
     	<hr>
 		<div class="form-group">
@@ -95,7 +96,8 @@ button:hover {
       		<button type="button" class="cancelbtn">Cancel</button>
      		 <button type="submit" class="signupbtn">Add</button>
    		 </div>
-	</div>
+	
 </form>
+</div>
 </body>
 </html>

@@ -107,7 +107,8 @@ body {
     </div></style>
 </head>
 <body>
-<form method="POST" action="/hrapp/">
+<form method="POST" action="/hrapp/mocktest/">
+  {% csrf_token %}
 	 <div class="container">
 	 	<h1>MOCK TEST QUESTIONS</h1>
     	<hr>

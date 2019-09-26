@@ -92,19 +92,29 @@ def candidateRegistration(request):
 	if request.method == 'POST':
 		try:
 			var_candidate_name = request.POST.get('candidatename')
+			print(var_candidate_name)
 			var_dob = request.POST.get('dob')
+			print(var_dob)
 			var_address = request.POST.get('address')
+			print(var_address)
 			var_phone_no = request.POST.get('mobileno')
+			print(var_phone_no)
 			var_gender = request.POST.get('gender')
+			print(var_gender)
 			var_qualification = request.POST.get('qualification')
+			print(var_qualification)
 			var_year_of_pass = request.POST.get('yrofpass')
+			print(var_year_of_pass)
 			var_experience = request.POST.get('experience')
+			print(var_experience)
 			var_email = request.POST.get('email')
+			print(var_email)
 			var_password = request.POST.get('password')
+			print(var_password)
 			upload_resume = request.FILES['file_upload']
 			candidate_detail = Candidate(candidate_name=var_candidate_name,dob=var_dob,address=var_address,phone_no=var_phone_no,
-				gender=var_gender,qualification=var_qualification,year_of_pass=var_year_of_pass,experience=var_experience,email=var_email,
-				password=var_password)
+				               gender=var_gender,qualification=var_qualification,year_of_pass=var_year_of_pass,experience=var_experience,email=var_email,
+				               password=var_password)
 			candidate_detail.save()	
 			resume_detail = Resume(resume='upload_resume',fk_candidate_id=candidate_detail)
 			return HttpResponse('Registerd')
@@ -233,7 +243,7 @@ def projectReg(request):
 			manager = request.POST.get('pmanger')
 			sdate = request.POST.get('psdate')
 			edate = request.POST.get('pedate')
-			reg_obj = Project(project_title=title, project_sponser=sponser, project_manager=manager, 
+			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate )
 			reg_obj.save()
 			return HttpResponse("Registration Done")
@@ -243,3 +253,58 @@ def projectReg(request):
 			print(str(e))
 			return HttpResponse("Failed")
 	return render(request, 'project_register.html')
+
+
+def questionPaper(request):
+	if request.method == 'POST':
+		try:
+			questions = request.POST.get('question')
+			print(questions)
+			option1= request.POST.get('option1')
+			print(option1)
+			option2 = request.POST.get('option2')
+			print(option2)
+			option3 = request.POST.get('option3')
+			print(option3)
+			option4 = request.POST.get('option4')
+			print(option4)
+			answer = request.POST.get('answer')
+			question_obj = QuestionPaper(question=questions, option1=option1, option2=option2, option3=option3, option4=option4)
+			question_obj.save()
+			return HttpResponse("Added")
+			return render(request, 'hr_home.html')
+		
+		except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed To Add")
+	return render(request, 'question_paper.html')
+
+
+
+def mockTest(request):
+	if request.method == 'POST':
+		try:
+			questions = request.POST.get('question')
+			print(questions)
+			option1= request.POST.get('option1')
+			print(option1)
+			option2 = request.POST.get('option2')
+			print(option2)
+			option3 = request.POST.get('option3')
+			print(option3)
+			option4 = request.POST.get('option4')
+			print(option4)
+			answer = request.POST.get('answer')
+			print(answer)
+			mock_obj = MockTest(mock_question=questions, option1=option1, option2=option2, option3=option3, 
+			                    option4=option4, mock_answer=answer)
+			mock_obj.save()
+			return HttpResponse("Added")
+			return render(request, 'hr_home.html')
+		
+		except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed To Add")
+	return render(request, 'mock_test.html')
+
+
