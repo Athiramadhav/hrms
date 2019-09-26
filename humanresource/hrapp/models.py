@@ -13,31 +13,29 @@ class CompanyProfile(models.Model):
 
 
 class Permission(models.Model):
-	fk_role_id = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
+	fk_role_id       = models.ForeignKey(CompanyProfile, on_delete=models.CASCADE)
 	permission_title = models.CharField(max_length=20)
 
-
-class EmployeeProfile(models.Model):
-	upload_image= models.FileField(upload_to ='pictures/')
-	fname = models.CharField(max_length=25)
-	lname = models.CharField(max_length=25)
-	gender = models.CharField(max_length=25)
-	dob = models.DateField(max_length=25)
-	address = models.CharField(max_length=50)
-	phone = models.CharField(max_length=25)
-	email = models.CharField(max_length=25)
-	password = models.CharField(max_length=15)
-	designation = models.CharField(max_length=15)
-	emp_qualification = models.CharField(max_length=25)
-	emp_experience = models.CharField(max_length=25)
-	salary = models.CharField(max_length=25)
-	join_date = models.CharField(max_length=25)
-
-
 class Login(models.Model):
-	fk_role_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 	username = models.CharField(max_length=20)
 	password = models.CharField(max_length=20)
+
+class EmployeeProfile(models.Model):
+	fname             = models.CharField(max_length=25)
+	lname             = models.CharField(max_length=25)
+	gender            = models.CharField(max_length=25)
+	dob               = models.DateField(max_length=25)
+	address           = models.CharField(max_length=50)
+	phone             = models.CharField(max_length=25)
+	designation       = models.CharField(max_length=15)
+	emp_qualification = models.CharField(max_length=25)
+	emp_experience    = models.CharField(max_length=25)
+	salary            = models.CharField(max_length=25)
+	join_date         = models.CharField(max_length=25)
+	upload_image      = models.FileField(upload_to ='pictures/')
+	fk_login          = models.ForeignKey(Login, on_delete=models.CASCADE,default=None)
+
+
 
 
 class Candidate(models.Model):
@@ -83,11 +81,11 @@ class CallLetter(models.Model):
 
 class QuestionPaper(models.Model):
 	question = models.CharField(max_length=50)
-	option1 = models.CharField(max_length=20)
-	option2 = models.CharField(max_length=20)
-	option3 = models.CharField(max_length=20)
-	option4 = models.CharField(max_length=20)
-	answer = models.CharField(max_length=20)
+	option1  = models.CharField(max_length=20)
+	option2  = models.CharField(max_length=20)
+	option3  = models.CharField(max_length=20)
+	option4  = models.CharField(max_length=20)
+	answer   = models.CharField(max_length=20)
 
 
 class MockTest(models.Model):
