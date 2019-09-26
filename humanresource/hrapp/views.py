@@ -15,7 +15,7 @@ def userLogin(request):
 			print(lusername)
 			lpassword = request.POST.get('password')
 			print(lpassword)
-			check_user=EmployeeProfile.objects.get(email=lusername, password=lpassword)
+			check_user=EmployeeProfile.objects.filter(email=lusername, password=lpassword).exist()
 			if check_user:
 				login_obj = Login(username=lusername, password=lpassword)
 				login_obj.save()
