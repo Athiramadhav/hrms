@@ -14,7 +14,6 @@ def userLogin(request):
 			lusername = request.POST.get('username')
 			print(lusername)
 			lpassword = request.POST.get('password')
-<<<<<<< HEAD
 			print(lpassword)
 			check_user=EmployeeProfile.objects.get(email=lusername, password=lpassword)
 			if check_user:
@@ -32,14 +31,6 @@ def home(request):
 	except Exception as e:
 		print(str(e))
 
-=======
-			check_user=Login.objects.get(username=lusername, password=lpassword)
-			return HttpResponse('successfull')
-		return render(request,'hr_home.html')
-	except Exception as e:
-			print(str(e))
-			return render(request, 'login.html')
->>>>>>> 77b519a7e2c6cc427a42e373d7894abd1f7872b7
 
 
 def registration(request):
@@ -59,7 +50,6 @@ def registration(request):
 			vexperience = request.POST.get('emp_experience')
 			vsalary = request.POST.get('emp_salary')
 			vjoin_date = request.POST.get('emp_joindt')
-<<<<<<< HEAD
 			check_user_register=EmployeeProfile.objects.filter(email=vemail).exists()
 			if check_user_register==False:
 				emp_detail = EmployeeProfile(upload_image=vupload_image,fname=vfname,lname=vlname,gender=vgender,dob=vdob,address=vaddress,
@@ -74,19 +64,6 @@ def registration(request):
 	return render(request, 'employee_registration.html')
 
 
-=======
-			emp_detail = EmployeeProfile(upload_image=vupload_image,fname=vfname,lname=vlname,gender=vgender,dob=vdob,address=vaddress,
-				phone=vphone,email=vemail,password=vpassword,designation=vdesignation,emp_qualification=vqualification,emp_experience=vexperience,
-				salary=vsalary,join_date=vjoin_date)
-			print(emp_detail)
-			emp_detail.save()
-			return HttpResponse('Registerd')
-		except Exception as e:
-			print(str(e))
-			return HttpResponse("Failed")
-	return render(request, 'employee_registration.html')
-
->>>>>>> 77b519a7e2c6cc427a42e373d7894abd1f7872b7
 def employeeDetail(request):
 	user_objs = EmployeeProfile.objects.all()
 	user=[]
@@ -145,17 +122,12 @@ def candidateRegistration(request):
 				password=var_password)
 			candidate_detail.save()	
 			resume_detail = Resume(resume='upload_resume',fk_candidate_id=candidate_detail)
-<<<<<<< HEAD
-	except Exception as e:
-		print(e)
-=======
 			return HttpResponse('Registerd')
 		except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed")
 	return render(request, 'candidate_registration.html')
 
->>>>>>> 77b519a7e2c6cc427a42e373d7894abd1f7872b7
 
 def complaintReg(request):
 	if request.method == 'POST':
