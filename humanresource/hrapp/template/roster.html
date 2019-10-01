@@ -121,25 +121,27 @@ body {
 
 <div class="container">
   <h2>ROSTER MANAGEMENT</h2>
-  <div class="topnav-header">
-    <label>From date</label>&nbsp;<input type="date" name="">&nbsp;&nbsp;&nbsp;
-    <label>To date</label>&nbsp;<input type="date" name="">
-    <button  type="button" class="btn btn-primary">Continue</button>
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Employee Name</th>
-        <th>Departement</th>
-        <th>Project</th>
-        <th>Task</th>
-        <th>Resources</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-  </table>
-  <!-- <button  type="button" class="btn btn-primary">SAVE</button> -->
-
+  <form action="hrapp/rosterview" method="POST">
+      <div class="topnav-header">
+          <label>From date</label>&nbsp;<input type="date" name="">&nbsp;&nbsp;&nbsp;
+          <label>To date</label>&nbsp;<input type="date" name="">
+          <button  type="button" class="btn btn-primary">Continue</button>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Employee Name</th>
+              <th>Departement</th>
+              <th>Project</th>
+              <th>Task</th>
+              <!-- <th>Resources</th> -->
+              <th>Status</th>
+            </tr>
+          </thead>
+        </table>
+        <!-- <button  type="button" class="btn btn-primary">SAVE</button> -->
+      
+  </form>
 </div>
 </body>
 </html>
