@@ -6,10 +6,8 @@ urlpatterns =[
 	path('home',views.home),
 	path('register/',views.registration),
 	path('registeremployee',views.home),
-	path('intimation/',views.intimationDetails)
-	#path('exam/',views.addQuestion)
-	path('userlogin/',views.userLogin),
-	path('register/',views.registration),
+	path('intimation/',views.intimationDetails),
+	#path('exam/',views.addQuestio
 	path('candidateregister/', views.candidateRegistration),
 	path('exam/', views.questionPaper),
 	path('mocktest/', views.mockTest),

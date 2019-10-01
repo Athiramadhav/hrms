@@ -9,16 +9,15 @@ def userLogin(request):
 	#template = loader.get_template('login.html')
 	#context={}
 	#return HttpResponse(template.render(context,request))
+	#request.session['userid'] = login.id
 	try:
 		if request.method == 'POST':
 			lusername = request.POST.get('username')
 			print(lusername)
 			lpassword = request.POST.get('password')
 			print(lpassword)
-			check_user=EmployeeProfile.objects.filter(email=lusername, password=lpassword).exist()
+			check_user=Login.objects.filter(user=lusername, password=lpassword).exist()
 			if check_user:
-				login_obj = Login(username=lusername, password=lpassword)
-				login_obj.save()
 				return render(request,'hr_home.html')
 		return render(request,'login.html')
 	except Exception as e:
@@ -34,9 +33,10 @@ def home(request):
 
 
 def registration(request):
-	if request.method=='POST' and request.FILES['file_upload']:
+	if request.method =='POST' and request.FILES['file_uploads']:
 		try:
-			vupload_image = request.FILES['file_upload']
+			vupload_image = request.FILES['file_uploads']
+			print(vupload_image)
 			vfname = request.POST.get('emp_firstname')
 			vlname = request.POST.get('emp_lastname')
 			vgender = request.POST.get('emp_gender')
@@ -50,14 +50,17 @@ def registration(request):
 			vexperience = request.POST.get('emp_experience')
 			vsalary = request.POST.get('emp_salary')
 			vjoin_date = request.POST.get('emp_joindt')
-			check_user_register=EmployeeProfile.objects.filter(email=vemail).exists()
-			if check_user_register==False:
-				emp_detail = EmployeeProfile(upload_image=vupload_image,fname=vfname,lname=vlname,gender=vgender,dob=vdob,address=vaddress,
-				phone=vphone,email=vemail,password=vpassword,designation=vdesignation,emp_qualification=vqualification,emp_experience=vexperience,
-				salary=vsalary,join_date=vjoin_date)
-				emp_detail.save()
-				return HttpResponse('registration succecssful')
-				return render(request,'employee_registration.html')
+			check_user_email=Login.objects.filter(username=vemail).exists()
+			if check_user_email==False:
+				login_obj = Login(username=vemail, password=vpassword)
+				login_obj.save()
+				if login_obj.id>0:
+					emp_detail = EmployeeProfile(fname=vfname,lname=vlname,gender=vgender,dob=vdob,
+					address=vaddress,phone=vphone,designation=vdesignation,emp_qualification=vqualification,
+					emp_experience=vexperience,salary=vsalary,join_date=vjoin_date,upload_image=vupload_image,fk_login=login_obj)
+					emp_detail.save()
+					if emp_detail.id>0:
+						return HttpResponse('registration succecssful')
 		except Exception as e:
 			print(str(e))
 			return HttpResponse('registration failed')
@@ -239,7 +242,11 @@ def leaveApply(request):
 			to_date = request.POST.get('edate')
 			days = request.POST.get('days')
 			reason = request.POST.get('reason')
-			file_upload = request.POST.get('') #file upload, add in settingd.py
+			file_upload = request.FILES['fileupload']
+			# leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
+			#                           leave_remains=leave_remian, leave_type=leave_type, 
+			# 						  from_date=from_date,to_date=to_date, no_of_days=days, 
+			# 						  leave_reason=reason)
 			return HttpResponse("Appiled Successfully")
 			return render(request, 'employee_home.html')
 		except Exception as e:

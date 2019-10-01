@@ -122,8 +122,10 @@ body {
 
 	<div class="container">
 		<form action = "/hrapp/leaveform/" method = "POST" name="frm_upload" enctype="multipart/form-data">
-			<h2>Leave Application</h2>
+      {% csrf_token %}
+      <h2>Leave Application</h2>
 			<div class="form-group">
+          <p>You must submit requests for absences, other than sick leave, two days prior to the first day you will be absent.</p> 
 				 <label>Employee Name</label>
 		    <input type="text" name="txt_emp_name" class="form-control" id="name"><br>
 
@@ -169,10 +171,10 @@ body {
 			<input type="text" name="" id="reason" placeholder="Enter the Reason" class="form-control"><br>
 
 			<label>Upload File (if any)</label>
-      <input  type="file" placeholder="Upload your file" class="form-control" id="upload">
+      <input  type="file" placeholder="Upload your file" class="form-control" name="fileupload" id="upload">
 		</div>	
 		</form>
-		<p>You must submit requests for absences, other than sick leave, two days prior to the first day you will be absent.</p> 
+		
     
 	</div>
 
