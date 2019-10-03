@@ -14,7 +14,8 @@ urlpatterns =[
 	path('mocktest/', views.mockTest),
 	path('mockdisplay/', views.mockDisplay),
 	path('projectreg/',views.projectReg),
-    path('complaintreg/',views.complaintReg)
+    path('complaintreg/',views.complaintReg),
+	path('evaluation/', views.performanceEvaluation)
 
 	# path('registeremployee/',views.)
 	# path('exam/',)

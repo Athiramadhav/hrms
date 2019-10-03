@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.template import Template,loader
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from .models import *
+import json
+#from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -335,20 +337,23 @@ def mockTest(request):
 
 def mockDisplay(request):
 	try:
-		if request.body == '':
-			print('null')
 		if request.method == 'POST':
-			user_answer = request.POST['answer']
-			print(user_answer)
-			question_obj = {'question':mocktest_obj[0]}
+			print(request.POST)
+			mock_dict = {}
+			qid = int(request.POST['ques_id'])
+			print(qid)
+			mock_obj = MockTest.objects.values().get(id=qid+1)
+			print(mock_obj.toJSON())
+			# returnObj = MockTest.serialize(mock_obj,{})
+			return JsonResponse({'data':json.dumps(mock_obj.toJSON(), default=str)}, safe=False)
 			
-			return render(request,'mock_test_view.html', question_obj)
 		else:
-			mocktest_obj = MockTest.objects.all()
-			question_obj = {'question':mocktest_obj[0]}
-			return render(request, 'mock_test_view.html',question_obj)
-	except:
-		print('error')
+			mock_obj = MockTest.objects.get(id=1)
+			return render(request,'mock_test_view.html',{'mock':mock_obj})
+
+	except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed to load")
 
 
 
