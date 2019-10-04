@@ -85,25 +85,6 @@ body {
 }
 
 </style>
-<script type="text/javascript">
-	function registration(){
-		name = document.getElementById('name')
-		id = document.getElementById('id')
-		post = document.getElementById('post')
-		dept = document.getElementsClassName('dept')
-		addr = document.getElementById('addr')
-		phone = document.getElementById('phone')
-		cname = document.getElementById('compname')
-		cpost = document.getElementById('cpost')
-		cdept = document.getElementById('cdept')
-		act = document.getElementById('act')
-		date =document.getElementById('date')
-		time =document.getElementById('time')
-		error = 0;
-		   
-
-	}
-</script>
 </head>
 <body>
 
@@ -126,29 +107,30 @@ body {
     <a href="payroll.html">Payroll</a>
     <a href="work_upload.html">Work Upload</a>
     <a href="">Notification</a> <!-- intimation  to be added-->
-    <a href="emp_complaint_form.html"> File Complaint</a>
+    <a href="/hrapp/complaintreg/"> File Complaint</a>
     <a href="">Report</a>
 </div>
 
 	<div class="container">
 		<h2>COMPLAINT REGISTRATION</h2>
 		<form action="/hrapp/complaintreg/" method="POST">
+			{% csrf_token %}
 			<div class="form-group">
 				<label>Name</label>
-			    <input type="text" id="name" placeholder="" class="form-control"><span style="color: red" id="msg"></span><br>
+			    <input type="text" name="name" placeholder="" class="form-control"><span style="color: red" id="msg"></span><br>
 
 			    <label>Id</label>
 			    <input type="text" id="id" placeholder="" class="form-control"><br>
 
 			    <label>Designation</label>
-			    <select class="form-control" id="post">
+			    <select class="form-control" name="post">
 			    	<option>Staff</option>
 			    	<option>Faculty</option>
 			    	<option>Other</option>
 			    </select><br>
 
 			    <label>Departement</label>
-			    <select class="form-control" class="dept">
+			    <select class="form-control" name="dept">
 			    	<option>Planning</option>
 			    	<option>Designing</option>
 			    	<option>Coding</option>
@@ -157,24 +139,24 @@ body {
 			    </select><br>
 
 			    <label>Address</label>
-			    <textarea class="form-control" id="addr"></textarea><br>
+			    <textarea class="form-control" name="addr"></textarea><br>
 
 			    <label>Phone</label>
-			    <input type="text" id="phone" placeholder="" class="form-control"><br>
+			    <input type="text" name="phone" placeholder="" class="form-control"><br>
 
 			    <h4>Complaint Filed Against:</h4>
 			    <label>Name</label>
-			    <input type="text" id="compname" placeholder=" Enter Name" class="form-control"><br>
+			    <input type="text" name="compname" placeholder=" Enter Name" class="form-control"><br>
 
 			    <label>Designation</label>
-			    <select class="form-control" id="cpost">
+			    <select class="form-control" name="cpost">
 			    	<option>Staff</option>
 			    	<option>Faculty</option>
 			    	<option>Other</option>
 			    </select><br>
 
 			    <label>Departement</label>
-			    <select class="form-control" class="cdept">
+			    <select class="form-control" name="cdept">
 			    	<option>Planning</option>
 			    	<option>Designing</option>
 			    	<option>Coding</option>
@@ -183,19 +165,20 @@ body {
 			    </select><br>
 
 			    <label>Please describe the specific act(s)</label>
-			    <textarea class="form-control" id="act"></textarea><br>
+			    <textarea class="form-control" name="act"></textarea><br>
 
 			    <label>Date</label>
-			    <input type="Date" name="" id="date" placeholder="Enter the date of incident"><br>
+			    <input type="Date" name="date" placeholder="Enter the date of incident"><br>
 
 			    <label>Time</label>
-			    <input type="Time" name="" id="time" placeholder="Enter the time of incident"><br>
+				<input type="Time" name="time" placeholder="Enter the time of incident"><br>
+				<button type="submit" class="btn btn-default">Submit</button>
             </form>
 
 				
 			</div>
 			
-	<button type="submit" class="btn btn-default" onclick="registration()">Submit</button>
+	
 	</div>
 
 </body>

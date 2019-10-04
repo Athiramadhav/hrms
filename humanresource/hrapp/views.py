@@ -130,6 +130,7 @@ def candidateRegistration(request):
 			var_password = request.POST.get('password')
 			print(var_password)
 			upload_resume = request.FILES['file_upload']
+			check_user
 			candidate_detail = Candidate(candidate_name=var_candidate_name,dob=var_dob,address=var_address,phone_no=var_phone_no,
 				               gender=var_gender,qualification=var_qualification,year_of_pass=var_year_of_pass,experience=var_experience,email=var_email,
 				               password=var_password)
@@ -243,27 +244,33 @@ def leaveApply(request):
 			days = request.POST.get('days')
 			reason = request.POST.get('reason')
 			file_upload = request.FILES['fileupload']
-			# leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
-			#                           leave_remains=leave_remian, leave_type=leave_type, 
-			# 						  from_date=from_date,to_date=to_date, no_of_days=days, 
-			# 						  leave_reason=reason)
+			leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
+			                          leave_remains=leave_remian, leave_type=leave_type, 
+									  from_date=from_date,to_date=to_date, no_of_days=days, 
+									  leave_reason=reason)
 			return HttpResponse("Appiled Successfully")
 			return render(request, 'employee_home.html')
 		except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed To Sent")
-			return render(request, 'leave_form.html')
+	return render(request, 'leave_form.html')
 
 def projectReg(request):
 	if request.method == 'POST':
 		try:
 			print(request.POST)
 			title = request.POST.get('ptitle')
+			print(title)
 			sponser = request.POST.get('psponser')
+			print(sponser)
 			cost = request.POST.get('pcost')
+			print(cost)
 			manager = request.POST.get('pmanger')
+			print(manager)
 			sdate = request.POST.get('psdate')
+			print(sdate)
 			edate = request.POST.get('pedate')
+			print(edate)
 			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate )
 			reg_obj.save()
@@ -327,5 +334,37 @@ def mockTest(request):
 			print(str(e))
 			return HttpResponse("Failed To Add")
 	return render(request, 'mock_test.html')
+
+
+def mockDisplay(request):
+	try:
+		if request.body == '':
+			print('null')
+		if request.method == 'POST':
+			user_answer = request.POST['answer']
+			print(user_answer)
+			question_obj = {'question':mocktest_obj[0]}
+			
+			return render(request,'mock_test_view.html', question_obj)
+		else:
+			mocktest_obj = MockTest.objects.all()
+			question_obj = {'question':mocktest_obj[0]}
+			return render(request, 'mock_test_view.html',question_obj)
+	except:
+		print('error')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
