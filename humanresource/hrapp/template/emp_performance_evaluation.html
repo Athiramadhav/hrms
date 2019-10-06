@@ -147,7 +147,8 @@ body {
     <a href="">Report</a>
 </div>
 	<div class="container">
-		<form action="/hrapp/" method="POST">
+    <form action="/hrapp/evaluation" method="POST">
+      {% csrf_token %}
 		<h2>Performance Evaluation</h2>
 		<div class="form-group">
 

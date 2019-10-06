@@ -33,7 +33,7 @@ class EmployeeProfile(models.Model):
 	salary            = models.CharField(max_length=25)
 	join_date         = models.CharField(max_length=25)
 	upload_image      = models.FileField(upload_to ='pictures/')
-	fk_login          = models.ForeignKey(Login, on_delete=models.CASCADE,default=None)
+	fk_login          = models.ForeignKey(Login, on_delete=models.CASCADE)
 
 
 
@@ -97,6 +97,7 @@ class MockTest(models.Model):
 	mock_answer   = models.CharField(max_length=20)
 
 
+
 class ExamDetail(models.Model):
 	exam_startdate = models.DateField()
 	exam_enddate   = models.DateField()
@@ -114,8 +115,8 @@ class Mail(models.Model):
 
 class Result(models.Model):
 	fk_candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+	fk_question  = models.ForeignKey(MockTest, on_delete=models.CASCADE,default=None)
 	mark         = models.IntegerField()
-	rank         = models.CharField(max_length=10)
 
 	
 class Location(models.Model):
@@ -191,7 +192,9 @@ class TaskAssign(models.Model):
 	team_lead      = models.CharField(max_length=25)
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 	fk_task_id     = models.ForeignKey(TaskAdd, on_delete=models.CASCADE)
+	dept           = models.CharField(max_length=25,default=None)
 	reminder       = models.DateField(max_length=25)
+	remarks        = models.CharField(max_length=25,default=None)
 
 class CostEstimation(models.Model):
 	software_cost  = models.IntegerField()
