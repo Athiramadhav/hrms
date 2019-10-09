@@ -96,8 +96,6 @@ class MockTest(models.Model):
 	option4       = models.CharField(max_length=20)
 	mock_answer   = models.CharField(max_length=20)
 
-	def toJSON(self):
-		return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 
 class ExamDetail(models.Model):
