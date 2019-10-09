@@ -273,7 +273,7 @@ def projectReg(request):
 			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate )
 			reg_obj.save()
-			return HttpResponse("Registration Done")
+			# return HttpResponse("Registration Done")
 			return render(request,'project_manager_home.html')
 
 		except Exception as e:
