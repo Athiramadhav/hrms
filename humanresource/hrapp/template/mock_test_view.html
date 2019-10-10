@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{% extends 'candidate_home.html'%}
+
+{% block body %}
+
 <script type="text/javascript">
   $(document).ready( () => {
     $('.signupbtn').click( (e) => {
@@ -13,197 +9,52 @@
       console.log(ques_id);
       
       $.ajax({
-          url: "http://127.0.0.1:8000/hrapp/mockdisplay/",
-					type: "POST",
-					data: {
+          url: "http://127.0.0.1:8000/myapp/mockdisplay/",
+          type: "POST",
+          data: {
             ques_id:ques_id,
             csrfmiddlewaretoken:'{{ csrf_token }}'
-					},
-					success: res => {
-						console.log(res);
-					},
+          },
+          success: res => {
+            console.log(res);
+          },
 
-					error: err => {
-						console.log(err)
-					}
+          error: err => {
+            console.log(err)
+          }
       });
     });
   });
-				
+        
 </script>
-<style type="text/css">
-  *{
-    box-sizing: border-box;
-  }
-  button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
 
-button:hover {
-  opacity:1;
-}
-
-.cancelbtn {
-  padding: 14px 20px;
-  background-color: #f44336;
-}
-
-.cancelbtn, .signupbtn {
-  float: left;
-  width: 50%;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-/* @media screen and (max-width: 300px) {
-  .cancelbtn, .signupbtn {
-     width: 100%;
-  } */
-body {
-  margin: 0;
-  font-family: "Times New Roman", Times, serif;
-}
-
-.topnav {
-  overflow: hidden;
-  background-color: #826cab;
-  /* background-color: #181840; */
-}
-
-.topnav a {
-  float: left;
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.topnav input[type=text] {
-  float: right;
-  padding: 6px;
-  margin-top: 8px;
-  margin-right: 16px;
-  border: none;
-  font-size: 17px;
-}
-  
-  .topnav input[type=text] {
-    border: 1px solid #ccc;  
-  }
-
-  .sidenav {
-  height: 100%;
-  width: 180px;
-  position: fixed;
-  z-index: 1;
-  top: 10;
-  left: 0;
-  background-color: #f1f1f1 ;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-
-.sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 13px;
-  color: #6D6F72 ;
-  display: block;
-  font-size: 15px;
-}
-
-.sidenav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.topnav-right{
-  float: right;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.topnav-header{
-  float: right;
-  padding: 10px;
-}
-.container{
-  margin-left: 170px;
-  
-}
-
-</style>
-</head>
-<body>
-  <div class="topnav">
-     
-     <div class="topnav-right">
-        <a href="#home"><i class="fa fa-fw fa-home"></i>Home</a>
-        <a href=""><i class="fa fa-fw fa-user"></i>Profile</a>
-        <a href=""><i class="fa fa-fw fa-envelope"></i>Mail</a>
-        <a href=""><i class="fa fa-sign-out"></i>Log Out</a>
-     </div>
-  </div>
-  
-<div class="sidenav">    
-      <p><a href="#"><span class="glyphicon glyphicon-book"></span>  Mock test</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-folder-open"></span>   Question paper</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-pencil"></span>  Interview</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Call letter</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-list"></span>  Result</a></p>
-    </div></style>
-</head>
-
-<body>
+ 
 <form >
   {% csrf_token %}
-	 <div class="container">
-	 	<h1>MOCK TEST</h1>
-    	<hr>
-		<div class="form-group">
-			<label>Question :</label>
-			<textarea name="question" cols="50" rows="2" class="form-control" id="question">
+   <div class="container">
+    <h1>MOCK TEST</h1>
+      <hr>
+    <div class="form-group">
+      <label>Questions :</label>
+      <textarea name="question" cols="50" rows="2" class="form-control" id="question">
         {{mock.mock_question}}
       </textarea>
-		</div>
-		<div class="form-group">
-			<label>Answer:</label><br>
-			<input type="radio" name="answer" id="answer1" value="{{mock.option1}}">
-			<input type="text" name="option1" placeholder="option 1" class="form-control" value="{{mock.option1}}">
-			<input type="radio" name="answer" id="answer2" value="{{mock.option2}}">
-			<input type="text" name="option2" placeholder="option 2" class="form-control" value="{{mock.option2}}">
-			<input type="radio" name="answer" id="answer3" value="{{mock.option3}}">
-			<input type="text" name="option3" placeholder="option 3" class="form-control" value="{{mock.option3}}">
-			<input type="radio" name="answer" id="answer4" value="{{mock.option4}}">
-			<input type="text" name="option4" placeholder="option 4" class="form-control" value="{{mock.option4}}">
-		</div>
-		<div class="clearfix">
-      		<button type="button" class="cancelbtn">Cancel</button>
+    </div>
+    <div class="form-group">
+      <label>Answer:</label><br>
+      <input type="radio" name="answer" id="answer1" value="{{mock.option1}}">
+      <input type="text" name="option1" placeholder="option 1" class="form-control" value="{{mock.option1}}">
+      <input type="radio" name="answer" id="answer2" value="{{mock.option2}}">
+      <input type="text" name="option2" placeholder="option 2" class="form-control" value="{{mock.option2}}">
+      <input type="radio" name="answer" id="answer3" value="{{mock.option3}}">
+      <input type="text" name="option3" placeholder="option 3" class="form-control" value="{{mock.option3}}">
+      <input type="radio" name="answer" id="answer4" value="{{mock.option4}}">
+      <input type="text" name="option4" placeholder="option 4" class="form-control" value="{{mock.option4}}">
+    </div>
+    <div class="clearfix">
+          <button type="button" class="cancelbtn">Cancel</button>
           <button type="button" class="signupbtn" id="{{mock.id}}">Submit</button>
-   		 </div>
-	</div>
+       </div>
+  </div>
 </form>
-</body>
-</html>
+{% endblock %}

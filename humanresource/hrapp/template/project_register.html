@@ -11,7 +11,9 @@
      $('document').ready(() =>{
        $('#submit').click(() =>{
         $.ajax({
-         success:res =>{
+          url:'http://127.0.0.1:8000/myapp/projectreg/',
+          type:'POST',
+          success:res =>{
            $toast({
              text:res,
              heading:'Note',

@@ -1,0 +1,36 @@
+
+{% extends 'hr_home.html'%}
+
+{% block head %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% endblock %}
+{% block body %}
+<div class="container">
+  <form action="/myapp/candidate_resume/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+  <h2>RESUME</h2>
+  <hr>
+  <table>
+    <tr>
+      {% if resume %}
+      <td><img src="{{resume.resume_upload.url}}" width="500px" height="500px"></td>
+      {% endif %}
+      {% if experience %}
+      <td>Company Name(previously worked):{{experience.company_name}}</td>
+      <td>Designation:{{experience.designation}}</td>
+      <td>Year of experience:{{experience.period}}</td>
+      {% endif %}
+    </tr>
+    <tr>
+      <td><button class="btn btn-danger" type="submit"><a href="/myapp/candidate_view/" style="color: white">Back</a></button> </td>
+    </tr>   
+  </table>      
+
+</form>
+</div>
+{% endblock %}

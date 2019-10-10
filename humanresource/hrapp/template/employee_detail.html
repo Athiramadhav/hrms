@@ -1,42 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title></title>
+{% extends 'hr_home.html'%}
+
+{% block head %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+{% endblock %}
+{% block body %}
 <div class="container">
+  <form action="/myapp/employee_view" method="POST" enctype="multipart/form-data">
   <h2>EMPLOYEE DETAILS</h2>
   <p></p>            
   <table class="table table-striped">
     <thead>
       <tr>
         <th>Emp_id</th>
+        <th>Image</th>
         <th>Firstname</th>
         <th>Lastname</th>
         <th>Gender</th>
         <th>DOB</th>
         <th>Address</th>
         <th>Phone</th>
-        <th>Email</th>
-        <th>Password</th>
         <th>Designation</th>
         <th>Qualification</th>
-        <th>Experiance</th>
+        <th>Experience</th>
         <th>Salary</th>
         <th>Join date</th>
+        <th>Email</th>
       </tr>
     </thead>
     <tbody>
-    
+    {% for user in userlist %}
+    <tr>
+      <td>{{user.id}}</td>
+      <td><img src="{{user.upload_image.url}}" width="100px" height="100px"></td>
+      <td>{{user.fname}}</td>
+      <td>{{user.lname}}</td>
+      <td>{{user.gender}}</td>
+      <td>{{user.dob}}</td>
+      <td>{{user.address}}</td>
+      <td>{{user.phone}}</td>
+      <td>{{user.designation}}</td>
+      <td>{{user.emp_qualification}}</td>
+      <td>{{user.emp_experience}}</td>
+      <td>{{user.salary}}</td>
+      <td>{{user.join_date}}</td>
+      <td>{{user.fk_login.username}}</td>
+    </tr>
+    {% endfor %}
     </tbody>
   </table>
+</form>
 </div>
-
-</body>
-</html>
+{% endblock %}

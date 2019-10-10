@@ -4,6 +4,10 @@
 	<title></title>
 	<link rel="stylesheet" 
           href= "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>-->
 	<style type="text/css">
 	body{
 		background-image: url("{% static 'images/Hero.jpg' %}");
@@ -44,7 +48,18 @@
 			padding-left: 20px;
 			padding-right: 20px;
 		}
-		input{
+		#user_id{
+
+			width: 400px;
+			height:40px;
+			border-radius: 20px;
+			font-size: 20px;
+			font-family: cursive;
+			margin-left: 20px;
+			padding-left: 30px;
+
+		}
+		#password_id{
 
 			width: 400px;
 			height:40px;
@@ -58,6 +73,9 @@
 		#btn{
 			background-color: rgb(89, 90, 94);
 			color: white;
+			border-radius: 20px;
+			font-size: 20px;
+			font-family: cursive;
 			width: 400px;
 			height: 40px;
 			margin-left: 40px;
@@ -85,12 +103,40 @@
 		#footer{
 			background-color: black;
 			width: 100%;
-			height: 80px;
+			height: 100px;
 			margin-top: 600px;
+		}
+		.form-group{
+			background-color: white;
+			margin-left: 40px;
+			margin-right: 40px;
+			margin-top: 40px;
+			margin-bottom: 40px;
+			padding: 40px;
+		}
+		.form-control{
+			width: 400px;
 		}
 
 	</style>
 	<script type="text/javascript">
+		$(document).ready( () =>{
+			$("#apply").click( ()=>{
+				$("#registration").show();
+			});
+		});
+
+		$(document).ready( ()=> {
+			$('#exp').click( () => {
+					$('#yes').show();				
+			});
+			$('#exp1').click( () => {
+				$('#yes').hide();
+
+			});
+		});
+
+
 		function data()
 		{
 			user_obj=document.getElementById('user_id');
@@ -122,6 +168,8 @@
 			}
 
 		}
+
+		
 	</script>
 </head>
 <body >
@@ -134,12 +182,14 @@
 			<li> SERVICES </li>
 			<li> ABOUT </li>
 			<li> CONTACT </li>
-			<li>REGISTRATION</li>
 		</ul>
 	</nav>
 </header>
+<div>
+	<a href="#registration" id="apply">Apply now and join our team(click here)</a>
 </div>
-	<form method="POST" action="/hrapp/">
+</div>
+	<form method="POST" action="/myapp/">
 		{%csrf_token%}
 	<div id="div1">
 		<h1>SIGN IN</h1>
@@ -159,6 +209,102 @@
 	<p><a href="mailto:extend@gmail.com" id="a1">extend@gmail.com</a></p>
 	<p>999-000-123</a></p>
 </footer>
+</div>
+<div id="registration" hidden="">
+	<p>
+	 <form action="/myapp/candidate_register/" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+        
+        <div class="form-group">
+        	<h1> CANDIDATE REGISTRATION FORM </h1>
+        	
+        	<hr>
+        <table cellspacing="5" cellpadding="5">
+           <tr>
+          <td>Name:</td>
+          <td><input class="form-control" type="text" name="candidatename" placeholder="Enter your full name" required=""></td>
+          </tr>
+
+          <tr>
+          <td>Gender:</td>
+          <td><input type="radio" name="gender" value="Male">Male
+              <input type="radio" name="gender" value="Female">Female</td>
+          </tr>
+          
+          <tr>
+          <td>Date of birth:</td>
+          <td><input type="date" name="dob" class="form-control"></td>
+      	  </tr>
+
+          <tr>
+          <td>Address:</td>
+          <td><textarea type="text" name="address" placeholder="Enter your address" class="form-control"></textarea></td>
+          </tr>
+
+          <tr>
+          <td>Mobile No:</td>
+          <td><input type="text" name="mobileno" placeholder="Enter Mobile Number" class="form-control"></td>
+          </tr>
+      
+          <tr>
+          <td>Qualification:</td>
+          <td><input type="text" name="qualification" placeholder="Enter your qualification" class="form-control"></td>
+          </tr>
+
+          <tr>        
+          <td>Year of pass:</td>
+          <td><input type="text" name="yrofpass" placeholder="Enter year of pass" class="form-control"></td>
+      	  </tr>
+          
+          <tr>
+          <td>Email:</td>
+          <td><input type="text" name="email" placeholder="Register using active email id" class="form-control" required=""></td>
+          </tr>
+      
+          <tr>
+          <td>Password:</td>
+          <td><input type="password" name="password" placeholder="Enter a password" class="form-control" required=""></td>
+          </tr>
+
+          <tr>
+          <td>Upload resume:</td>
+          <td><input type="file" name="resume_uploads" class="form-control"></td>
+          </tr>
+
+          <tr>
+          	<td>Experience:</td>
+          <td><input type="radio" name="experience" value="Yes" id="exp">Yes
+              <input type="radio" name="experience" value="No" id="exp1">No</td>
+          </tr>
+
+
+          <table id="yes" hidden="">
+          	<tr>
+          	<td>Company name:</td>
+          	<td><input type="text" name="company_name" placeholder="Name of the company you recently worked" class="form-control"></td>
+          	</tr>
+
+            <tr>
+          	<td>Designation:</td>
+          	<td><input type="text" name="candidate_desg" placeholder="Designation" class="form-control"></td>
+            </tr>
+
+            <tr>
+          	<td>Period:</td>
+          	<td><input type="text" name="period" placeholder="Year of experience" class="form-control"></td>
+            </tr>
+		  </table>
+
+          <tr>
+          <td><button type="button" class="btn btn-danger">Cancel</button>
+          <button type="submit" class="btn btn-primary">Register</button></td>
+          </tr>
+
+      </table>
+        </div>
+     </form>
+    </p>
 </div>
 </body>
 </html>

@@ -3,42 +3,73 @@ from django.template import Template,loader
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from .models import *
 import json
-#from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
 def userLogin(request):
-	#template = loader.get_template('login.html')
-	#context={}
-	#return HttpResponse(template.render(context,request))
-	#request.session['userid'] = login.id
 	try:
 		if request.method == 'POST':
 			lusername = request.POST.get('username')
-			print(lusername)
 			lpassword = request.POST.get('password')
-			print(lpassword)
-			check_user=Login.objects.filter(user=lusername, password=lpassword).exist()
-			if check_user:
-				return render(request,'hr_home.html')
+			user_obj=Login.objects.get(username=lusername, password=lpassword)
+			emp_details= EmployeeProfile.objects.get(fk_login=user_obj.id)
+
+			request.session['userid'] = user_obj.id
+			
+			if emp_details.designation=="HR Manager":
+				return HttpResponseRedirect('hr_home')
+			elif emp_details.designation=="Project Manager":
+				return HttpResponseRedirect('project_home')
+			else:
+				return HttpResponseRedirect('employee_home')
+			
 		return render(request,'login.html')
 	except Exception as e:
 			print(str(e))
-			return render(request, 'login.html')
+			return render(request,'candidate_home.html')
 
-def home(request):
+def redirect_hr_home(request):
 	try:
-		return render(request,'hr_home.html')
+		if 'userid' in request.session:
+			return render(request, 'hr_home.html')
+		return redirect('/myapp/')
 	except Exception as e:
 		print(str(e))
 
+# def redirect_candidate_home(request):
+# 	try:
+# 		if 'userid' in request.session:
+# 			# cndt_obj = Candidate.objects.get(id=request.session['userid'])
+# 			return render(request, 'candidate_home.html')
+# 		return redirect('/myapp/')
+# 	except Exception as e:
+# 		print(str(e))
+
+def redirect_project_home(request):
+	try:
+		if 'userid' in request.session:
+			pm_obj = EmployeeProfile.objects.get(id=request.session['userid'])
+			return render(request, 'project_home.html')
+		return redirect('/myapp/')
+	except Exception as e:
+		print(str(e))
+
+
+def userLogout(request):
+	try:
+		if 'userid' in request.session:
+			del request.session['userid']
+		return redirect('/myapp')
+	except Exception as e:
+		print(str(e))
+		return redirect('/myapp')
 
 
 def registration(request):
 	if request.method =='POST' and request.FILES['file_uploads']:
 		try:
 			vupload_image = request.FILES['file_uploads']
-			print(vupload_image)
 			vfname = request.POST.get('emp_firstname')
 			vlname = request.POST.get('emp_lastname')
 			vgender = request.POST.get('emp_gender')
@@ -68,81 +99,156 @@ def registration(request):
 			return HttpResponse('registration failed')
 	return render(request, 'employee_registration.html')
 
-
-def employeeDetail(request):
+def employee_view(request):
 	user_objs = EmployeeProfile.objects.all()
+	context={'userlist':user_objs}
+	print(context)
+	return render(request, 'employee_detail.html',context)
+
+"""def employee_profile(request):
+	emp_obj = EmployeeProfile.objects.all()
 	user=[]
 	context={}
-	for user_obj in user_objs:
-		user.append(user_obj.upload_image)
-		user.append(user_obj.fname)
-		user.append(user_obj.lname)
-		user.append(user_obj.gender)
-		user.append(user_obj.dob)
-		user.append(user_obj.adress)
-		user.append(user_obj.phone)
-		user.append(user_obj.email)
-		user.append(user_obj.password)
-		user.append(user_obj.designation)
-		user.append(user_obj.emp_qualification)
-		user.append(user_obj.salary)
-		user.append(user_obj.join_date)
-	context={'userlist':user_objs}
-	return render(request, 'employee_deatil.html',context)
+	for emp_objs in user_obj:
+		if emp_objs.designation=="":"""
 
+def candidateRegistration(request):
+	if request.method == 'POST' and request.FILES['resume_uploads']:
+		try:
+			var_candidate_name = request.POST.get('candidatename')
+			var_dob = request.POST.get('dob')
+			var_address = request.POST.get('address')
+			var_phone_no = request.POST.get('mobileno')
+			var_gender = request.POST.get('gender')
+			var_qualification = request.POST.get('qualification')
+			var_year_of_pass = request.POST.get('yrofpass')
+			var_email = request.POST.get('email')
+			var_password = request.POST.get('password')
+			upload_resume = request.FILES['resume_uploads']
+			var_experience = request.POST.get('experience')
+			var_company = request.POST.get('company_name')
+			var_designation = request.POST.get('candidate_desg')
+			var_period = request.POST.get('period')
+			check_candidate=Login.objects.filter(username=var_email).exists()
+			if check_candidate==False:
+				login_object = Login(username=var_email, password=var_password)
+				login_object.save()
+				if login_object.id>0:
+					candidate_detail = Candidate(candidate_name=var_candidate_name,dob=var_dob,address=var_address,phone_no=var_phone_no,
+				               			gender=var_gender,qualification=var_qualification,year_of_pass=var_year_of_pass,experience=var_experience,fk_login=login_object)
+					candidate_detail.save()
+					resume_detail = Resume(resume_upload=upload_resume,fk_candidate_id=candidate_detail)
+					resume_detail.save()
+					if candidate_detail.experience=='Yes':
+						experience_detail = CandidateExperiance(company_name=var_company,designation=var_designation,period=var_period,
+										fk_candidate_id=candidate_detail)
+						experience_detail.save()
+					else:
+						experience_details=CandidateExperiance(company_name='NIL',designation='NIL',period=0,
+										fk_candidate_id=candidate_detail)
+						experience_details.save()
+					if candidate_detail.id>0:
+						return HttpResponse('Registerd')
+		except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed")
+	return render(request, 'login.html')
 
+@csrf_exempt
+def candidate_view(request):
+	candidate_objs = Candidate.objects.all()
+	context = {'candidatelist':candidate_objs}
+	return render(request, 'candidate_list.html',context)
+
+@csrf_exempt
+def candidate_resume(request):
+	resume_id = request.GET.get('id')
+	resume_obj = Resume.objects.get(id=resume_id)
+	exp_obj = CandidateExperiance.objects.get(fk_candidate_id=resume_id) 
+	print(exp_obj)
+	image = {'resume':resume_obj,'experience':exp_obj}
+	return render(request,'candidate_resume.html',image)
+
+@csrf_exempt
 def addQuestion(request):
-	try:
-		if request.method=='POST':
+	if request.method=='POST':
+		try:
 			val_question = request.POST.get('question')
 			val_option1 = request.POST.get('option1')
 			val_option2 = request.POST.get('option2')
 			val_option3 = request.POST.get('option3')
 			val_option4 = request.POST.get('option4')
-			val_ans = request.POSTget('answer')
+			val_ans = request.POST.get('answer')
 			exam_object = QuestionPaper(question=val_question, option1=val_option1, option2=val_option2, option3=val_option3, option4=val_option4, answer=val_ans)
 			exam_object.save()
 			return HttpResponse('saved')
-	except Exception as e:
-		print(str(e))
-		return HttpResponse('not saved')
-
-
-def candidateRegistration(request):
-	if request.method == 'POST':
-		try:
-			var_candidate_name = request.POST.get('candidatename')
-			print(var_candidate_name)
-			var_dob = request.POST.get('dob')
-			print(var_dob)
-			var_address = request.POST.get('address')
-			print(var_address)
-			var_phone_no = request.POST.get('mobileno')
-			print(var_phone_no)
-			var_gender = request.POST.get('gender')
-			print(var_gender)
-			var_qualification = request.POST.get('qualification')
-			print(var_qualification)
-			var_year_of_pass = request.POST.get('yrofpass')
-			print(var_year_of_pass)
-			var_experience = request.POST.get('experience')
-			print(var_experience)
-			var_email = request.POST.get('email')
-			print(var_email)
-			var_password = request.POST.get('password')
-			print(var_password)
-			upload_resume = request.FILES['file_upload']
-			check_user
-			candidate_detail = Candidate(candidate_name=var_candidate_name,dob=var_dob,address=var_address,phone_no=var_phone_no,
-				               gender=var_gender,qualification=var_qualification,year_of_pass=var_year_of_pass,experience=var_experience,email=var_email,
-				               password=var_password)
-			candidate_detail.save()	
-			resume_detail = Resume(resume='upload_resume',fk_candidate_id=candidate_detail)
-			return HttpResponse('Registerd')
 		except Exception as e:
 			print(str(e))
-			return HttpResponse("Failed")
-	return render(request, 'candidate_registration.html')
+			return HttpResponse('not saved')
+	return render(request,'question_paper.html')
+
+def onlineExam(request):
+	try:
+		if request.method== 'POST':
+			ans_obj = request.POST.get('')
+	except:
+		print('error')
+		
+@csrf_exempt
+def mockTest(request):
+	if request.method == 'POST':
+		try:
+			questions = request.POST.get('question')
+			option1= request.POST.get('option1')
+			option2 = request.POST.get('option2')
+			option3 = request.POST.get('option3')
+			option4 = request.POST.get('option4')
+			answer = request.POST.get('answer')
+			mock_obj = MockTest(mock_question=questions, option1=option1, option2=option2, option3=option3, 
+			                    option4=option4, mock_answer=answer)
+			mock_obj.save()
+			return HttpResponse("Added")
+		
+		except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed To Add")
+	return render(request, 'mock_test.html')
+
+def mockDisplay(request):
+ 	try:
+ 		if request.method == 'POST':
+ 			print(request.POST)
+ 			mock_dict = {}
+ 			qid = int(request.POST['ques_id'])
+ 			print(qid)
+ 			mock_obj = MockTest.objects.values().get(id=qid+1)
+ 			print(mock_obj)
+ 			return JsonResponse({'data':mock_obj})
+			
+ 		else:
+ 			mock_obj = MockTest.objects.get(id=1)
+ 			return render(request,'mock_test_view.html',{'mock':mock_obj})
+
+ 	except Exception as e:
+ 			print(str(e))
+ 			return HttpResponse("Failed to load")
+
+# def mockDisplay(request):
+# 	mock_obj = MockTest.objects.all()
+# 	context = {'mocks':mock_obj}
+# 	return render(request, 'mock_test_view.html',context)
+
+
+def payment(request):
+	try:
+		if request.method == 'POST':
+			desig = request.POST['designation']
+			print(desig)
+	# emp_objs = EmployeeProfile.objects.filter(designation=desig).exists()
+	# context={'list':emp_objs}
+		return render(request,'payment_slip.html')
+	except Exception as e:
+		print(str(e))
 
 
 def complaintReg(request):
@@ -285,77 +391,7 @@ def projectReg(request):
 	return render(request, 'project_register.html')
 
 
-def questionPaper(request):
-	if request.method == 'POST':
-		try:
-			questions = request.POST.get('question')
-			print(questions)
-			option1= request.POST.get('option1')
-			print(option1)
-			option2 = request.POST.get('option2')
-			print(option2)
-			option3 = request.POST.get('option3')
-			print(option3)
-			option4 = request.POST.get('option4')
-			print(option4)
-			answer = request.POST.get('answer')
-			question_obj = QuestionPaper(question=questions, option1=option1, option2=option2, option3=option3, option4=option4)
-			question_obj.save()
-			return HttpResponse("Added")
-			return render(request, 'hr_home.html')
-		
-		except Exception as e:
-			print(str(e))
-			return HttpResponse("Failed To Add")
-	return render(request, 'question_paper.html')
 
-
-
-def mockTest(request):
-	if request.method == 'POST':
-		try:
-			questions = request.POST.get('question')
-			print(questions)
-			option1= request.POST.get('option1')
-			print(option1)
-			option2 = request.POST.get('option2')
-			print(option2)
-			option3 = request.POST.get('option3')
-			print(option3)
-			option4 = request.POST.get('option4')
-			print(option4)
-			answer = request.POST.get('answer')
-			print(answer)
-			mock_obj = MockTest(mock_question=questions, option1=option1, option2=option2, option3=option3, 
-			                    option4=option4, mock_answer=answer)
-			mock_obj.save()
-			return HttpResponse("Added")
-			return render(request, 'hr_home.html')
-		
-		except Exception as e:
-			print(str(e))
-			return HttpResponse("Failed To Add")
-	return render(request, 'mock_test.html')
-
-
-def mockDisplay(request):
-	try:
- 		if request.method == 'POST':
- 			print(request.POST)
- 			mock_dict = {}
- 			qid = int(request.POST['ques_id'])
- 			print(qid)
- 			mock_obj = MockTest.objects.values().get(id=qid+1)
- 			print(mock_obj)
- 			return JsonResponse({'data':mock_obj})
-			
- 		else:
- 			mock_obj = MockTest.objects.get(id=1)
- 			return render(request,'mock_test_view.html',{'mock':mock_obj})
-
- 	except Exception as e:
- 			print(str(e))
- 			return HttpResponse("Failed to load")
 
 
 

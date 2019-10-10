@@ -1,82 +1,18 @@
-<html>
+{% extends 'hr_home.html'%}
+
+{% block head %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<style>
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box}
 
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
+{% endblock %}
+{% block body %}
 
-input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
-
-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-
-button:hover {
-  opacity:1;
-}
-
-.cancelbtn {
-  padding: 14px 20px;
-  background-color: #f44336;
-}
-
-.cancelbtn, .signupbtn {
-  float: left;
-  width: 50%;
-}
-
-.container {
-  padding: 16px;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-@media screen and (max-width: 300px) {
-  .cancelbtn, .signupbtn {
-     width: 100%;
-  }
-}
-</style>
-<body>
-
-<form action="/hrapp/register/"  method="POST" style="border:1px solid #ccc" enctype="multipart/form-data">
+<form action="/myapp/register/"  method="POST" style="border:1px solid #ccc" enctype="multipart/form-data">
   {% csrf_token %}
-<<<<<<< HEAD
   <div class="container">
-=======
-  <div class="container"></div>
->>>>>>> 27f5d41794bafd72c45309857f40c87610d9931a
     <h1>EMPLOYEE REGISTRATION</h1>
     <hr>
     <div class="form-group">
@@ -93,8 +29,8 @@ button:hover {
     </div>
     <div class="form-group">
       <label>Gender:</label>
-      <input type="radio" name="emp_gender">Male
-        <input type="radio" name="emp_gender">female
+      <input type="radio" name="emp_gender" value="male">Male
+        <input type="radio" name="emp_gender" value="female">female
     </div>
     <div class="form-group">
       <label>Date of birth:</label>
@@ -118,11 +54,9 @@ button:hover {
     </div>
     <div class="form-group">
       <label>Designation:</label>
-        <input type="checkbox" name="emp_designation">HR Manager
-        <input type="checkbox" name="emp_designation">Project Manager
-        <input type="checkbox" name="emp_designation">Team Lead
-        <input type="checkbox" name="emp_designation">Software Engg
-        <input type="checkbox" name="emp_designation">Tester
+        <input type="checkbox" name="emp_designation" value="HR Manager">HR Manager
+        <input type="checkbox" name="emp_designation" value="Project Manager">Project Manager
+        <input type="checkbox" name="emp_designation" value="Other">Other
     </div>
     <div class="form-group">
       <label>Employee Qualification:</label>
@@ -147,8 +81,4 @@ button:hover {
     </div>
   </div>
 </form>
-<div>
-  <img src="{{img.url}}" width="300px" height="300px">
-</div>
-</body>
-</html>
+{% endblock %}

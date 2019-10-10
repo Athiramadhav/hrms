@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends 'hr_home.html'%}
+
+{% block head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .card {
@@ -39,16 +39,33 @@ button:hover, a:hover {
   opacity: 0.7;
 }
 </style>
-</head>
-<body>
+{% endblock %}
+{% block body %}
+<form method="POST" action="/hrapp/emp_profile/">
 
-<h2 style="text-align:center">User Profile Card</h2>
+<h2 style="text-align:center">Profile Card</h2>
 
 <div class="card">
-  <img src=" " alt="John" style="width:100%">
-  <h1>John</h1>
-  <p class="title">HR MANAGER, Example</p>
+  <img src={{user.upload_image}}"" alt="{{user.fname}}" style="width:100%">
+  <h1>{{user.fname}}</h1>
+  <p class="title">{{user.designation}}</p>
   <p>EXTENT SOFTWARE Ltd</p>
+  <div>
+     {% for user in userlist %}
+    <tr>
+      <td>{{user.lname}}</td>
+      <td>{{user.gender}}</td>
+      <td>{{user.dob}}</td>
+      <td>{{user.address}}</td>
+      <td>{{user.phone}}</td>
+      <td>{{user.emp_qualification}}</td>
+      <td>{{user.emp_experience}}</td>
+      <td>{{user.salary}}</td>
+      <td>{{user.join_date}}</td>
+      <td>{{user.fk_login.username}}</td>
+    </tr>
+    {% endfor%}
+  </div>
   <div style="margin: 24px 0;">
     <a href="#"><i class="fa fa-dribbble"></i></a> 
     <a href="#"><i class="fa fa-twitter"></i></a>  
