@@ -58,7 +58,6 @@ def redirect_project_home(request):
 def redirect_employee_home(request):
 	try:
 		if 'userid' in request.session:
-			emp_obj = EmployeeProfile.objects.get(id=request.session['userid'])
 			return render(request, 'employee_home.html')
 		return redirect('/hrapp/')
 	except Exception as e:
@@ -224,23 +223,23 @@ def mockTest(request):
 	return render(request, 'mock_test.html')
 
 def mockDisplay(request):
- 	try:
- 		if request.method == 'POST':
- 			print(request.POST)
- 			mock_dict = {}
- 			qid = int(request.POST['ques_id'])
- 			print(qid)
- 			mock_obj = MockTest.objects.values().get(id=qid+1)
- 			print(mock_obj)
- 			return JsonResponse({'data':mock_obj})
+	try:
+		if request.method == 'POST':
+			print(request.POST)
+			qid = int(request.POST['ques_id'])
+			print(qid)
+			mock_obj = MockTest.objects.values().get(id=qid+1)
+			print(mock_obj)
+			mock_obj.pop('mock_answer')
+			return JsonResponse({'data':mock_obj})
 			
- 		else:
- 			mock_obj = MockTest.objects.get(id=1)
- 			return render(request,'mock_test_view.html',{'mock':mock_obj})
+		else:
+			mock_obj = MockTest.objects.get(id=1)
+			return render(request,'mock_test_view.html',{'mock':mock_obj})
 
- 	except Exception as e:
- 			print(str(e))
- 			return HttpResponse("Failed to load")
+	except Exception as e:
+		print(str(e))
+		return HttpResponse("Failed to load")
 
 # def mockDisplay(request):
 # 	mock_obj = MockTest.objects.all()
@@ -264,7 +263,7 @@ def complaintReg(request):
 	if request.method == 'POST':
 		try:
 			print(request.POST)
-			ename = request.POST.get('name')
+			ename = request.POST['name']
 			eid = request.POST.get('id')
 			edesg = request.POST.get('post')
 			edept = request.POST.get('dept')
@@ -287,9 +286,9 @@ def complaintReg(request):
 			print(str(e))
 			return HttpResponse("Failed")
 	else:
-		user_id = request.session['user_id']
-		employee_obj = EmployeeProfile.objects.get(fk_login=id)
-		return render(request, 'emp_complaint_form.html',{'employee':employee_obj})
+		user_id = request.session['userid']
+		employee_obj = EmployeeProfile.objects.get(fk_login=user_id)
+		return render(request, 'emp_complaint_form.html',{'employee': employee_obj})
 
 
 def performanceEvaluation(request):
