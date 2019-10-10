@@ -1,18 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title></title>
+
+{% extends 'hr_home.html'%}
+
+{% block head %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+{% endblock %}
+{% block body %}
 <div class="container">
+  <form action="/hrapp/candidate_view/" method="POST">
   <h2>CANDIDATE LIST</h2>
-  <p></p>            
+  <hr>            
   <table class="table table-striped">
     <thead>
       <tr>
@@ -22,29 +23,31 @@
         <th>DOB</th>
         <th>Address</th>
         <th>Phone</th>
-        <th>Email</th>
         <th>Qualification</th>
         <th>Year of pass</th>
         <th>Experiance</th>
-        <th colspan="2">Status</th>
+        <th>Email</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>riya</td>
-        <td>f</td>
-        <td>7892</td>
-        <td>asdfgh</td>
-        <td>123456</td>
-        <td>agshd@sdfghj</td>
-        <td>mca</td>
-        <td>2000</td>
-        <td>yes</td>
-        <td><button>approve</button>
-          <button>reject</button></td>
-      </tr>
+     <tbody>
+    {% for candidate in candidatelist %}
+    <tr>
+      <td>{{candidate.id}}</td>
+      <td>{{candidate.candidate_name}}</td>
+      <td>{{candidate.gender}}</td>
+      <td>{{candidate.dob}}</td>
+      <td>{{candidate.address}}</td>
+      <td>{{candidate.phone_no}}</td>
+      <td>{{candidate.qualification}}</td>
+      <td>{{candidate.year_of_pass}}</td>
+      <td>{{candidate.experience}}</td>
+      <td>{{candidate.fk_login.username}}</td>
+      <td><button class="btn btn-primary" type="submit"><a href="/hrapp/candidate_resume?id={{candidate.id}}" style="color: white">View Resume</a></button></td>
+
+    </tr>
+    {% endfor %}
     </tbody>
   </table>
+</form>
 </div>
-</html>
+{% endblock %}

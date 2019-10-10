@@ -1,92 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title></title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box}
+{% extends 'hr_home.html'%}
 
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
 
-input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
 
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
-
-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-
-button:hover {
-  opacity:1;
-}
-
-.cancelbtn {
-  padding: 14px 20px;
-  background-color: #f44336;
-}
-
-.cancelbtn, .signupbtn {
-  float: left;
-  width: 50%;
-}
-
-.container {
-  padding: 16px;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-@media screen and (max-width: 300px) {
-  .cancelbtn, .signupbtn {
-     width: 100%;
-  }
-}
-</style>
-</head>
-<body>
+{% block body %}
+<script type="text/javascript">
+  $('document').ready(() =>{
+    $("#desig").click( ()=>{
+      $.ajax({
+        url:'http://127.0.0.1:8000/hrapp/payment/',
+            type:'POST',
+            data:{
+              desig1:$("#1").val(),
+              desig2:$("#2").val(),
+              desig3:$("#3").val(),
+              csrfmiddlewaretoken:'{{ csrf_token }}'
+            },
+            success: res =>{
+              console.log(res);
+              $("#1").val();
+              $("#2").val();
+              $("#3").val();
+            },
+            error: res =>{
+              console.log('error function is loading');
+              console.log(res);
+            }
+      });
+    });
+  });
+</script>
 
 <div class="container">
   <h2>PAYMENT SLIP</h2>   
+  <hr>
   <div class="form-group">
     <label>Designation:</label>
-    <select class="form-control">
-      <option>HR Manager</option>
-      <option>Project Manager</option>
-      <option>Team Lead</option>
-      <option>Software Engg</option>
-      <option>Tester</option>
+    <select class="form-control" id="desig" name="designation">
+      <option value="0" selected="">Select</option>
+      <option  value="HR Manager" id="1">HR Manager</option>
+      <option value="Project Manager" id="2">Project Manager</option>
+      <option value="Other" id="3">Other</option>
     </select>
     <label>Employee id:</label>
-    <select class="form-control"></select>
+   
+    <select class="form-control">
+      {% for user in list %}
+        <option>{{user.id}}</option>
+      {% endfor %}
+    </select>
     <label>Employee name:</label>
     <input type="text" name="emp_name" class="form-control">
   </div>      
@@ -134,5 +95,4 @@ button:hover {
     </div>
 </div>
 
-</body>
-</html>
+{% endblock %}

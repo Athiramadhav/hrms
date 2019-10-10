@@ -11,8 +11,6 @@
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
-      //background-color: #826cab;
-      background-color: #381961;
     }
     
     .row.content {height: 700px}
@@ -30,7 +28,7 @@
       padding: 15px;
     }
     
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: 100%) {
       .sidenav {
         height: auto;
         padding: 15px;
@@ -57,11 +55,12 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="#"><span class="glyphicon glyphicon-home"></span>  Home</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Mail</a></li>
+        <li><a href="/hrapp/project_home"><span class="glyphicon glyphicon-home"></span>  Home</a></li>
+        <li><a href="/hrapp/pm_profile"><span class="glyphicon glyphicon-user"></span>  Profile</a></li>
+        <li><a href="/hrapp/mail"><span class="glyphicon glyphicon-envelope"></span>  Mail</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <li><a href="/hrapp/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>
@@ -69,25 +68,24 @@
   
 <div class="container-fluid text-center">    
   <div class="row content">
-    <div class="col-md-2 sidenav">
-      <p><a href="#"><span class="glyphicon glyphicon-plus"></span>  Register HR</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  HR Detail</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  Employee Detail</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  Candidate Detail</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  Report</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  Payment Detail</a></p>
-      <p><a href="#"><span class="glyphicon glyphicon-eye-open"></span>  Interview Result</a></p>
+    <div class="col-sm-2 sidenav">
+      
+      <p><a href="/hrapp/mock_view"><span class="glyphicon glyphicon-book"></span> project </a></p>
+      <p><a href="/hrapp/online"><span class="glyphicon glyphicon-folder-open"></span>   </a></p>
+      <p><a href="#"><span class="glyphicon glyphicon-pencil"></span>  </a></p>
+      <p><a href="#"><span class="glyphicon glyphicon-envelope"></span>  </a></p>
+      <p><a href="/hrapp/result"><span class="glyphicon glyphicon-list"></span>  </a></p>
     </div>
-    <div class="col-md-10 text-left"> 
-      <form action="/hrapp/hrregistration" method="POST">
+    <div class="col-sm-8 text-left"> 
+      {% block body %} 
       <h1>Welcome</h1>
       <p>hai</p>
       <hr>
       <h3>Test</h3>
       <p>hello</p>
+      {% endblock %}
     </div>
-  </form>
-   <!-- <div class="col-sm-2 sidenav">
+    <!--<div class="col-sm-2 sidenav">
       <div class="well">
         <p>ADS</p>
       </div>
@@ -98,9 +96,9 @@
   </div>
 </div>
 
-<!--<footer class="container-fluid text-center">
+<footer class="container-fluid text-center">
   <p>Footer Text</p>
-</footer>-->
+</footer>
 
 </body>
 </html>

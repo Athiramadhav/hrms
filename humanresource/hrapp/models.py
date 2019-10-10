@@ -110,7 +110,7 @@ class Mail(models.Model):
 	from_address = models.CharField(max_length=20)
 	to_address   = models.CharField(max_length=20)
 	content      = models.CharField(max_length=100)
-	attachment   = models.FileField(upload_to ='')
+	attachment   = models.FileField(upload_to ='attachment/')
 
 
 class Result(models.Model):

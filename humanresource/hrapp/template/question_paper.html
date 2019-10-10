@@ -1,103 +1,89 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{% extends 'hr_home.html' %}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+{% block body %}
+	
+ <script type="text/javascript">
+    $('document').ready( () =>{
+    		$('.signupbtn').click( () =>{
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<style>
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box}
+    			$.ajax({
+    				url:'http://127.0.0.1:8000/hrapp/questionpaper/',
+    				type:'POST',
+    				data:{
+    					question:$('#question').val(),
+    					option1:$('#option1').val(),
+    					option2:$('#option2').val(),
+    					option3:$('#option3').val(),
+    					option4:$('#option4').val(),
+    					answer:$('#ans').val()
+    				},
+    				success: res =>{
+    					$.toast({
+    						text:res,
+    						heading:'Note',
+    						icon: 'success',
+    						showHideTransition: 'fade',
+    						allowToastClose: true,
+    						hideAfter: 1500,
+    						stack: 5,
+    						position:'bottom-left',
+    						loader: true,
+    						loaderBg:'#9EC600'
+    					});
+    					$('#question').val();
+    					$('#option1').val();
+    					$('#option2').val();
+    					$('#option3').val();
+    					$('#option4').val();
+    					$('#ans').val();
+    					setTimeout(() =>{
+    						location.reload();
+    					}, 1500);
+    				},
+    				error: r =>{
+    					$.toast({
+    						text:r,
+    						heading:'Note',
+    						icon: 'error',
+    						showHideTransition: 'fade',
+    						allowToastClose: true,
+    						hideAfter: 3000,
+    						stack: 5,
+    						position:'bottom-left',
+    						loader: true,
+    						loaderBg:'#9EC600'
+    					});
+    				}
+    			});
+      		});
+    	});
+  </script>
 
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
 
-input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
-
-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-
-button:hover {
-  opacity:1;
-}
-
-.cancelbtn {
-  padding: 14px 20px;
-  background-color: #f44336;
-}
-
-.cancelbtn, .signupbtn {
-  float: left;
-  width: 50%;
-}
-
-.container {
-  padding: 16px;
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-@media screen and (max-width: 300px) {
-  .cancelbtn, .signupbtn {
-     width: 100%;
-  }
-}
-</style>
-</head>
-<body>
     <div class="container">
-<form method = "POST" action = "/hrapp/exam/">
+<form>
   {% csrf_token %}
 	 
 	 	<h1>QUESTION</h1>
     	<hr>
 		<div class="form-group">
 			<label>Question :</label>
-			<textarea name="question" cols="50" rows="2" class="form-control"></textarea>
+			<textarea name="question" cols="50" rows="2" class="form-control question" id="question" required=""></textarea>
 		</div>
 		<div class="form-group">
 			<label>Options:</label><br>
-			<input type="text" name="option1" placeholder="option 1" class="form-control">
-			<input type="text" name="option2" placeholder="option 2" class="form-control">
-			<input type="text" name="option3" placeholder="option 3" class="form-control">
-			<input type="text" name="option4" placeholder="option 4" class="form-control">
+			<input type="text" name="option1" placeholder="option 1" class="form-control question" id="option1" required="">
+			<input type="text" name="option2" placeholder="option 2" class="form-control question" id="option2" required="">
+			<input type="text" name="option3" placeholder="option 3" class="form-control question" id="option3" required="">
+			<input type="text" name="option4" placeholder="option 4" class="form-control question" id="option4" required="">
       <label>Answer:</label>
-      <input type="text" name="answer" placeholder="Type correct answer" class="form-control">
+      <input type="text" name="answer" placeholder="Type correct answer" class="form-control question" id="ans" required="">
 		</div>
 		<div class="clearfix">
       		<button type="button" class="cancelbtn">Cancel</button>
-     		 <button type="submit" class="signupbtn">Add</button>
+     		 <button type="button" class="signupbtn">Add</button>
    		 </div>
 	
 </form>
 </div>
-</body>
-</html>
+{% endblock %}
