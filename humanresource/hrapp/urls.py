@@ -12,7 +12,7 @@ urlpatterns =[
 	path('exam/', views.questionPaper),
 	path('leaveform/', views.leaveApply),
 	path('mocktest/', views.mockTest),
-	path('mockdisplay/', views.mockDisplay),
+	# path('mockdisplay/', views.mockDisplay),
 	path('projectreg/',views.projectReg),
     path('complaintreg/',views.complaintReg),
 	path('evaluation/', views.performanceEvaluation)
