@@ -18,8 +18,9 @@ def userLogin(request):
 			print(lusername)
 			lpassword = request.POST.get('password')
 			print(lpassword)
-			check_user=Login.objects.filter(user=lusername, password=lpassword).exist()
-			if check_user:
+			user=Login.objects.get(user=lusername, password=lpassword)
+			if user:
+				request.session['user_id'] = user.id
 				return render(request,'hr_home.html')
 		return render(request,'login.html')
 	except Exception as e:
@@ -171,7 +172,10 @@ def complaintReg(request):
 		except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed")
-	return render(request, 'emp_complaint_form.html')
+	else:
+		user_id = request.session['user_id']
+		employee_obj = EmployeeProfile.objects.get(fk_login=id)
+		return render(request, 'emp_complaint_form.html',{'employee':employee_obj})
 
 
 def performanceEvaluation(request):
@@ -276,12 +280,11 @@ def projectReg(request):
 			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate )
 			reg_obj.save()
-			# return HttpResponse("Registration Done")
-			return render(request,'project_manager_home.html')
+			return render(request,'project_register.html',{'response':'Registration done Successfully'})
 
 		except Exception as e:
 			print(str(e))
-			return HttpResponse("Failed")
+			return render(request,'project_register.html',{'response':'Registration Failed'})
 	return render(request, 'project_register.html')
 
 
@@ -338,141 +341,31 @@ def mockTest(request):
 	return render(request, 'mock_test.html')
 
 
-def mockDisplay(request):
-	try:
- 		if request.method == 'POST':
- 			print(request.POST)
- 			mock_dict = {}
- 			qid = int(request.POST['ques_id'])
- 			print(qid)
- 			mock_obj = MockTest.objects.values().get(id=qid+1)
- 			print(mock_obj)
- 			return JsonResponse({'data':mock_obj})
+# def mockDisplay(request):
+# 	try:
+#  		if request.method == 'POST':
+#  			print(request.POST)
+#  			mock_dict = {}
+#  			qid = int(request.POST['ques_id'])
+#  			print(qid)
+#  			mock_obj = MockTest.objects.values().get(id=qid+1)
+#  			print(mock_obj)
+#  			return JsonResponse({'data':mock_obj})
 			
- 		else:
- 			mock_obj = MockTest.objects.get(id=1)
- 			return render(request,'mock_test_view.html',{'mock':mock_obj})
-
- 	except Exception as e:
- 			print(str(e))
- 			return HttpResponse("Failed to load")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			
-			
-		else:
-			mock_obj = MockTest.objects.get(id=1)
-			return render(request,'mock_test_view.html',{'mock':mock_obj})
-
-	except Exception as e:
-			print(str(e))
-			return HttpResponse("Failed to load")
+#  		else:
+#  			mock_obj = MockTest.objects.get(id=1)
+#  			return render(request,'mock_test_view.html',{'mock':mock_obj})
+
+#  	except Exception as e:
+#  			print(str(e))
+#  			return HttpResponse("Failed to load")
+# else:
+# 			mock_obj = MockTest.objects.get(id=1)
+# 			return render(request,'mock_test_view.html',{'mock':mock_obj})
+
+# 	except Exception as e:
+# 			print(str(e))
+# 			return HttpResponse("Failed to load")
 
 
 

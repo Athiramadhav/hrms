@@ -9,38 +9,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
   <script type="text/javascript">
      $('document').ready(() =>{
-       $('#submit').click(() =>{
-        $.ajax({
-         success:res =>{
-           $toast({
-             text:res,
-             heading:'Note',
-             icon: 'Success',
-             showHideTransition: 'fade',
-             allowToastClose: true,
-             hideAfter: 1500,
-             stack:5,
-             position:'bottom-left',
-             loader: true,
-             loaderBg:'#9ec600'
-           });
-         },
-           error:r =>{
-           $toast({
-             text:r,
-             heading:'Note',
-             icon: 'Error',
-             showHideTransition: 'fade',
-             allowToastClose: true,
-             hideAfter: 3000,
-             stack:5,
-             position:'bottom-left',
-             loader: true,
-             loaderBg:'#9ec600'
-           });
-         },
-       });
-     });
+
+          if($('#toast').html() != ''){
+              $('#toast').prop('hidden',false).fadeOut(8000);
+          }
+    });
   </script>
   <style type="text/css">
 
@@ -123,11 +96,19 @@ body {
 .container{
   margin-left: 170px;
 }
+#toast{
+  background-color: rgb(39, 128, 39);
+  margin-left: 76%;
+  width: 25;
+  height: 50px;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 10px;
+}
 
 </style>
 </head>
 <body>
-
 <div class="topnav">
    
    <div class="topnav-right">
@@ -154,6 +135,8 @@ body {
 
 <div class="container">
   <h2>PROJECT REGISTRATION</h2>
+  <div id="toast" hidden>{{response}}</div>
+  
   <form action="/hrapp/projectreg/" method="POST">
 
     {% csrf_token %}

@@ -117,16 +117,15 @@ body {
 			{% csrf_token %}
 			<div class="form-group">
 				<label>Name</label>
-			    <input type="text" name="name" placeholder="" class="form-control"><span style="color: red" id="msg"></span><br>
+          <input type="text" name="name" placeholder="" class="form-control" value="{{employee.fname}} {{employee.lname}}">
+          <span style="color: red" id="msg"></span><br>
 
 			    <label>Id</label>
-			    <input type="text" id="id" placeholder="" class="form-control"><br>
+			    <input type="text" id="id" placeholder="" class="form-control" value="{{employee.id}}><br>
 
 			    <label>Designation</label>
 			    <select class="form-control" name="post">
-			    	<option>Staff</option>
-			    	<option>Faculty</option>
-			    	<option>Other</option>
+			    	<option>{{employee.designation}}</option>
 			    </select><br>
 
 			    <label>Departement</label>
@@ -139,10 +138,10 @@ body {
 			    </select><br>
 
 			    <label>Address</label>
-			    <textarea class="form-control" name="addr"></textarea><br>
+			    <textarea class="form-control" name="addr">{{employee.address}}</textarea><br>
 
 			    <label>Phone</label>
-			    <input type="text" name="phone" placeholder="" class="form-control"><br>
+			    <input type="text" name="phone" placeholder="" class="form-control" value="{{employee.phone}}"><br>
 
 			    <h4>Complaint Filed Against:</h4>
 			    <label>Name</label>
