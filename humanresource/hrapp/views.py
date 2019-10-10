@@ -55,6 +55,15 @@ def redirect_project_home(request):
 	except Exception as e:
 		print(str(e))
 
+def redirect_employee_home(request):
+	try:
+		if 'userid' in request.session:
+			emp_obj = EmployeeProfile.objects.get(id=request.session['userid'])
+			return render(request, 'employee_home.html')
+		return redirect('/hrapp/')
+	except Exception as e:
+		print(str(e))
+
 
 def userLogout(request):
 	try:
