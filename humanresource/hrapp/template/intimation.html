@@ -122,7 +122,7 @@ body {
     {% csrf_token %}
     <div class="form-group">
       <label>Name</label>
-      <input type="text" class="form-control" placeholder="Enter the Name of Employee" id="ename"><br>
+      <input type="text" class="form-control" placeholder="Enter the Name of Employee" id="ename" value="{{employee.fname}} {{employee.lname}}"><br>
 
       <label>Id</label>
       <input type="text" class="form-control" placeholder="Enter the Employee Id" id="eid"><br>
