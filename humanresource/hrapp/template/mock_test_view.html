@@ -20,14 +20,18 @@
             res_keys = Object.keys(res.data);
             console.log(res_keys);
             $('#question').html(res.data['mock_question']);
-            $('.signupbtn').attr('id',res.data['id']);
-            for (op=0, t=1, v=2; op<options.length; op+=2, t+=2, v++) {
-                options[op].value = res.data[res_keys[v]];
-                options[t].value  = res.data[res_keys[v]];
-               console.log(options[op]);
-               console.log(options[t]);
+            $('#option1').html(res.data['option1']);
+            $('#option2').html(res.data['option2']);
+            $('#option3').html(res.data['option3']);
+            $('#option4').html(res.data['option4']);
+
+            // $('.signupbtn').attr('id',res.data['id']);
+            // for (op=0, t=1, v=2; op<options.length; op+=2, t+=2, v++) {
+            //     options[op].value = res.data[res_keys[v]];
+            //     options[t].value  = res.data[res_keys[v]];
+            //    console.log(options[op]);
+            //    console.log(options[t]);
                 
-            }
           },
 
           error: err => {

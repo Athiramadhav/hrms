@@ -14,9 +14,7 @@ def userLogin(request):
 			lpassword = request.POST.get('password')
 			user_obj=Login.objects.get(username=lusername, password=lpassword)
 			emp_details= EmployeeProfile.objects.get(fk_login=user_obj.id)
-
 			request.session['userid'] = user_obj.id
-			
 			if emp_details.designation=="HR Manager":
 				return HttpResponseRedirect('hr_home')
 			elif emp_details.designation=="Project Manager":
@@ -26,8 +24,8 @@ def userLogin(request):
 			
 		return render(request,'login.html')
 	except Exception as e:
-			print(str(e))
-			return render(request,'candidate_home.html')
+		print(str(e))
+		return render(request,'candidate_home.html')
 
 def redirect_hr_home(request):
 	try:
