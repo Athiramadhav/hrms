@@ -7,9 +7,9 @@
     $('.signupbtn').click( (e) => {
       const ques_id = e.currentTarget.id;
       console.log(ques_id);
-      options = $('.options');
+      // options = $('.options');
       $.ajax({
-          url: "http://127.0.0.1:8000/hrapp/mockdisplay/",
+          url: "http://127.0.0.1:8000/myapp/mockdisplay/",
           type: "POST",
           data: {
             ques_id:ques_id,
@@ -35,7 +35,7 @@
           },
 
           error: err => {
-            console.log(err)
+            console.log(err);
           }
       });
     });
@@ -58,13 +58,13 @@
     <div class="form-group">
       <label>Answer:</label><br>
       <input type="radio" name="answer" id="answer1" value="{{mock.option1}}" class="options">
-      <input type="text" name="option1" placeholder="option 1" class="form-control options" value="{{mock.option1}}">
+      <label id="option1">{{mock.option1}}</label><br>
       <input type="radio" name="answer" id="answer2" value="{{mock.option2}}" class="options">
-      <input type="text" name="option2" placeholder="option 2" class="form-control options" value="{{mock.option2}}">
+      <label id="option2">{{mock.option2}}</label><br>
       <input type="radio" name="answer" id="answer3" value="{{mock.option3}}" class="options">
-      <input type="text" name="option3" placeholder="option 3" class="form-control options" value="{{mock.option3}}">
+      <label id="option3">{{mock.option3}}</label><br>
       <input type="radio" name="answer" id="answer4" value="{{mock.option4}}" class="options">
-      <input type="text" name="option4" placeholder="option 4" class="form-control options" value="{{mock.option4}}">
+      <label id="option4">{{mock.option4}}</label>
     </div>
     <div class="clearfix">
           <button type="button" class="cancelbtn">Cancel</button>
