@@ -13,6 +13,7 @@ urlpatterns =[
 	path('candidate_view/',views.candidate_view),
 	path('candidate_resume/',views.candidate_resume),
 	path('questionpaper/',views.addQuestion),
+	path('taskadd/', views.taskAdd),
 	path('question_view/',views.onlineExam),
 	path('mocktest/',views.mockTest),
 	path('mockdisplay/',views.mockDisplay),
@@ -20,6 +21,7 @@ urlpatterns =[
 	# path('emp_profile/',views.empProfile),
 	path('intimation/',views.intimationDetails),
 	path('leaveform/', views.leaveApply),
+	path('assign/', views.assign),
 	path('projectreg/',views.projectReg),
     path('complaintreg/',views.complaintReg),
 	path('evaluation/', views.performanceEvaluation)

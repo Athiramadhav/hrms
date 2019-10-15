@@ -178,7 +178,12 @@ class ResourceAllocate(models.Model):
 	fk_resource_id     = models.ForeignKey(Resource, on_delete=models.CASCADE)
 	fk_project_id      = models.ForeignKey(Project, on_delete=models.CASCADE)
 	
-
+class ProjectAllocation(models.Model):
+	category        = models.CharField(max_length=50)
+	team_lead       = models.CharField(max_length=50)
+	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, default='None')
+	
+	
 
 class TaskAdd(models.Model):
     fk_project_id   = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -186,8 +191,9 @@ class TaskAdd(models.Model):
     task_priority   = models.CharField(max_length=25)
     task_start_date = models.DateField()
     task_end_date   = models.DateField()
-    team_lead       = models.CharField(max_length=50)
-	
+    fk_team_id      = models.ForeignKey(ProjectAllocation, on_delete=models.CASCADE, default= None)
+
+
 class TaskAssign(models.Model):
 	team_lead      = models.CharField(max_length=25)
 	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
