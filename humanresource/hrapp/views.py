@@ -264,8 +264,8 @@ def complaintReg(request):
 			print(name)
 			print(request.POST)
 			ename = request.POST['name']
-			eid = request.POST.get('id')
-			edesg = request.POST.get('post')
+			eid = request.POST['id']
+			edesg = request.POST['post']
 			edept = request.POST.get('dept')
 			eaddress = request.POST.get('addr')
 			ephone = request.POST.get('phone')
@@ -276,7 +276,7 @@ def complaintReg(request):
 			date = request.POST.get('date')
 			time = request.POST.get('time')
 			comp_reg = Complaint(e_name=ename, e_desgination=edesg, e_dept=edept, e_addr=eaddress,
-			           e_phone=ephone,fk_employee_id=name, c_name=cname, complaint_desg=cdesg, complaint_dept=cdept,
+			           e_phone=ephone,fk_employee_id=id, c_name=cname, complaint_desg=cdesg, complaint_dept=cdept,
 			           compaint_description=cact, date_of_incident=date, time_of_incident=time)
 			comp_reg.save()
 			return HttpResponse("Registration Done")
@@ -315,7 +315,11 @@ def performanceEvaluation(request):
 		except Exception as a:
 			print(str(a))
 			return HttpResponse("Failed")
-	return render(request, 'emp_performance_evaluation.html')
+
+	else:
+		 emp_obj = EmployeeProfile.objects.all()
+		 return render(request, 'emp_performance_evaluation.html',{'employee' : emp_obj})
+	
 
 
 def costEstimation(request):
@@ -393,12 +397,12 @@ def projectReg(request):
 			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate )
 			reg_obj.save()
-			return render(request,'project_register.html',{'response':'Registration done Successfully'})
+			return render(request,'project_register.html',{'response':reg_obj})
 
 		except Exception as e:
 			print(str(e))
 			return render(request,'project_register.html',{'response':'Registration Failed'})
-	return render(request, 'project_register.html')
+	return render(request, 'project_register.html', {'response':reg_obj})
 
 def taskAdd(request):
 	try:
@@ -449,7 +453,7 @@ def assign(request):
 			
 	except Exception as e:
 			print(str(e))
-			# return render(request,'assign.html',{'response':'Failed'})
+			return render(request,'assign.html',{'response':'Failed'})
 	return render(request, 'assign.html')
 
 		
