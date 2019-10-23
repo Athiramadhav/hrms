@@ -122,6 +122,11 @@ class Result(models.Model):
 class Location(models.Model):
 	location = models.CharField(max_length=25)
 
+class ProjectAllocation(models.Model):
+	category        = models.CharField(max_length=50)
+	team_lead       = models.CharField(max_length=50)
+	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, default='None')
+
 
 class Project(models.Model):
 	project_title      = models.CharField(max_length=50)
@@ -130,9 +135,7 @@ class Project(models.Model):
 	project_cost       = models.IntegerField()
 	project_start_date = models.DateField()
 	project_end_date   = models.DateField()
-	
-
-
+	project_team_lead  = models.ForeignKey(ProjectAllocation, on_delete=models.CASCADE)
 
 
 class Complaint(models.Model):
@@ -178,24 +181,16 @@ class ResourceAllocate(models.Model):
 	fk_resource_id     = models.ForeignKey(Resource, on_delete=models.CASCADE)
 	fk_project_id      = models.ForeignKey(Project, on_delete=models.CASCADE)
 	
-
-
-class TaskAdd(models.Model):
-    fk_project_id   = models.ForeignKey(Project, on_delete=models.CASCADE)
-    task_title      = models.CharField(max_length=50)
-    task_priority   = models.CharField(max_length=25)
-    task_start_date = models.DateField()
-    task_end_date   = models.DateField()
-    team_lead       = models.CharField(max_length=50)
 	
-class TaskAssign(models.Model):
-	team_lead      = models.CharField(max_length=25)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
-	fk_task_id     = models.ForeignKey(TaskAdd, on_delete=models.CASCADE)
-	dept           = models.CharField(max_length=25,default=None)
-	reminder       = models.DateField(max_length=25)
-	remarks        = models.CharField(max_length=25,default=None)
-
+	
+class TaskAdd(models.Model):
+	fk_project_id   = models.ForeignKey(Project, on_delete=models.CASCADE)
+	task_title      = models.CharField(max_length=50)
+	task_priority   = models.CharField(max_length=25)
+	task_start_date = models.DateField()
+	task_end_date   = models.DateField()
+	fk_team_id      = models.ForeignKey(ProjectAllocation, on_delete=models.CASCADE,default='None')
+	
 class CostEstimation(models.Model):
 	software_cost  = models.IntegerField()
 	hardware_cost  = models.IntegerField()
@@ -204,6 +199,7 @@ class CostEstimation(models.Model):
 
 
 class Intimation(models.Model):
+	dept                   = models.CharField(max_length=50)
 	mail                   = models.CharField(max_length=50)
 	intimation_date        = models.DateField()
 	intimation_description = models.CharField(max_length=60)
