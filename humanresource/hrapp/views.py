@@ -239,22 +239,61 @@ def mockDisplay(request):
 		print(str(e))
 		return HttpResponse("Failed to load")
 
-# def mockDisplay(request):
-# 	mock_obj = MockTest.objects.all()
-# 	context = {'mocks':mock_obj}
-# 	return render(request, 'mock_test_view.html',context)
-
-
 def payment(request):
 	try:
 		if request.method == 'POST':
-			desig = request.POST['designation']
+			desig = request.POST.get('value')
 			print(desig)
-	# emp_objs = EmployeeProfile.objects.filter(designation=desig).exists()
-	# context={'list':emp_objs}
-		return render(request,'payment_slip.html')
+			emp_objs = EmployeeProfile.objects.filter(designation=desig).exists()
+			print(emp_objs)
+			context={'list':emp_objs}
+			return HttpResponse('success')
+			return render(request,'payment_slip.html',context)
 	except Exception as e:
 		print(str(e))
+		return HttpResponse('failed')
+
+@csrf_exempt
+def interview(request):
+	try:
+		if request.method =='POST':
+			intvw_type = request.POST.get('interview_type')
+			print(intvw_type)
+			intrvw_dt = request.POST.get('interview_dt')
+			intrvw_time = request.POST.get('interview_time')
+			lctn = request.POST.get('location')
+			intrvw_obj = Interview(interview_type=intvw_type,interview_Date=intrvw_dt,interview_time=intrvw_time,interview_location=lctn)
+			intrvw_obj.save()
+			return HttpResponse('Registerd')
+	except Exception as e:
+		print(str(e))
+		return HttpResponse("Failed")
+	return render(request, 'interview_detail.html')
+
+@csrf_exempt
+def exam_detail(request):
+	try:
+		if request.method =='POST':
+			strt_dt = request.POST.get('start_dt')
+			strt_tym = request.POST.get('start_time')
+			ed_dt = request.POST.get('end_dt')
+			ed_tym = request.POST.get('end_time')
+			drtn = request.POST.get('duration')
+			exam_obj = ExamDetail(exam_startdate =strt_dt,exam_enddate=ed_dt,exam_starttime =strt_tym,exam_endtime=ed_tym,exam_duration=drtn)
+			exam_obj.save()
+			subject = ' ONLINE EXAM NOTIFICATION'
+			message = ' your online examination is commenced to be conducted from'
+			print(message)
+			email_from = settings.EMAIL_HOST_USER
+			recipient = Candidate.objects.all()
+			print(recipient)
+			recipient_list = ['ami.mohan935@gmail.com']
+			send_mail( subject, message, email_from, recipient_list )
+			return HttpResponse('success')
+	except Exception as e:
+		print(str(e))
+		return HttpResponse('fail')
+	return render(request, 'exam_details.html')
 
 
 def complaintReg(request):
