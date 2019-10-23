@@ -3,86 +3,71 @@
 {% block body %}
 
 <script type="text/javascript">
-    $('document').ready( () =>{
-        $('.signupbtn').click( () =>{
+  $(document).ready( () => {
+    $('.signupbtn').click( (e) => {
+      const ques_id = e.currentTarget.id;
+      console.log(ques_id);
+      options = $('.options');
+      $.ajax({
+          url: "http://127.0.0.1:8000/hrapp/question_view/",
+          type: "POST",
+          data: {
+            ques_id:ques_id,
+            csrfmiddlewaretoken:'{{ csrf_token }}'
+          },
+          success: res => {
+            console.log(res);
+            res_keys = Object.keys(res.data);
+            console.log(res_keys);
+            $('#question').html(res.data['question']);
+            $('#option1').html(res.data['option1']);
+            $('#option2').html(res.data['option2']);
+            $('#option3').html(res.data['option3']);
+            $('#option4').html(res.data['option4']);
 
-          $.ajax({
-            url:'http://127.0.0.1:8000/hrapp/question_view/',
-            type:'GET',
-            data:{
-              question:$('#question').html(res.question),
-              option1:$('#option1').val(),
-              option2:$('#option2').val(),
-              option3:$('#option3').val(),
-              option4:$('#option4').val()
+            $('.signupbtn').attr('id',res.data['id']);
+            for (op=0, t=1, v=2; op<options.length; op+=2, t+=2, v++) {
+                options[op].value = res.data[res_keys[v]];
+                options[t].value  = res.data[res_keys[v]];
+                console.log(options[op]);
+                console.log(options[t]);
+              }
             },
-            success: res =>{
-              $.toast({
-                text:res,
-                heading:'Note',
-                icon: 'success',
-                showHideTransition: 'fade',
-                allowToastClose: true,
-                hideAfter: 1500,
-                stack: 5,
-                position:'bottom-left',
-                loader: true,
-                loaderBg:'#9EC600'
-              });
-              $('#question').val();
-              $('#option1').val();
-              $('#option2').val();
-              $('#option3').val();
-              $('#option4').val()
-              setTimeout(() =>{
-                location.reload();
-              }, 1500);
-                        alert('success');
-            },
-            error: r =>{
-              $.toast({
-                text:r,
-                heading:'Note',
-                icon: 'error',
-                showHideTransition: 'fade',
-                allowToastClose: true,
-                hideAfter: 3000,
-                stack: 5,
-                position:'bottom-left',
-                loader: true,
-                loaderBg:'#9EC600'
-              });
-            }
-          });
-          });
+
+          error: err => {
+            console.log(err);
+          }
       });
-  </script>
+    });
+  });
+        
+</script>
 
-<form method="POST" action="/hrapp/question_view/">
+<form >
   {% csrf_token %}
    <div class="container">
-    <h1>QUESTION</h1>
+    <h1>ONLINE EXAM</h1>
       <hr>
     <div class="form-group">
-      <label>Question :</label>
+      <label>Questions :</label>
       <textarea name="question" cols="50" rows="2" class="form-control" id="question">
-        {{question.mock_question}}
+        {{online.question}}
       </textarea>
     </div>
     <div class="form-group">
       <label>Answer:</label><br>
-      <input type="radio" name="answer" id="answer1" value="{{question.option1}}">
-      <input type="text" name="option1" placeholder="option 1" class="form-control" value="{{question.option1}}">
-      <input type="radio" name="answer" id="answer2" value="{{question.option2}}">
-      <input type="text" name="option2" placeholder="option 2" class="form-control" value="{{question.option2}}">
-      <input type="radio" name="answer" id="answer3" value="{{question.option3}}">
-      <input type="text" name="option3" placeholder="option 3" class="form-control" value="{{question.option3}}">
-      <input type="radio" name="answer" id="answer4" value="{{question.option4}}">
-      <input type="text" name="option4" placeholder="option 4" class="form-control" value="{{question.option4}}">
+      <input type="radio" name="answer" id="answer1" value="{{online.option1}}" class="options">
+      <label id="option1">{{online.option1}}</label><br>
+      <input type="radio" name="answer" id="answer2" value="{{online.option2}}" class="options">
+      <label id="option2">{{online.option2}}</label><br>
+      <input type="radio" name="answer" id="answer3" value="{{online.option3}}" class="options">
+      <label id="option3">{{online.option3}}</label><br>
+      <input type="radio" name="answer" id="answer4" value="{{online.option4}}" class="options">
+      <label id="option4">{{online.option4}}</label>
     </div>
     <div class="clearfix">
           <button type="button" class="cancelbtn">Cancel</button>
-         <button type="submit" class="signupbtn" id="#click">Next</button>
+          <button type="button" class="signupbtn" id="{{online.id}}">Submit</button>
        </div>
   </div>
 </form>

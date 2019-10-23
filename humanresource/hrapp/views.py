@@ -111,12 +111,17 @@ def employee_view(request):
 	print(context)
 	return render(request, 'employee_detail.html',context)
 
-"""def employee_profile(request):
-	emp_obj = EmployeeProfile.objects.all()
-	user=[]
-	context={}
-	for emp_objs in user_obj:
-		if emp_objs.designation=="":"""
+def employee_profile(request):
+	try:
+		user_id = request.session['userid']
+		print(user_id)
+		emp_obj = EmployeeProfile.objects.get(fk_login_id=user_id)
+		print(emp_obj)
+		context={'user':emp_obj}
+		return render(request, 'emp_profile.html', context)
+	except Exception as e:
+		print(str(e))
+		return HttpResponse("failed")
 
 def candidateRegistration(request):
 	if request.method == 'POST' and request.FILES['resume_uploads']:
@@ -195,10 +200,18 @@ def addQuestion(request):
 
 def onlineExam(request):
 	try:
-		if request.method== 'POST':
-			ans_obj = request.POST.get('')
-	except:
-		print('error')
+		if request.method == 'POST':
+			qid = int(request.POST['ques_id'])
+			online_obj = QuestionPaper.objects.values().get(id=qid+1)
+			online_obj.pop('answer')
+			return JsonResponse({'data':online_obj})
+		else:
+			online_obj = QuestionPaper.objects.get(id=1)
+			return render(request,'qp_view.html',{'online':online_obj})
+	except Exception as e:
+		print(str(e))
+		return HttpResponse("Failed to load")
+
 		
 @csrf_exempt
 def mockTest(request):
@@ -221,23 +234,21 @@ def mockTest(request):
 	return render(request, 'mock_test.html')
 
 def mockDisplay(request):
-	try:
-		if request.method == 'POST':
-			print(request.POST)
-			qid = int(request.POST['ques_id'])
-			print(qid)
-			mock_obj = MockTest.objects.values().get(id=qid+1)
-			print(mock_obj)
-			mock_obj.pop('mock_answer')
-			return JsonResponse({'data':mock_obj})
-			
-		else:
-			mock_obj = MockTest.objects.get(id=1)
-			return render(request,'mock_test_view.html',{'mock':mock_obj})
+ 	try:
+ 		if request.method == 'POST':
+ 			qid = int(request.POST['ques_id'])
+ 			mock_obj = MockTest.objects.values().get(id=qid+1)
+ 			mock_obj.pop('mock_answer')
+ 			return JsonResponse({'data':mock_obj})
 
-	except Exception as e:
-		print(str(e))
-		return HttpResponse("Failed to load")
+ 		else:
+ 			mock_obj = MockTest.objects.get(id=1)
+ 			return render(request,'mock_test_view.html',{'mock':mock_obj})
+
+ 	except Exception as e:
+ 		print(str(e))
+ 		return HttpResponse("Failed to load")
+
 
 def payment(request):
 	try:
