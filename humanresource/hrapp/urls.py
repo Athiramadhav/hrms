@@ -24,6 +24,9 @@ urlpatterns =[
 	path('assign/', views.assign),
 	path('projectreg/',views.projectReg),
     path('complaintreg/',views.complaintReg),
-	path('evaluation/', views.performanceEvaluation)
+	path('evaluation/', views.performanceEvaluation),
+	path('vacancy/',views.vaccancy),
+	path('dept/', views.dept)
+	# path('payroll/', views.payroll)
 
 ]

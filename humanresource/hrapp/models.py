@@ -122,6 +122,11 @@ class Result(models.Model):
 class Location(models.Model):
 	location = models.CharField(max_length=25)
 
+class Dept(models.Model):
+	dept_name = models.CharField(max_length=50)
+	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, default='None')
+
+
 class ProjectAllocation(models.Model):
 	category        = models.CharField(max_length=50)
 	team_lead       = models.CharField(max_length=50)

@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+{% extends 'project_manager_home.html' %}
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -115,7 +116,8 @@ body {
     <a href="">Resource Management</a>
     <a href="">Report</a>
 </div>
-
+ -->
+ {% block body %}
 <div class="container">
   <h2>PAYROLL</h2>
   <div class="topnav-header">
@@ -123,19 +125,22 @@ body {
     <label>To date</label>&nbsp;<input type="date" name="">
     <button  type="button" class="btn btn-primary">Continue</button>
   </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Employee Name</th>
-        <th>Rate</th>
-        <th>Regular Hours</th>
-        <th>Over Time</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-  </table>
+  <form method="POST" action="hrapp/payroll/">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Employee Name</th>
+          <th>Rate</th>
+          <th>Regular Hours</th>
+          <th>Over Time</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+    </table>
+    
+  </form>
   <button  type="button" class="btn btn-primary">SAVE</button>
 
 </div>
-</body>
-</html>
+{% endblock %}
+

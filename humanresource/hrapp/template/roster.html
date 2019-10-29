@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+{% extends 'hr_home.html' %}
+
+<!-- {% extends 'project_manager_home.html' %} -->
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -117,11 +120,11 @@ body {
     <a href="emp_performance_evaluation.html">Performance Evaluation</a>
     <a href="">Resource Management</a>
     <a href="">Report</a>
-</div>
-
+</div> -->
+{% block body %}
 <div class="container">
   <h2>ROSTER MANAGEMENT</h2>
-  <form action="hrapp/rosterview" method="POST">
+  <form action="hrapp/rosterview/" method="POST">
       <div class="topnav-header">
           <label>From date</label>&nbsp;<input type="date" name="">&nbsp;&nbsp;&nbsp;
           <label>To date</label>&nbsp;<input type="date" name="">
@@ -134,14 +137,20 @@ body {
               <th>Departement</th>
               <th>Project</th>
               <th>Task</th>
-              <!-- <th>Resources</th> -->
               <th>Status</th>
             </tr>
           </thead>
+          <tbody>
+              {% for items in rosterlist %}
+              <tr>
+                <td>{items.fk_employee_id}</td>
+                <td>{items.}</td>
+              </tr>
+
+          </tbody>
         </table>
         <!-- <button  type="button" class="btn btn-primary">SAVE</button> -->
       
   </form>
 </div>
-</body>
-</html>
+{% endblock %}
