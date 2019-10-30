@@ -49,7 +49,7 @@ class Candidate(models.Model):
 	experience     = models.CharField(max_length=10)
 	email          = models.CharField(max_length=20)
 	password       = models.CharField(max_length=15)
-
+    
 
 class Resume(models.Model):
 	resume          = models.FileField(upload_to ='file/')

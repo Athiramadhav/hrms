@@ -7,9 +7,9 @@
     $('.signupbtn').click( (e) => {
       const ques_id = e.currentTarget.id;
       console.log(ques_id);
-      // options = $('.options');
+      options = $('.options');
       $.ajax({
-          url: "http://127.0.0.1:8000/myapp/mockdisplay/",
+          url: "http://127.0.0.1:8000/hrapp/mockdisplay/",
           type: "POST",
           data: {
             ques_id:ques_id,
@@ -25,14 +25,14 @@
             $('#option3').html(res.data['option3']);
             $('#option4').html(res.data['option4']);
 
-            // $('.signupbtn').attr('id',res.data['id']);
-            // for (op=0, t=1, v=2; op<options.length; op+=2, t+=2, v++) {
-            //     options[op].value = res.data[res_keys[v]];
-            //     options[t].value  = res.data[res_keys[v]];
-            //    console.log(options[op]);
-            //    console.log(options[t]);
-                
-          },
+            $('.signupbtn').attr('id',res.data['id']);
+            for (op=0, t=1, v=2; op<options.length; op+=2, t+=2, v++) {
+                options[op].value = res.data[res_keys[v]];
+                options[t].value  = res.data[res_keys[v]];
+                console.log(options[op]);
+                console.log(options[t]);
+              }
+            },
 
           error: err => {
             console.log(err);
