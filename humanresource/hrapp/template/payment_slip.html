@@ -5,25 +5,33 @@
 {% block body %}
 <script type="text/javascript">
   $('document').ready(() =>{
-    $("#desig").click( ()=>{
+    $("#desi").change( ()=>{
+      desig = $('#desi').val();
+      userid= $('.userid').val();
+      console.log(desig);
       $.ajax({
         url:'http://127.0.0.1:8000/hrapp/payment/',
             type:'POST',
             data:{
-              desig1:$("#1").val(),
-              desig2:$("#2").val(),
-              desig3:$("#3").val(),
+              desig:desig,
               csrfmiddlewaretoken:'{{ csrf_token }}'
             },
             success: res =>{
               console.log(res);
-              $("#1").val();
-              $("#2").val();
-              $("#3").val();
+              var ids =""
+              $.each(res, function(i, value) {
+                ids +=('<option value="'+ value.id+'">'+ value.id +'</option>');
+                $('#empid').html(ids);
+              });
+
+              $("#empid").change( () =>{
+                  alert('change');
+                  $("#emp_name").html(res.fname)
+              });
             },
-            error: res =>{
+            error: r =>{
               console.log('error function is loading');
-              console.log(res);
+              console.log(r);
             }
       });
     });
@@ -33,23 +41,32 @@
 <div class="container">
   <h2>PAYMENT SLIP</h2>   
   <hr>
+  <form action="/hrapp/payment/" method="POST">
   <div class="form-group">
     <label>Designation:</label>
-    <select class="form-control" id="desig" name="designation">
-      <option value="0" selected="">Select</option>
-      <option  value="HR Manager" id="1">HR Manager</option>
-      <option value="Project Manager" id="2">Project Manager</option>
-      <option value="Other" id="3">Other</option>
+    <select class="form-control" name="desig" id="desi">
+      <option value="0">Select</option>
+      <option  value="HR Manager">HR Manager</option>
+      <option value="Project Manager">Project Manager</option>
+      <option value="Other">Other</option>
     </select>
     <label>Employee id:</label>
-   
-    <select class="form-control">
-      {% for user in list %}
-        <option>{{user.id}}</option>
-      {% endfor %}
+    <select class="form-control" name="empid" id="empid">
+        <option id="" value=""></option>
     </select>
     <label>Employee name:</label>
-    <input type="text" name="emp_name" class="form-control">
+    <input type="text" id="emp_name" class="form-control" placeholder="">
+    <label>No of unpaid leaves taken:</label>
+    <input type="text" name="leaves" class="form-control">
+    <label>Deduction per leave:</label>
+    <input type="text" name="deduction_amt" class="form-control">
+    <label>Total working Hrs:</label>
+    <input type="text" name="working_hrs" class="form-control">
+    <label>Over Time Hrs:</label>
+    <input type="text" name="overtime" class="form-control">
+    <label>charges per hr:</label>
+    <input type="text" name="charge" class="form-control">
+
   </div>      
   <hr>   
   <table class="table table-bordered">

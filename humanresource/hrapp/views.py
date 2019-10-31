@@ -14,7 +14,9 @@ def userLogin(request):
 			lpassword = request.POST.get('password')
 			user_obj=Login.objects.get(username=lusername, password=lpassword)
 			emp_details= EmployeeProfile.objects.get(fk_login=user_obj.id)
+
 			request.session['userid'] = user_obj.id
+			
 			if emp_details.designation=="HR Manager":
 				return HttpResponseRedirect('hr_home')
 			elif emp_details.designation=="Project Manager":
@@ -24,8 +26,8 @@ def userLogin(request):
 			
 		return render(request,'login.html')
 	except Exception as e:
-		print(str(e))
-		return render(request,'candidate_home.html')
+			print(str(e))
+			return render(request,'candidate_home.html')
 
 def redirect_hr_home(request):
 	try:
@@ -49,14 +51,6 @@ def redirect_project_home(request):
 		if 'userid' in request.session:
 			pm_obj = EmployeeProfile.objects.get(id=request.session['userid'])
 			return render(request, 'project_home.html')
-		return redirect('/hrapp/')
-	except Exception as e:
-		print(str(e))
-
-def redirect_employee_home(request):
-	try:
-		if 'userid' in request.session:
-			return render(request, 'employee_home.html')
 		return redirect('/hrapp/')
 	except Exception as e:
 		print(str(e))
@@ -108,20 +102,42 @@ def registration(request):
 def employee_view(request):
 	user_objs = EmployeeProfile.objects.all()
 	context={'userlist':user_objs}
-	print(context)
 	return render(request, 'employee_detail.html',context)
 
 def employee_profile(request):
 	try:
 		user_id = request.session['userid']
-		print(user_id)
 		emp_obj = EmployeeProfile.objects.get(fk_login_id=user_id)
-		print(emp_obj)
 		context={'user':emp_obj}
-		return render(request, 'emp_profile.html', context)
+		if emp_obj.designation == 'HR Manager':
+			return render(request, 'hr_profile.html', context)
+		elif emp_obj.designation == 'Project Manager':
+			return render(request, 'pm_profile.html', context)
+		else:
+			return render(request, 'emp_profile.html', context)
 	except Exception as e:
 		print(str(e))
+	
+	\
 		return HttpResponse("failed")
+
+def edit(request):
+	try:
+		emp_id = request.session['userid']
+		emp_object = EmployeeProfile.objects.get(fk_login_id=emp_id)
+		if request.method=='POST':
+			EmployeeProfile.objects.filter(id=emp_object.id).update(address=request.POST['emp_address'],phone=request.POST['emp_mobileno'],
+				emp_qualification=request.POST['emp_qualification'],emp_experience=request.POST['emp_experience'],salary=request.POST['emp_salary'])
+		context={'user':emp_object}
+		if emp_object.designation == 'HR Manager':
+			return render(request, 'hr_edit.html', context)
+		elif emp_object.designation == 'Project Manager':
+			return render(request, 'pm_edit.html', context)
+		else:
+			return render(request, 'emp_edit.html',context)
+	except Exception as e:
+		print(str(e))
+		return HttpResponse('failed')
 
 def candidateRegistration(request):
 	if request.method == 'POST' and request.FILES['resume_uploads']:
@@ -256,20 +272,21 @@ def mockDisplay(request):
  		print(str(e))
  		return HttpResponse("Failed to load")
 
-
+@csrf_exempt
 def payment(request):
 	try:
 		if request.method == 'POST':
-			desig = request.POST.get('value')
-			print(desig)
-			emp_objs = EmployeeProfile.objects.filter(designation=desig).exists()
-			print(emp_objs)
-			context={'list':emp_objs}
-			return HttpResponse('success')
-			return render(request,'payment_slip.html',context)
+			desi = request.POST.get('desig')
+			print(desi)
+			print("**************")
+			emp_objs=EmployeeProfile.objects.filter(designation=desi)
+			json_data = list(emp_objs.values())
+			return JsonResponse(json_data,safe=False)
+	
 	except Exception as e:
 		print(str(e))
 		return HttpResponse('failed')
+	return render(request,'payment_slip.html')
 
 @csrf_exempt
 def interview(request):
@@ -312,6 +329,20 @@ def exam_detail(request):
 		print(str(e))
 		return HttpResponse('fail')
 	return render(request, 'exam_details.html')
+
+def intimationDetails(request):
+	if request.method == 'POST':
+		try:
+			date = request.POST.get('date')
+			mail = request.POST.get('mail')
+			description = request.POST.get('reason')
+			intimate_obj = Intimation(mail=mail, intimation_date=date, intimation_description=description)
+			intimate_obj.save()
+			return HttpResponse("Intimation Sent")
+		except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed To Sent")
+	return render(request, 'intimation.html')
 
 
 def complaintReg(request):
@@ -397,20 +428,6 @@ def costEstimation(request):
 			print(str(e))
 			return HttpResponse("Failed To Add")
 	return render(request,'cost_estimation.html')
-
-def intimationDetails(request):
-	if request.method == 'POST':
-		try:
-			date = request.POST.get('date')
-			mail = request.POST.get('mail')
-			description = request.POST.get('reason')
-			intimate_obj = Intimation(mail=mail, intimation_date=date, intimation_description=description)
-			intimate_obj.save()
-			return HttpResponse("Intimation Sent")
-		except Exception as e:
-			print(str(e))
-			return HttpResponse("Failed To Sent")
-	return render(request, 'intimation.html')
 
 def leaveApply(request):
 	if request.method =='POST':

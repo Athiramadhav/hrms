@@ -17,19 +17,35 @@
   <hr>
   <table>
     <tr>
-      {% if resume %}
-      <td><img src="{{resume.resume_upload.url}}" width="500px" height="500px"></td>
-      {% endif %}
+      <th>Resume</th>
+      <th>Company Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th>Designation&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      <th>Period of work</th>
+    </tr>
+      
       {% if experience %}
-      <td>Company Name(previously worked):{{experience.company_name}}</td>
-      <td>Designation:{{experience.designation}}</td>
-      <td>Year of experience:{{experience.period}}</td>
+    <tr>
+      {% if resume %}
+      <td rowspan="6"><img src="{{resume.resume_upload.url}}" width="500px" height="500px"></td>
       {% endif %}
+      <td>{{experience.company_name1}}</td>
+      <td>{{experience.designation1}}</td>
+      <td>{{experience.period1}}</td>
     </tr>
     <tr>
-      <td><button class="btn btn-danger" type="submit"><a href="/hrapp/candidate_view/" style="color: white">Back</a></button> </td>
-    </tr>   
-  </table>      
+      <td>{{experience.company_name2}}</td>
+      <td>{{experience.designation2}}</td>
+      <td>{{experience.period2}}</td>
+    </tr>
+    <tr>
+      <td>{{experience.company_name3}}</td>
+      <td>{{experience.designation3}}</td>
+      <td>{{experience.period3}}</td>
+    </tr>
+      {% endif %}
+    </table>
+    <button class="btn btn-danger" type="submit"><a href="/hrapp/candidate_view/" style="color: white">Back</a></button>
+     
 
 </form>
 </div>

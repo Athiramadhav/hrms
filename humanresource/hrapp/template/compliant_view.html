@@ -1,0 +1,29 @@
+{% extents 'hr_home.html' %}
+{% block body%}
+
+<div class="container">
+  <form action="/hrapp/complaint_view/" method="POST">
+  <h2>LIST OF COMPLAINTS</h2>  
+  <hr> 
+   <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Emp_id</th>
+        <th>Employee Name</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><button class="btn btn-primary" type="submit"><a href="/hrapp/complaint_view?id={{candidate.id}}" style="color: white">View Description</a></button></td>
+      </tr>
+    </tbody>
+  </table>
+  </form>
+</div>
+<div class="container">
+  
+</div>
+{% endblock%}
