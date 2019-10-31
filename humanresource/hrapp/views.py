@@ -412,14 +412,9 @@ def projectReg(request):
 			print(sdate)
 			edate = request.POST.get('pedate')
 			print(edate)
-			lead = ProjectAllocation.objects.all()
-			# print(lead)
-			team_lead = {'tlead': lead}
-			print(team_lead)
-
-			# reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
-				    #   project_cost=cost, project_start_date=sdate, project_end_date=edate, project_team_lead=lead )
-			# reg_obj.save()
+			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
+				      project_cost=cost, project_start_date=sdate, project_end_date=edate)
+			reg_obj.save()
 			return render(request,'project_register.html',team_lead)
 		except Exception as e:
 			print(str(e))
@@ -469,11 +464,11 @@ def assign(request):
 			print(teamlead)
 			emps = EmployeeProfile.objects.filter(designation='Other')
 			print(emps)
-			if emps == True:
-				name = request.POST.getlist('employeecheckbox')
-				print(name)
-				emps = Login.objects.filter(username__in=name)
-				print(emps)
+			# if emps == True:
+			# 	name = request.POST.getlist('employeecheckbox')
+			# 	print(name)
+			# 	emps = Login.objects.filter(username__in=name)
+			# 	print(emps)
 			assign_obj = ProjectAllocation(category=category, team_lead=teamlead)
 			assign_obj.save()
 			assign_value={'username':employee,'response':assign_obj}

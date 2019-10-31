@@ -126,13 +126,13 @@ class Location(models.Model):
 
 class Dept(models.Model):
 	dept_name = models.CharField(max_length=50)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, default='None')
+	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 
 class ProjectAllocation(models.Model):
 	category        = models.CharField(max_length=50)
 	team_lead       = models.CharField(max_length=50)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE, default='None')
+	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 
 class Project(models.Model):
@@ -142,7 +142,7 @@ class Project(models.Model):
 	project_cost       = models.IntegerField()
 	project_start_date = models.DateField()
 	project_end_date   = models.DateField()
-	project_team_lead  = models.ForeignKey(ProjectAllocation, on_delete=models.CASCADE)
+	
 
 
 class Complaint(models.Model):
@@ -196,7 +196,7 @@ class TaskAdd(models.Model):
 	task_priority   = models.CharField(max_length=25)
 	task_start_date = models.DateField()
 	task_end_date   = models.DateField()
-	fk_team_id      = models.ForeignKey(ProjectAllocation, on_delete=models.CASCADE,default='None')
+	fk_team_id      = models.ForeignKey(ProjectAllocation, on_delete=models.CASCADE)
 	
 class CostEstimation(models.Model):
 	software_cost  = models.IntegerField()
