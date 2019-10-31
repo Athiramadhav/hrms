@@ -412,11 +412,15 @@ def projectReg(request):
 			print(sdate)
 			edate = request.POST.get('pedate')
 			print(edate)
-			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
-				      project_cost=cost, project_start_date=sdate, project_end_date=edate )
-			reg_obj.save()
-			return render(request,'project_register.html',{'response':'Registration done Successfully'})
+			lead = ProjectAllocation.objects.all()
+			# print(lead)
+			team_lead = {'tlead': lead}
+			print(team_lead)
 
+			# reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
+				    #   project_cost=cost, project_start_date=sdate, project_end_date=edate, project_team_lead=lead )
+			# reg_obj.save()
+			return render(request,'project_register.html',team_lead)
 		except Exception as e:
 			print(str(e))
 			return render(request,'project_register.html',{'response':'Registration Failed'})
@@ -446,6 +450,13 @@ def taskAdd(request):
 			print(str(e))
 			return render(request,'task_add.html',{'response':'Failed'})
 	return render(request, 'task_add.html')
+
+@csrf_exempt
+def task_view(request):
+	task_obj = TaskAdd.objects.all()
+	context = {'tasks':task_obj}
+	return render(request, 'task_view.html',context)
+
 
 @csrf_exempt
 def assign(request):
@@ -518,7 +529,7 @@ def roster_view(request):
 def dept(request):
 	try:
 		if request.method == 'POST':
-			id = EmployeeProfile.objects.get(id)
+			id = EmployeeProfile.objects.only(id)
 			print(id)
 			dept = request.POST['dept']
 			print(dept)

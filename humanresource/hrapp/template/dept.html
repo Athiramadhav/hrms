@@ -1,6 +1,6 @@
 {% extends 'project_home.html' %}
  
-{% block body %}
+<!-- {% block body %} -->
 <div class="container">
     <form action="/hrapp/dept/" method="POST">
         {% csrf_token %}
@@ -23,10 +23,6 @@
                 <option>Developing</option>
             </select><br>
             <button class="btn btn-primary">SUBMIT</button>
-
-             
-
-
         </div>
 
     </form>
