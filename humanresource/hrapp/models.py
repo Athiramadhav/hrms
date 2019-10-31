@@ -71,15 +71,13 @@ class Interview(models.Model):
 	interview_Date     = models.DateField()
 	interview_time     = models.TimeField()
 	interview_location = models.CharField(max_length=20)
-	fk_candidate       = models.ForeignKey(Candidate, on_delete=models.CASCADE)
-
+	#fk_candidate       = models.ForeignKey(Candidate, on_delete=models.CASCADE)
 
 class CallLetter(models.Model):
-	fk_candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+	# fk_candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
 	post         = models.CharField(max_length=20)
 	join_date    = models.DateField()
 	join_time    = models.TimeField()
-
 
 class QuestionPaper(models.Model):
 	question = models.CharField(max_length=50)
@@ -89,7 +87,6 @@ class QuestionPaper(models.Model):
 	option4  = models.CharField(max_length=20)
 	answer   = models.CharField(max_length=20)
 
-
 class MockTest(models.Model):
 	mock_question = models.CharField(max_length=50)
 	option1       = models.CharField(max_length=20)
@@ -98,8 +95,6 @@ class MockTest(models.Model):
 	option4       = models.CharField(max_length=20)
 	mock_answer   = models.CharField(max_length=20)
 
-
-
 class ExamDetail(models.Model):
 	exam_startdate = models.DateField()
 	exam_enddate   = models.DateField()
@@ -107,22 +102,11 @@ class ExamDetail(models.Model):
 	exam_endtime   = models.TimeField()
 	exam_duration  = models.TimeField()
 
-
-class Mail(models.Model):
-	from_address = models.CharField(max_length=20)
-	to_address   = models.CharField(max_length=20)
-	content      = models.CharField(max_length=100)
-	attachment   = models.FileField(upload_to ='attachment/')
-
-
 class Result(models.Model):
 	fk_candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
-	fk_question  = models.ForeignKey(MockTest, on_delete=models.CASCADE,default=None)
+	fk_question  = models.ForeignKey(MockTest, on_delete=models.CASCADE)
 	mark         = models.IntegerField()
 
-	
-class Location(models.Model):
-	location = models.CharField(max_length=25)
 
 class Dept(models.Model):
 	dept_name = models.CharField(max_length=50)
@@ -146,11 +130,6 @@ class Project(models.Model):
 
 
 class Complaint(models.Model):
-	e_name               = models.CharField(max_length=25)
-	e_desgination        = models.CharField(max_length=25)
-	e_dept               = models.CharField(max_length=25)
-	e_addr               = models.CharField(max_length=25)
-	e_phone              = models.IntegerField()
 	c_name               = models.CharField(max_length=25)
 	complaint_desg       = models.CharField(max_length=25)
 	complaint_dept       = models.CharField(max_length=25)
@@ -158,7 +137,6 @@ class Complaint(models.Model):
 	date_of_incident     = models.DateField()
 	time_of_incident     = models.TimeField()
 	fk_employee_id       = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
-
 
 class EmployeeLeave(models.Model):
 	leave_available = models.IntegerField()
@@ -170,7 +148,6 @@ class EmployeeLeave(models.Model):
 	no_of_days      = models.IntegerField()
 	leave_reason    = models.CharField(max_length=50)
 	fk_employee_id  = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
- 	
 
 class Resource(models.Model):
 	hardware_req  = models.CharField(max_length=50)
@@ -206,7 +183,6 @@ class CostEstimation(models.Model):
 
 
 class Intimation(models.Model):
-	dept                   = models.CharField(max_length=50)
 	mail                   = models.CharField(max_length=50)
 	intimation_date        = models.DateField()
 	intimation_description = models.CharField(max_length=60)
@@ -214,7 +190,6 @@ class Intimation(models.Model):
 
 class Vacany(models.Model):
 	no_of_vacanies    = models.IntegerField()
-	dept_name         = models.CharField(max_length=25)
 	post              = models.CharField(max_length=25)
 	emp_qualification = models.CharField(max_length=25)
 	emp_experience    = models.CharField(max_length=25)
@@ -231,3 +206,23 @@ class PerformanceEvaluation(models.Model):
 	plan_to_improve = models.CharField(max_length=75)
 	fk_project_id   = models.ForeignKey(Project, on_delete=models.CASCADE)
 	fk_employee_id  = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+
+class Payment(models.Model):
+	fk_employee_id    = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+	fk_leave_id       = models.ForeignKey(EmployeeLeave, on_delete=models.CASCADE)
+	charges_per_leave = models.IntegerField()
+	total_work_hrs    = models.IntegerField()
+	over_time_hrs     = models.IntegerField()
+	charge_per_hr     = models.IntegerField()
+	other_allowance   = models.IntegerField()
+	total_allowance   = models.IntegerField()
+	taxation          = models.IntegerField()
+	total_deduction   = models.IntegerField()
+	total_salary      = models.IntegerField()
+
+class Notification(models.Model):
+	Notification_title = models.CharField(max_length=50)
+	Created_date       = models.DateField()
+	Created_time       = models.TimeField()
+	Fk_exam_id         = models.ForeignKey(ExamDetail, on_delete=models.CASCADE)
+	Fk_candidate_id    = models.ForeignKey(Candidate, on_delete=models.CASCADE)

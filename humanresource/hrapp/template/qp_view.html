@@ -26,12 +26,14 @@
             $('#option4').html(res.data['option4']);
 
             $('.signupbtn').attr('id',res.data['id']);
-            for (op=0, t=1, v=2; op<options.length; op+=2, t+=2, v++) {
+            if($("input[name='answer']").is('checked')){
+              checkedCheckboxes.push($("input[name='answer']").val());
+            }
+            for (op=0, v=2; op<options.length; op+=1,v++) {
                 options[op].value = res.data[res_keys[v]];
-                options[t].value  = res.data[res_keys[v]];
                 console.log(options[op]);
-                console.log(options[t]);
               }
+              $("input[name='answer']").prop('checked', false);
             },
 
           error: err => {

@@ -1,36 +1,29 @@
-{% extends 'project_manager_home.html' %}
+{% extends 'hr_home.html'%}
 
+{% block body %}
 
 {% block body %}
 <div class="container">
-  <h2>Intimation Letter</h2>
+  <h2>INTIMATION LETTER</h2>
   <form action="/hrapp/intimation/" method="POST">
     {% csrf_token %}
     <div class="form-group">
-      <label>Name</label>
-      <input type="text" class="form-control" placeholder="Enter the Name of Employee" id="ename" value="{{employee.fname}} {{employee.lname}}"><br>
+      <label>Name:</label>
+      <input type="text" class="form-control" placeholder="Enter the Name of Employee" id="ename">
 
-      <label>Date</label>
-      <input type="Date" name="" id="date" class="form-control"><br>
+      <label>Date:</label>
+      <input type="Date" name="" id="date" class="form-control">
 
-      <label>Email</label>
-      <input type="text" name="" id="mail" class="form-control" placeholder="Enter the Employee Mail"><br>
+      <label>Email:</label>
+      <input type="text" name="" id="mail" class="form-control" placeholder="Enter the Employee Mail">
 
-      <label for="sel1">Departement</label>
-      <select class="form-control" id="dept">
-        <option>Planning</option>
-        <option>Design</option>
-        <option>Coding</option>
-        <option>Development</option>
-        <option>Testing</option>
-      </select><br>
-
-      <label>Reason</label>
-      <textarea class="form-control" id="reason"></textarea><br>
-
-      <button class="btn btn-primary">OK</button>
-
+      <label>Reason:</label>
+      <textarea class="form-control" id="reason"></textarea>
       
+    </div>
+    <div class="clearfix">
+      <button type="button" class="cancelbtn">Cancel</button>
+      <button type="submit" class="signupbtn">Save</button>
     </div>
     
   </form>

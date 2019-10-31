@@ -1,0 +1,20 @@
+{% extends 'hr_home.html'%}
+
+
+{% block body %}
+<form action="/hrapp/leave_type/">
+	<div class="container">
+		<h2>LEAVE TYPE</h2>
+		<hr>
+		<label>Leave Type:</label>
+		<input type="text" name="type" placeholder="Enter the type of leave">
+		<label>No: of Days</label>
+		<input type="text" name="days" placeholder="Enter the no: of alloted leave for the type">
+		<label>status</label>
+		<select>
+			<option>With Cash</option>
+			<option>Without Cash</option>
+		</select>
+	</div>
+</form>
+{% endblock %}

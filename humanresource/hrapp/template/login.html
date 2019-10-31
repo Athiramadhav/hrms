@@ -228,33 +228,33 @@
 
           <tr>
           <td>Gender:</td>
-          <td><input type="radio" name="gender" value="Male">Male
-              <input type="radio" name="gender" value="Female">Female</td>
+          <td><input type="radio" name="gender" value="Male" required="">Male
+              <input type="radio" name="gender" value="Female" required="">Female</td>
           </tr>
           
           <tr>
           <td>Date of birth:</td>
-          <td><input type="date" name="dob" class="form-control"></td>
+          <td><input type="date" name="dob" class="form-control" required=""></td>
       	  </tr>
 
           <tr>
           <td>Address:</td>
-          <td><textarea type="text" name="address" placeholder="Enter your address" class="form-control"></textarea></td>
+          <td><textarea type="text" name="address" placeholder="Enter your address" class="form-control" required=""></textarea></td>
           </tr>
 
           <tr>
           <td>Mobile No:</td>
-          <td><input type="text" name="mobileno" placeholder="Enter Mobile Number" class="form-control"></td>
+          <td><input type="text" name="mobileno" placeholder="Enter Mobile Number" class="form-control" required=""></td>
           </tr>
       
           <tr>
           <td>Qualification:</td>
-          <td><input type="text" name="qualification" placeholder="Enter your qualification" class="form-control"></td>
+          <td><input type="text" name="qualification" placeholder="Enter your qualification" class="form-control" required=""></td>
           </tr>
 
           <tr>        
           <td>Year of pass:</td>
-          <td><input type="text" name="yrofpass" placeholder="Enter year of pass" class="form-control"></td>
+          <td><input type="text" name="yrofpass" placeholder="Enter year of pass" class="form-control" required=""></td>
       	  </tr>
           
           <tr>
@@ -269,30 +269,37 @@
 
           <tr>
           <td>Upload resume:</td>
-          <td><input type="file" name="resume_uploads" class="form-control"></td>
+          <td><input type="file" name="resume_uploads" class="form-control" required=""></td>
           </tr>
 
           <tr>
           	<td>Experience:</td>
-          <td><input type="radio" name="experience" value="Yes" id="exp">Yes
-              <input type="radio" name="experience" value="No" id="exp1">No</td>
+          <td><input type="radio" name="experience" value="Yes" id="exp" required="">Yes
+              <input type="radio" name="experience" value="No" id="exp1" required="">No</td>
           </tr>
 
 
           <table id="yes" hidden="">
           	<tr>
-          	<td>Company name:</td>
-          	<td><input type="text" name="company_name" placeholder="Name of the company you recently worked" class="form-control"></td>
+          	<td>Company name</td>
+          	<td>Designation</td>
+          	<td>Period</td>
           	</tr>
 
             <tr>
-          	<td>Designation:</td>
-          	<td><input type="text" name="candidate_desg" placeholder="Designation" class="form-control"></td>
+          	<td><input type="text" name="company_name1" placeholder="Name of the company" class="form-control"></td>
+          	<td><input type="text" name="candidate_desg1" placeholder="Designation" class="form-control"></td>
+          	<td><input type="text" name="period1" placeholder="period of working" class="form-control"></td>
             </tr>
-
             <tr>
-          	<td>Period:</td>
-          	<td><input type="text" name="period" placeholder="Year of experience" class="form-control"></td>
+          	<td><input type="text" name="company_name2" placeholder="Name of the company" class="form-control"></td>
+          	<td><input type="text" name="candidate_desg2" placeholder="Designation" class="form-control"></td>
+          	<td><input type="text" name="period2" placeholder="period of working" class="form-control"></td>
+            </tr>
+            <tr>
+          	<td><input type="text" name="company_name3" placeholder="Name of the company" class="form-control"></td>
+          	<td><input type="text" name="candidate_desg3" placeholder="Designation" class="form-control"></td>
+          	<td><input type="text" name="period3" placeholder="period of working" class="form-control"></td>
             </tr>
 		  </table>
 
