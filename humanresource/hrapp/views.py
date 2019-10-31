@@ -137,9 +137,15 @@ def candidateRegistration(request):
 			var_password = request.POST.get('password')
 			upload_resume = request.FILES['resume_uploads']
 			var_experience = request.POST.get('experience')
-			var_company = request.POST.get('company_name')
-			var_designation = request.POST.get('candidate_desg')
-			var_period = request.POST.get('period')
+			var_company1 = request.POST.get('company_name1')
+			var_company2 = request.POST.get('company_name2')
+			var_company3 = request.POST.get('company_name3')
+			var_designation1 = request.POST.get('candidate_desg1')
+			var_designation2 = request.POST.get('candidate_desg2')
+			var_designation3 = request.POST.get('candidate_desg3')
+			var_period1 = request.POST.get('period1')
+			var_period2 = request.POST.get('period2')
+			var_period3 = request.POST.get('period3')
 			check_candidate=Login.objects.filter(username=var_email).exists()
 			if check_candidate==False:
 				login_object = Login(username=var_email, password=var_password)
@@ -151,12 +157,14 @@ def candidateRegistration(request):
 					resume_detail = Resume(resume_upload=upload_resume,fk_candidate_id=candidate_detail)
 					resume_detail.save()
 					if candidate_detail.experience=='Yes':
-						experience_detail = CandidateExperiance(company_name=var_company,designation=var_designation,period=var_period,
-										fk_candidate_id=candidate_detail)
+						experience_detail = CandidateExperiance(company_name1=var_company1,company_name2=var_company2,company_name3=var_company3,
+											designation1=var_designation1,designation2=var_designation2,designation3=var_designation3,
+											period1=var_period1,period2=var_period2,period3=var_period3,fk_candidate_id=candidate_detail,fk_resume_id=resume_detail)
 						experience_detail.save()
 					else:
-						experience_details=CandidateExperiance(company_name='NIL',designation='NIL',period=0,
-										fk_candidate_id=candidate_detail)
+						experience_details=CandidateExperiance(company_name1='NIL',company_name2='NIL',company_name3='NIL',
+											designation1='NIL',designation2='NIL',designation3='NIL',
+											period1='NIL',period2='NIL',period3='NIL',fk_candidate_id=candidate_detail,fk_resume_id=resume_detail)
 						experience_details.save()
 					if candidate_detail.id>0:
 						return HttpResponse('Registerd')
@@ -175,8 +183,7 @@ def candidate_view(request):
 def candidate_resume(request):
 	resume_id = request.GET.get('id')
 	resume_obj = Resume.objects.get(id=resume_id)
-	exp_obj = CandidateExperiance.objects.get(fk_candidate_id=resume_id) 
-	print(exp_obj)
+	exp_obj = CandidateExperiance.objects.get(fk_candidate_id=resume_id)
 	image = {'resume':resume_obj,'experience':exp_obj}
 	return render(request,'candidate_resume.html',image)
 
