@@ -2,34 +2,37 @@
 {% block body %}
 <div class="container">
   <h2>ADD VACANCY</h2>
-  <form action="/hrapp/vacancy/" method="POST">
+  <form action="/hrapp/vacancy/" method="POST" data-toggle="validator" role="form">
     {% csrf_token %}
-  <label for="sel1">Departement</label>
-  <select class="form-control" id="dept" name="dept">
-    <option>Planning</option>
-    <option>Design</option>
-    <option>Coding</option>
-    <option>Development</option>
-    <option>Testing</option>
-  </select><br>
+  <div class="form-group">
+      <label for="sel1">Departement</label>
+      <select class="form-control" id="dept" name="dept" required>
+        <option>Planning</option>
+        <option>Design</option>
+        <option>Coding</option>
+        <option>Development</option>
+        <option>Testing</option>
+      </select><br>
+    
+      <label>Post</label>
+      <input type="text" name="post" class="form-control" placeholder="enter post" id="post" required><br>
+    
+      <label>Number of Vacancies</label>
+      <input type="text" name="vacancy" class="form-control" placeholder="enter Vacancies" id="vacancy" required><br>
+    
+      <label>Qualification</label>
+      <input type="text" name="qualify" class="form-control" placeholder="enter qualification" id="qualify" required><br>
+    
+      <label>Experience</label>
+      <input type="text" name="exp" class="form-control" placeholder="enter experience" id="exp" required><br>
+    
+      <label>Time Period</label>
+      <input type="date" name="time" class="form-control" placeholder="enter required time" id="time"required><br>
+    
+      <button class="btn btn-primary">SUBMIT</button>
+    
 
-  <label>Post</label>
-  <input type="text" name="post" class="form-control" placeholder="enter post" id="post"><br>
-
-  <label>Number of Vacancies</label>
-  <input type="text" name="vacancy" class="form-control" placeholder="enter Vacancies" id="vacancy"><br>
-
-  <label>Qualification</label>
-  <input type="text" name="qualify" class="form-control" placeholder="enter qualification" id="qualify"><br>
-
-  <label>Experience</label>
-  <input type="text" name="exp" class="form-control" placeholder="enter experience" id="exp"><br>
-
-  <label>Time Period</label>
-  <input type="date" name="time" class="form-control" placeholder="enter required time" id="time"><br>
-
-  <button class="btn btn-primary">SUBMIT</button>
-
+  </div>
   </form>
 </div>
 

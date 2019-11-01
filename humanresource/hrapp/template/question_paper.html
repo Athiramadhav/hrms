@@ -61,16 +61,16 @@
 
 
     <div class="container">
-<form>
+<form data-toggle="validator" role="form">
   {% csrf_token %}
 	 
 	 	<h1>QUESTION</h1>
     	<hr>
 		<div class="form-group">
 			<label>Question :</label>
-			<textarea name="question" cols="50" rows="2" class="form-control question" id="question" required=""></textarea>
+			<textarea name="question" cols="50" rows="2" class="form-control question" id="question" required></textarea>
 		</div>
-		<div class="form-group">
+		<div class="form-group" >
 			<label>Options:</label><br>
 			<input type="text" name="option1" placeholder="option 1" class="form-control question" id="option1" required="">
 			<input type="text" name="option2" placeholder="option 2" class="form-control question" id="option2" required="">
