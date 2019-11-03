@@ -21,13 +21,16 @@ def userLogin(request):
 				return HttpResponseRedirect('hr_home')
 			elif emp_details.designation == "Project Manager":
 				return HttpResponseRedirect('project_manager_home')
-			else:
+			elif emp_details.designation == "Other":
 				return HttpResponseRedirect('employee_home')
+			else:
+				return render(request,'candidate_home.html')
 			
 		return render(request,'login.html')
 	except Exception as e:
+			if user_obj:
+				return render(request,'candidate_home.html')
 			print(str(e))
-			return render(request,'candidate_home.html')
 
 def redirect_hr_home(request):
 	try:
@@ -46,7 +49,7 @@ def redirect_hr_home(request):
 # 	except Exception as e:
 # 		print(str(e))
 
-# 
+ 
 def redirect_project_manager_home(request):
 	try:
 		if 'userid' in request.session:
@@ -55,6 +58,13 @@ def redirect_project_manager_home(request):
 	except Exception as e:
 		print(str(e))
 
+def redirect_employee_home(request):
+	try:
+		if 'userid' in request.session:
+			return render(request, 'employee_home.html')
+		return redirect('/hrapp/')
+	except Exception as e:
+		print(str(e))
 
 def userLogout(request):
 	try:
@@ -225,8 +235,10 @@ def onlineExam(request):
 	try:
 		if request.method == 'POST':
 			qid = int(request.POST['ques_id'])
+			user_answer = request.POST['user_answer']
+			print(user_answer)
 			online_obj = QuestionPaper.objects.values().get(id=qid+1)
-			online_obj.pop('answer')
+			# online_obj.pop('answer')
 			return JsonResponse({'data':online_obj})
 		else:
 			online_obj = QuestionPaper.objects.get(id=1)
@@ -277,8 +289,6 @@ def payment(request):
 	try:
 		if request.method == 'POST':
 			desi = request.POST.get('desig')
-			print(desi)
-			print("**************")
 			emp_objs=EmployeeProfile.objects.filter(designation=desi)
 			json_data = list(emp_objs.values())
 			return JsonResponse(json_data,safe=False)
@@ -317,7 +327,7 @@ def exam_detail(request):
 			exam_obj = ExamDetail(exam_startdate =strt_dt,exam_enddate=ed_dt,exam_starttime =strt_tym,exam_endtime=ed_tym,exam_duration=drtn)
 			exam_obj.save()
 			subject = ' ONLINE EXAM NOTIFICATION'
-			message = ' your online examination is commenced to be conducted from'
+			message = ' Exam notification is available in the site'
 			print(message)
 			email_from = settings.EMAIL_HOST_USER
 			recipient = Candidate.objects.all()
@@ -341,6 +351,25 @@ def intimationDetails(request):
 			print(str(e))
 			return HttpResponse("Failed To Sent")
 	return render(request, 'intimation.html')
+
+def leaveReport(request):
+	return render(request, 'leave_report_view.html')
+
+def complaintReport(request):
+	return render(request, 'complaint_view.html')
+
+@csrf_exempt
+def callLetter(request):
+	try:
+		if request.method == 'POST':
+			val_post = request.POST.get('post')
+			val_jn_dt = request.POST.get('join_date')
+			val_jn_tym = request.POST.get('join_time')
+			call_obj = CallLetter(post=val_post,join_date=val_jn_dt,join_time=val_jn_tym)
+			call_obj.save()
+	except Exception as e:
+		print(str(e))
+	return render(request, 'callletter.html')
 
 
 def complaintReg(request):

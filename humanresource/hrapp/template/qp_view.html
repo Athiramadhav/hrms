@@ -6,17 +6,18 @@
   $(document).ready( () => {
     $('.signupbtn').click( (e) => {
       const ques_id = e.currentTarget.id;
-      console.log(ques_id);
+      user_ans=$("input[name='answer']:checked").val();
       options = $('.options');
       $.ajax({
           url: "http://127.0.0.1:8000/hrapp/question_view/",
           type: "POST",
           data: {
             ques_id:ques_id,
-            csrfmiddlewaretoken:'{{ csrf_token }}'
+            csrfmiddlewaretoken:'{{ csrf_token }}',
+            user_answer:user_ans
           },
           success: res => {
-            console.log(res);
+            // console.log(res);
             res_keys = Object.keys(res.data);
             console.log(res_keys);
             $('#question').html(res.data['question']);
@@ -24,14 +25,14 @@
             $('#option2').html(res.data['option2']);
             $('#option3').html(res.data['option3']);
             $('#option4').html(res.data['option4']);
-
             $('.signupbtn').attr('id',res.data['id']);
+              // if(ans==)
             if($("input[name='answer']").is('checked')){
               checkedCheckboxes.push($("input[name='answer']").val());
             }
             for (op=0, v=2; op<options.length; op+=1,v++) {
                 options[op].value = res.data[res_keys[v]];
-                console.log(options[op]);
+                // console.log(options[op]);
               }
               $("input[name='answer']").prop('checked', false);
             },

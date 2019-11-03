@@ -6,7 +6,8 @@ urlpatterns =[
 	path('logout',views.userLogout),
 	path('register/',views.registration),
 	path('hr_home',views.redirect_hr_home),
-	path('project_home',views.redirect_project_home),
+	path('project_manager_home',views.redirect_project_manager_home),
+	path('employee_home',views.redirect_employee_home),
 	path('employee_view',views.employee_view),
 	path('candidate_register/',views.candidateRegistration),
 	path('candidate_view/',views.candidate_view),
@@ -27,7 +28,10 @@ urlpatterns =[
     path('complaintreg/',views.complaintReg),
 	path('evaluation/', views.performanceEvaluation),
 	path('vacancy/',views.vaccancy),
-	path('dept/', views.dept)
+	path('dept/', views.dept),
+	path('leave_view/',views.leaveReport),
+	path('complaint_view/',views.complaintReport),
+	path('callletter/',views.callLetter),
 	# path('payroll/', views.payroll)
 
 ]

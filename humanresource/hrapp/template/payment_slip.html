@@ -9,6 +9,7 @@
       desig = $('#desi').val();
       userid= $('.userid').val();
       console.log(desig);
+      users = []
       $.ajax({
         url:'http://127.0.0.1:8000/hrapp/payment/',
             type:'POST',
@@ -16,17 +17,23 @@
               desig:desig,
               csrfmiddlewaretoken:'{{ csrf_token }}'
             },
-            success: res =>{
-              console.log(res);
+            success: res =>{;
               var ids =""
               $.each(res, function(i, value) {
                 ids +=('<option value="'+ value.id+'">'+ value.id +'</option>');
                 $('#empid').html(ids);
+                users.push(res[i]);
+                
               });
 
               $("#empid").change( () =>{
-                  alert('change');
-                  $("#emp_name").html(res.fname)
+                  selected_id = $("#empid").val();
+                  for(i=0;i<users.length;i++){
+                      if(users[i].id == selected_id){
+                        $('#emp_name').val(users[i].fname+' '+users[i].lname);
+                        break;
+                      }
+                  }
               });
             },
             error: r =>{
@@ -52,7 +59,8 @@
     </select>
     <label>Employee id:</label>
     <select class="form-control" name="empid" id="empid">
-        <option id="" value=""></option>
+      <option selected>select</option>
+      <option  value="" selected></option>
     </select>
     <label>Employee name:</label>
     <input type="text" id="emp_name" class="form-control" placeholder="">
@@ -81,12 +89,18 @@
     <tbody>
       <tr>
         <td>Basic salary</td>
-        <td></td>
+        <td id="salary"></td>
         <td>Taxation</td>
         <td></td>
       </tr>
       <tr>
-        <td>Other allowance</td>
+        <td>Over time Amount(if any)</td>
+        <td></td>
+        <td>Leave Deduction(if any)</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Other allowance(if any)</td>
         <td></td>
         <td>Other</td>
         <td></td>

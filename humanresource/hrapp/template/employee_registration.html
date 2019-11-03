@@ -1,14 +1,69 @@
 {% extends 'hr_home.html'%}
 
-{% block head %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-{% endblock %}
 {% block body %}
+<script type="text/javascript">
+  $('document').ready( () =>{
+      $('.signupbtn').click( () =>{
+
+        $.ajax({
+          url:'http://127.0.0.1:8000/hrapp/register/',
+          type:'POST',
+          data:{
+            upload_image = $('#file').val(),
+            fname = $('#fname').val(),
+			lname = $('#lname').val(),
+			gender = $('.gender').val(),
+			dob = $('#dob').val(),
+			address = $('#address').val(),
+			phone =$('#phone').val(),
+			email = $('#email').val(),
+			password =$('#password').val(),
+			designation = $('#designation').val(),
+			qualification = $('#qualification').val(),
+			experience = $('#experience').val(),
+			salary = $('#salary').val(),
+			join_date = $('#join_date').val(),
+    				},
+          
+          success: res =>{
+            $.toast({
+              text:res,
+              heading:'Note',
+              icon: 'success',
+              showHideTransition: 'fade',
+              allowToastClose: true,
+              hideAfter: 1500,
+              stack: 5,
+              position:'bottom-left',
+              loader: true,
+              loaderBg:'#9EC600'
+            });
+
+            
+            setTimeout(() =>{
+              location.reload();
+            }, 1500);
+          },
+          error: r =>{
+            $.toast({
+              text:r,
+              heading:'Note',
+              icon: 'error',
+              showHideTransition: 'fade',
+              allowToastClose: true,
+              hideAfter: 3000,
+              stack: 5,
+              position:'bottom-left',
+              loader: true,
+              loaderBg:'#9EC600'
+            });
+          }
+        });
+        });
+    });
+</script>
+
 
 <form action="/hrapp/register/"  method="POST" style="border:1px solid #ccc" enctype="multipart/form-data">
   {% csrf_token %}
@@ -17,46 +72,46 @@
     <hr>
     <div class="form-group">
       <label>Upload image:</label>
-      <input type="file" name="file_uploads" class="form-control">
+      <input type="file" name="file_uploads" class="form-control" id="file" required>
     </div>
     <div class="form-group">
       <label>Firstname:</label>
-      <input type="text" name="emp_firstname" placeholder="Enter the firstname" class="form-control">
+      <input type="text" name="emp_firstname" placeholder="Enter the firstname" class="form-control" id="fname" required>
     </div>
     <div class="form-group">
       <label>Lastname:</label>
-      <input type="text" name="emp_lastname" placeholder="Enter the lastname" class="form-control">
+      <input type="text" name="emp_lastname" placeholder="Enter the lastname" class="form-control" id="lname" required>
     </div>
     <div class="form-group">
       <label>Gender:</label>
-      <input type="radio" name="emp_gender" value="male">Male
-        <input type="radio" name="emp_gender" value="female">female
+      <input type="radio" name="emp_gender" value="male" required class="gender">Male
+        <input type="radio" name="emp_gender" value="female" required class="gender">female
     </div>
     <div class="form-group">
       <label>Date of birth:</label>
-      <input type="date" name="emp_dob" class="form-control">
+      <input type="date" name="emp_dob" class="form-control" required>
     </div>
     <div class="form-group">
       <label>Address:</label>
-      <textarea rows="5" name="emp_address" placeholder="Enter address" class="form-control"></textarea>
+      <textarea rows="5" name="emp_address" placeholder="Enter address" class="form-control" required></textarea>
     </div>
     <div class="form-group">
       <label>Mobile No:</label>
-      <input type="text" name="emp_mobileno" placeholder="Enter Mobile Number" class="form-control">
+      <input type="text" name="emp_mobileno" placeholder="Enter Mobile Number" class="form-control" required>
     </div>
     <div class="form-group">
       <label>Email:</label>
-      <input type="text" name="emp_email" placeholder="Register using active email id" class="form-control">
+      <input type="text" name="emp_email" placeholder="Register using active email id" class="form-control" required>
     </div>
     <div class="form-group">
       <label>Password:</label>
-      <input type="password" name="emp_password" placeholder="Enter a password" class="form-control">
+      <input type="password" name="emp_password" placeholder="Enter a password" class="form-control" required>
     </div>
     <div class="form-group">
       <label>Designation:</label>
-        <input type="checkbox" name="emp_designation" value="HR Manager">HR Manager
-        <input type="checkbox" name="emp_designation" value="Project Manager">Project Manager
-        <input type="checkbox" name="emp_designation" value="Other">Other
+        <input type="checkbox" name="emp_designation" value="HR Manager" required>HR Manager
+        <input type="checkbox" name="emp_designation" value="Project Manager" required>Project Manager
+        <input type="checkbox" name="emp_designation" value="Other" required>Other
     </div>
     <div class="form-group">
       <label>Employee Qualification:</label>
@@ -72,7 +127,7 @@
     </div>
     <div class="form-group">
       <label>Basic salary:</label>
-      <input type="text" name="emp_salary" placeholder="Enter the basic salary" class="form-control">
+      <input type="text" name="emp_salary" placeholder="Enter the basic salary" class="form-control" required>
     </div>
 
     <div class="clearfix">
