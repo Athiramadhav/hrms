@@ -25,6 +25,7 @@ urlpatterns =[
 	path('leaveform/', views.leaveApply),
 	path('assign/', views.assign),
 	path('projectreg/',views.projectReg),
+	path('taskadd/', views.taskAdd),
     path('complaintreg/',views.complaintReg),
 	path('evaluation/', views.performanceEvaluation),
 	path('vacancy/',views.vaccancy),

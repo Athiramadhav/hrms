@@ -1,21 +1,49 @@
 {% extends 'hr_home.html'%}
 {% block body%}
+<script type="text/javascript">
+   $('document').ready( ()=>{
+         $('.signup').click( ()=>{
+           $.ajax({
+             url:'http://127.0.0.1:8000/hrapp/exam_detail/',
+             type:'POST',
+             data:{
+              sdate:$('#sdate').val(),
+    					stime:$('#stime').val(),
+    					edate:$('#edate').val(),
+    					etime:$('#etime').val(),
+    					duration:$('#duration').val(),
+    					
+    				},
+            success: res =>{
+              console.log(res);
+              
+            },
+            error: res =>{
+              console.log(res);
 
+            }
+
+           });
+
+     });
+
+   });
+</script>
 <div class="container">
   <form action="/hrapp/exam_detail/" method="POST">
   <h2>EXAMINATION DETAIL</h2>  
   <hr> 
   <div class="form-group">
     <label>Start Date</label>
-    <input type="date" name="start_dt" class="form-control" required="">
+    <input type="date" name="start_dt" id="sdate" class="form-control" required="">
     <label>Start Time</label>
-    <input type="time" name="start_time" class="form-control" required="">
+    <input type="time" name="start_time" id="stime" class="form-control" required="">
     <label>End Date</label>
-    <input type="date" name="end_dt" class="form-control" required="">
+    <input type="date" name="end_dt" id="edate" class="form-control" required="">
     <label>End Time</label>
-    <input type="time" name="end_time" class="form-control" required="">
+    <input type="time" name="end_time" id="etime" class="form-control" required="">
     <label>Duration</label>
-    <input type="time" name="duration" class="form-control" required="">
+    <input type="time" name="duration" id="duration" class="form-control" required="">
 
   </div>      
   <div class="clearfix">
@@ -38,7 +66,7 @@
           <p>text</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Send</button>
+          <button type="button" class="btn btn-default"  data-dismiss="modal">Send</button>
         </div>
       </div>
       

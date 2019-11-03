@@ -337,6 +337,8 @@ def exam_detail(request):
 			return HttpResponse('success')
 	except Exception as e:
 		print(str(e))
+	return render(request, 'exam_details.html')
+
 
 def intimationDetails(request):
 	if request.method == 'POST':
@@ -498,7 +500,7 @@ def projectReg(request):
 			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate)
 			reg_obj.save()
-			return render(request,'project_register.html',team_lead)
+			return render(request,'project_register.html')
 		except Exception as e:
 			print(str(e))
 			return render(request,'project_register.html',{'response':'Registration Failed'})
@@ -543,16 +545,19 @@ def assign(request):
 			print(request.POST)
 			category = request.POST['selection']
 			print(category)
-			teamlead = request.POST['tname']
+			teamlead = request.POST['tlead']
 			print(teamlead)
-			emps = EmployeeProfile.objects.filter(designation='Other')
-			print(emps)
+			emp_obj = EmployeeProfile.objects.only('id')
+			print(emp_obj)
+			# emps = EmployeeProfile.objects.filter(designation='Other')
+			# print(emps)
 			# if emps == True:
 			# 	name = request.POST.getlist('employeecheckbox')
 			# 	print(name)
 			# 	emps = Login.objects.filter(username__in=name)
 			# 	print(emps)
-			assign_obj = ProjectAllocation(category=category, team_lead=teamlead)
+			assign_obj = ProjectAllocation(category=category, team_lead=teamlead,fk_employee_id=emp_obj)
+			print(assign_obj)
 			assign_obj.save()
 			assign_value={'username':employee,'response':assign_obj}
 			return render(request,'assign.html',user)
@@ -560,7 +565,7 @@ def assign(request):
 
 		else:
 			empname = EmployeeProfile.objects.filter(designation='Other')
-			print(empname)
+			print(empname.fname)
 			if empname != "":
 				employee = Login.objects.only('username')
 				print(employee)
@@ -577,8 +582,6 @@ def assign(request):
 def vaccancy(request):
 	try:
 		if request.method == 'POST':
-			dept = request.POST['dept']
-			print(dept)
 			post = request.POST['post']
 			print(post)
 			vacancy = request.POST['vacancy']
@@ -589,7 +592,7 @@ def vaccancy(request):
 			print(exp)
 			time = request.POST['time']
 			print(time)
-			vacancy_obj = Vacany(no_of_vacanies=vacancy, dept_name=dept,post=post, emp_qualification=qualification, 
+			vacancy_obj = Vacany(no_of_vacanies=vacancy,post=post, emp_qualification=qualification, 
 			                       emp_experience=exp, time_period=time)
 			vacancy_obj.save()
 			return HttpResponse("Success")
