@@ -49,7 +49,7 @@ body {
 
   .sidenav {
   height: 100%;
-  width: 172px;
+  width: 180px;
   position: fixed;
   z-index: 1;
   top: 10;
@@ -65,6 +65,7 @@ body {
   font-size: 13px;
   color: #6D6F72 ;
   display: block;
+  font-size: 15px;
 }
 
 .rightbar{
@@ -81,9 +82,15 @@ body {
 .topnav-right{
   float: right;
 }
+.topnav-header{
+  float: right;
+  padding: 10px;
+}
 .container{
   margin-left: 170px;
 }
+}
+
 
 </style>
 </head>
@@ -102,65 +109,57 @@ body {
 </div>
 
 <div class="sidenav">
-  <a href="">Company Profile</a>
-  <a href="">Leave Management</a>
-  <a href="">Time & Attendance</a>
-  <a href="">Roster Management</a>
-  <a href="">Payroll Management</a>
-  <a href="emp_performance_evaluation.html">Performance Evaluation</a>
-  <a href="">Resource Management</a>
-  <a href="">Vacancy</a>
-  <a href="">Report</a>
+ <a href=""> Profile</a>
+    <a href=""> Apply Leave </a>
+    <a href="">Mark Time & Attendance</a>
+    <a href="">Tasks </a>
+    <a href="">Payroll</a>
+    <a href="">Work Upload</a>
+    <a href="">Notification</a>
+    <a href="">Report</a>
 </div>
 
-<div class="container">
-     <h2>Resource Allocation</h2>
-     <div class="form-group">
-      <label>Project</label>
-      <input class="form-control" id="p_name" placeholder="Enter Project Name">
-    </div>
 
-    <div class="form-group">
-      <label>Departement</label>
-      <select class="form-control" id="dept">
-        <option>Planning</option>
-        <option>Design</option>
-        <option>Coding</option>
-        <option>Development</option>
-        <option>Testing</option>
-      </select><br>
+	<div class="container">
+		<form action = "/hrapp//" method = "POST" name=""  enctype="multipart/form-data">
+            <h2>Leave Report</h2>
 
-      <!-- <input class="form-control" id="task" placeholder="Enter Task Name">
-    </div>
- -->
-    <label>Task</label>
-      <select class="form-control" id="t_name">
-        <option></option>
-        <option></option>
-        <option></option>
-        <option></option>
-        <option></option>
-      </select><br>
+            <div class="topnav-header">
+              <label>Employee</label>
+              <select class="form-control" name="ename">
+              </select>
 
-      <label>Resoucre Type</label>
-      <select class="form-control" id="t_name">
-        <option>Hardwares</option>
-        <option>Softwares</option>
-        <option>Equipments</option>
-      </select><br>
+              <label>Departement</label>
+              <select class="form-control" name="dept">
+              </select>
+              
+               <label>From date</label>&nbsp;<input type="date" name="">&nbsp;&nbsp;&nbsp;
+               <label>To date</label>&nbsp;<input type="date" name="">
+               <button  type="button" class="btn btn-primary">Continue</button>
+            </div>
 
-    <label>Resource Available</label>
-    <input type="text" name="" class="form-control" id="available"><br>
-    
-    <label>Resource Allocated To</label>
-    <input type="text" name="" class="form-control" placeholder ="Enter the Team Memebers Name">
+            <table class="table table-border">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Employee Name</th>
+                        <th rowspan="2">Total days</th>
+                        <th rowspan="2">On Duty</th>
+                        <th rowspan="2">Holidays</th>
+                        <th colspan="4" align="center">Leave</th>
+                        <th rowspan="2">Total</th>
+                    </tr>
+                    
+                    <tr>
+                        <td>Annual</td>
+                        <td>Casual</td>
+                        <td>Sick</td>
+                        <td>Unpaid</td>
+                    </tr>
+                </thead>
+            </table>
+				
+		</form>
+	</div>
 
-    <!-- <label>Team </label>
-    <input type="text" name="" class="form-group" id="">
-     --><button type="submit" class="btn btn-default">Submit</button>
-  </form>
-  </table>
-
-</div>
 </body>
 </html>

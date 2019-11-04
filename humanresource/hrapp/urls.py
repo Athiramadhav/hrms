@@ -28,7 +28,10 @@ urlpatterns =[
     path('complaintreg/',views.complaintReg),
 	path('evaluation/', views.performanceEvaluation),
 	path('vacancy/',views.vaccancy),
-	path('dept/', views.dept)
+	path('dept/', views.dept),
+	path('company/', views.company),
+	path('companyprofile/', views.company_view),
+	path('projectview/', views.project_view)
 	# path('payroll/', views.payroll)
 
 ]

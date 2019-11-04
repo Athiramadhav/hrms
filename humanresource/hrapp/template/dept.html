@@ -1,8 +1,7 @@
 {% extends 'project_home.html' %}
- 
-<!-- {% block body %} -->
+ {% block body %} 
 <div class="container">
-    <form action="/hrapp/dept/" method="POST">
+    <form action="/hrapp/dept/" method="POST" data-toggle="validator" role="form">
         {% csrf_token %}
         <div class="form-group">
             <label>Employee Id</label>
@@ -12,10 +11,10 @@
             </select><br>
 
             <label>Employee Name</label>
-            <input type="text" value="{{employee.fname}} {{employee.lname}}" name="name" id="name" placeholder="Employee Name"><br>
+            <input type="text" value="{{employee.fname}} {{employee.lname}}" name="name" id="name" placeholder="Employee Name" required><br>
               
             <label>Departement</label>
-            <select>
+            <select required>
                 <option>Coding</option>
                 <option>Designing</option>
                 <option>Techincal</option>

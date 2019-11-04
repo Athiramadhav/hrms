@@ -509,7 +509,7 @@ def task_view(request):
 	return render(request, 'task_view.html',context)
 
 
-@csrf_exempt
+
 def assign(request):
 	try:
 		if request.method == 'POST':
@@ -518,7 +518,7 @@ def assign(request):
 			print(category)
 			teamlead = request.POST['tlead']
 			print(teamlead)
-			emp_obj = EmployeeProfile.objects.only('id')
+			emp_obj = Login.objects.only('id')
 			print(emp_obj)
 			# emps = EmployeeProfile.objects.filter(designation='Other')
 			# print(emps)
@@ -535,14 +535,13 @@ def assign(request):
 			return render(request,'assign.html')
 
 		else:
-			empname = EmployeeProfile.objects.filter(designation='Other')
-			print(empname.fname)
+			empname = EmployeeProfile.objects.filter(designation='Other').values('fk_login')
+			print(empname)
 			if empname != "":
-				employee = Login.objects.only('username')
+				employee = Login.objects.only('username').filter(id__in=empname)
 				print(employee)
-				if empname.id == fk_login_id:
-					response_obj = {'username':employee}
-					return render(request, 'assign.html',response_obj)
+				response_obj = {'username':employee}
+				return render(request, 'assign.html',response_obj)
 			
 	except Exception as e:
 			print(str(e))
@@ -598,3 +597,43 @@ def dept(request):
 		return HttpResponse("Failed")
 	
 
+def company(request):
+	try:
+		if request.method == 'POST':
+			title = request.POST['title']
+			print(title)
+			year = request.POST['year']
+			print(year)
+			address = request.POST['address']
+			print(address)
+			phone = request.POST['phone']
+			print(phone)
+			fax = request.POST['fax']
+			print(fax)
+			website = request.POST['site']
+			print(website)
+			email = request.POST['mail']
+			print(email)
+			company_obj = CompanyProfile(company_title=title, company_estb_year=year, address=address, phone=phone,fax=fax, website=website, email=email)
+			company_obj.save()
+			return HttpResponse("Success")
+
+		else:
+			return render(request, 'company.html')
+
+	except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed")
+	return render(request, 'company.html')
+
+
+def company_view(request):
+	company_obj = CompanyProfile.objects.all()
+	context = {'companylist':company_obj}
+	return render(request, 'company_profile.html',context)
+
+
+def project_view(request):
+	project_obj = Project.objects.all()
+	context = {'projectlist':project_obj}
+	return render(request, 'report_project.html',context)
