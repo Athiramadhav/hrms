@@ -481,6 +481,7 @@ def projectReg(request):
 def taskAdd(request):
 	try:
 		if request.method == 'POST':
+			
 			print(request.POST)
 			ptitle = request.POST['pname']
 			print(ptitle)
@@ -518,21 +519,20 @@ def assign(request):
 			print(category)
 			teamlead = request.POST['tlead']
 			print(teamlead)
-			emp_obj = Login.objects.only('id')
-			print(emp_obj)
-			# emps = EmployeeProfile.objects.filter(designation='Other')
-			# print(emps)
-			# if emps == True:
-			# 	name = request.POST.getlist('employeecheckbox')
-			# 	print(name)
-			# 	emps = Login.objects.filter(username__in=name)
-			# 	print(emps)
-			assign_obj = ProjectAllocation(category=category, team_lead=teamlead,fk_employee_id=emp_obj)
-			print(assign_obj)
-			assign_obj.save()
-			assign_value={'username':employee,'response':assign_obj}
-			return render(request,'assign.html',user)
-			return render(request,'assign.html')
+			name = request.POST.getlist('employeecheckbox')
+			count = 0
+			login = Login.objects.filter(username__in=name)
+			print(login)
+			for obj in login:
+				assign_obj = ProjectAllocation(category=category, team_lead=teamlead,fk_login=obj)
+				assign_obj.save()
+				if assign_obj.id > 0:
+					count += 1
+			if count == len(name):
+				return HttpResponse('Success done')
+			else:
+				return HttpResponse('Failed')
+
 
 		else:
 			empname = EmployeeProfile.objects.filter(designation='Other').values('fk_login')
@@ -637,3 +637,24 @@ def project_view(request):
 	project_obj = Project.objects.all()
 	context = {'projectlist':project_obj}
 	return render(request, 'report_project.html',context)
+
+def resource(request):
+	try:
+		if request.method == 'POST':
+			resource = request.POST['resource']
+			print(resource)
+			types = request.POST['types']
+			print(types)
+			resource_obj = Resource(resource=resource, types=types)
+			print("helloooooo")
+			resource_obj.save()
+			return HttpResponse("Success")
+		else:
+			return render(request, 'resource_add.html')
+
+
+		
+	except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed")
+	return render(request, 'resource_add.html')

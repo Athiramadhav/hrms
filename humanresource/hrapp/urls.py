@@ -31,7 +31,8 @@ urlpatterns =[
 	path('dept/', views.dept),
 	path('company/', views.company),
 	path('companyprofile/', views.company_view),
-	path('projectview/', views.project_view)
+	path('projectview/', views.project_view),
+	path('resourceadd/', views.resource)
 	# path('payroll/', views.payroll)
 
 ]

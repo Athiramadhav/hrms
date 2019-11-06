@@ -151,9 +151,9 @@ class EmployeeLeave(models.Model):
 	fk_employee_id  = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 class Resource(models.Model):
-	hardware_req  = models.CharField(max_length=50)
-	software_req  = models.CharField(max_length=50)
-	equipment_req = models.CharField(max_length=50)
+	resource  = models.CharField(max_length=50)
+	types     = models.CharField(max_length=50)
+	
 
 
 class ResourceAllocate(models.Model):
