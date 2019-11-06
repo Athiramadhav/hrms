@@ -360,20 +360,13 @@ def complaintReg(request):
 			name = request.session['userid']
 			print(name)
 			print(request.POST)
-			ename = request.POST['name']
-			eid = request.POST['id']
-			edesg = request.POST['post']
-			edept = request.POST.get('dept')
-			eaddress = request.POST.get('addr')
-			ephone = request.POST.get('phone')
 			cname = request.POST.get('compname')
 			cdesg = request.POST.get('cpost')
 			cdept = request.POST.get('cdept')
 			cact =request.POST.get('act')
 			date = request.POST.get('date')
 			time = request.POST.get('time')
-			comp_reg = Complaint(e_name=ename, e_desgination=edesg, e_dept=edept, e_addr=eaddress,
-			           e_phone=ephone,fk_employee_id=id, c_name=cname, complaint_desg=cdesg, complaint_dept=cdept,
+			comp_reg = Complaint(fk_employee_id=id, c_name=cname, complaint_desg=cdesg, complaint_dept=cdept,
 			           compaint_description=cact, date_of_incident=date, time_of_incident=time)
 			comp_reg.save()
 			return HttpResponse("Registration Done")
@@ -490,7 +483,8 @@ def projectReg(request):
 def taskAdd(request):
 	try:
 		if request.method == 'POST':
-			
+			project_obj = Project.objects.all()
+			context = {projectlist: 'project_obj'}
 			print(request.POST)
 			ptitle = request.POST['pname']
 			print(ptitle)
@@ -503,7 +497,7 @@ def taskAdd(request):
 			edate = request.POST['duedate']
 			print(edate)
 			task_add_obj = TaskAdd(task_title=task, task_priority=priority, task_start_date=sdate, task_end_date  =edate)
-			return render(request,'task_add.html',{'response':' Successfull'})
+			return render(request,'task_add.html',context)
 
 		else:
 			return render(request, 'task_add.html',{'task_add: task_obj'})
