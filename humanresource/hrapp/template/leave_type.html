@@ -2,19 +2,28 @@
 
 
 {% block body %}
-<form action="/hrapp/leave_type/">
+
 	<div class="container">
+			<form action="/hrapp/leave_type/" method="POST">
 		<h2>LEAVE TYPE</h2>
 		<hr>
+		<div class="form-group">
 		<label>Leave Type:</label>
-		<input type="text" name="type" placeholder="Enter the type of leave">
+		<input type="text" name="type" placeholder="Enter the type of leave" class="form-control" required>
 		<label>No: of Days</label>
-		<input type="text" name="days" placeholder="Enter the no: of alloted leave for the type">
+		<input type="text" name="days" placeholder="Enter the no: of alloted leave for the type" class="form-control" required>
 		<label>status</label>
-		<select>
-			<option>With Cash</option>
-			<option>Without Cash</option>
+		<select name="status" class="form-control">
+			<option value="0" selected>select</option>
+			<option value="paid">Paid</option>
+			<option value="unpaid">Unpaid</option>
 		</select>
+		</div>
+		<div class="clearfix">
+			<button type="button" class="cancelbtn">Cancel</button>
+		   <button type="submit" class="signupbtn">Add</button>
+		 </div>
+		</form>
 	</div>
-</form>
+
 {% endblock %}

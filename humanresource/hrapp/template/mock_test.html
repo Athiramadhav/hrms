@@ -59,30 +59,28 @@
       });
   </script>
 <div class="container">
-<form method="POST" action="/hrapp/mocktest/">
-  {% csrf_token %}
+
 	  <div class="container">
 	 	<h1>MOCK TEST QUESTIONS</h1>
     	<hr>
 		  <div class="form-group">
       <label>Question :</label>
-      <textarea name="question" cols="50" rows="2" class="form-control question" id="question"></textarea>
+      <textarea name="question" cols="50" rows="2" class="form-control question" id="question" required></textarea>
     </div>
     <div class="form-group">
       <label>Options:</label><br>
-      <input type="text" name="option1" placeholder="option 1" class="form-control question" id="option1">
-      <input type="text" name="option2" placeholder="option 2" class="form-control question" id="option2">
-      <input type="text" name="option3" placeholder="option 3" class="form-control question" id="option3">
-      <input type="text" name="option4" placeholder="option 4" class="form-control question" id="option4">
+      <input type="text" name="option1" placeholder="option 1" class="form-control question" id="option1" required>
+      <input type="text" name="option2" placeholder="option 2" class="form-control question" id="option2" required>
+      <input type="text" name="option3" placeholder="option 3" class="form-control question" id="option3" required>
+      <input type="text" name="option4" placeholder="option 4" class="form-control question" id="option4" required>
       <label>Answer:</label>
-      <input type="text" name="answer" placeholder="Type correct answer" class="form-control question" id="ans">
+      <input type="text" name="answer" placeholder="Type correct answer" class="form-control question" id="ans" required>
     </div>
        <div class="clearfix">
-          <button type="button" class="cancelbtn">Cancel</button>
-         <button type="button" class="signupbtn">Add</button>
+          <button type="reset" class="cancelbtn">Cancel</button>
+         <button type="submit" class="signupbtn">Add</button>
        </div>
 		  </div>
 	  </div>
-</form>
 </div>
 {% endblock %}

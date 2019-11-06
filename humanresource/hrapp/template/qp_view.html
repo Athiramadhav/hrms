@@ -12,7 +12,7 @@
           url: "http://127.0.0.1:8000/hrapp/question_view/",
           type: "POST",
           data: {
-            ques_id:ques_id,
+            ques_id,
             csrfmiddlewaretoken:'{{ csrf_token }}',
             user_answer:user_ans
           },
@@ -26,7 +26,6 @@
             $('#option3').html(res.data['option3']);
             $('#option4').html(res.data['option4']);
             $('.signupbtn').attr('id',res.data['id']);
-              // if(ans==)
             if($("input[name='answer']").is('checked')){
               checkedCheckboxes.push($("input[name='answer']").val());
             }
