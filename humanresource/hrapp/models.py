@@ -17,7 +17,7 @@ class Permission(models.Model):
 	permission_title = models.CharField(max_length=20)
 
 class Login(models.Model):
-	username = models.CharField(max_length=20)
+	username = models.CharField(max_length=30)
 	password = models.CharField(max_length=20)
 
 class EmployeeProfile(models.Model):

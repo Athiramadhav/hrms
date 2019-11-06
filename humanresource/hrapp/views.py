@@ -37,6 +37,15 @@ def redirect_hr_home(request):
 	except Exception as e:
 		print(str(e))
 
+def redirect_employee_home(request):
+	try:
+		if 'userid' in request.session:
+			return render(request, 'employee_home.html')
+		return redirect('/hrapp/')
+	except Exception as e:
+		print(str(e))
+
+
 # def redirect_candidate_home(request):
 # 	try:
 # 		if 'userid' in request.session:

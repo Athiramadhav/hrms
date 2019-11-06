@@ -1,0 +1,22 @@
+{% extends 'hr_home.html'%}
+{% block body%}
+
+<div class="container">
+    <form action="/hrapp/callletter/" method="POST">
+        <h2>CALL LETTER</h2>
+        <hr>
+        <div class="form-group">
+            <label>Post:</label>
+            <input type="text" name="post" class= "form-control" placeholder="Post for which the candidate is selected">
+            <label>Join Date:</label>
+            <input type="date" name="join_date" class="form-control">
+            <lablel>Join Time:</lablel>
+            <input type="time" name="join_time" class="form-control">
+        </div>
+        <div class="clearfix">
+            <button type="button" class="cancelbtn">Cancel</button>
+            <button type="submit" class="signupbtn">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock%}
