@@ -1,5 +1,38 @@
 {% extends 'project_manager_home.html' %}
+
 {% block body %}
+<script type="text/javascript">
+     $('document').ready( () =>{
+       $('#click').click( ()=>{
+         $.ajax({
+             url:'http://127.0.0.1:8000/hrapp/assign/',
+             type:'POST',
+             data:{
+               category:$('selection').val(),
+               team_lead:$('tlead').val(),
+               
+
+               var table = $('#list').DataTable( {
+
+               columnDefs : [
+                    { targets : [4],
+                      render : function (data, type, row) {
+                               switch(data) {
+                               case 'Developer' : return ''; break;
+                               case '' : return ''; break;
+                               default  : return 'N/A';
+            }
+          }
+        }
+   ]
+             
+         })
+         
+
+       })
+     })
+
+</script>
 <div class="container">
     <h2>Assign</h2>
     <div class="form-group">
@@ -52,6 +85,7 @@
                     <th>Designing</th>
                     <th>Full Stack Developers</th>
                 </tr>
+                {% %}
                 <tr>
                   <td>
                     {{response.id}}

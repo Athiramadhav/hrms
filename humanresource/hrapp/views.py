@@ -654,9 +654,7 @@ def resource(request):
 			return HttpResponse("Success")
 		else:
 			return render(request, 'resource_add.html')
-
-
-		
+			
 	except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed")
