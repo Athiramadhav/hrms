@@ -20,39 +20,18 @@ def userLogin(request):
 				return HttpResponseRedirect('hr_home')
 			elif emp_details.designation == "Project Manager":
 				return HttpResponseRedirect('project_manager_home')
-			elif emp_details.designation == "Other":
-				return HttpResponseRedirect('employee_home')
 			else:
-				return render(request,'candidate_home.html')
+				return HttpResponseRedirect('employee_home')
 			
 		return render(request,'login.html')
 	except Exception as e:
-			if user_obj:
-				return render(request,'candidate_home.html')
 			print(str(e))
+			return render(request,'candidate_home.html')
 
 def redirect_hr_home(request):
 	try:
 		if 'userid' in request.session:
 			return render(request, 'hr_home.html')
-		return redirect('/hrapp/')
-	except Exception as e:
-		print(str(e))
-
-# def redirect_candidate_home(request):
-# 	try:
-# 		if 'userid' in request.session:
-# 			# cndt_obj = Candidate.objects.get(id=request.session['userid'])
-# 			return render(request, 'candidate_home.html')
-# 		return redirect('/hrapp/')
-# 	except Exception as e:
-# 		print(str(e))
-
- 
-def redirect_project_manager_home(request):
-	try:
-		if 'userid' in request.session:
-			return render(request, 'project_manager_home.html')
 		return redirect('/hrapp/')
 	except Exception as e:
 		print(str(e))
@@ -64,6 +43,26 @@ def redirect_employee_home(request):
 		return redirect('/hrapp/')
 	except Exception as e:
 		print(str(e))
+
+
+# def redirect_candidate_home(request):
+# 	try:
+# 		if 'userid' in request.session:
+# 			# cndt_obj = Candidate.objects.get(id=request.session['userid'])
+# 			return render(request, 'candidate_home.html')
+# 		return redirect('/hrapp/')
+# 	except Exception as e:
+# 		print(str(e))
+
+# 
+def redirect_project_manager_home(request):
+	try:
+		if 'userid' in request.session:
+			return render(request, 'project_manager_home.html')
+		return redirect('/hrapp/')
+	except Exception as e:
+		print(str(e))
+
 
 def userLogout(request):
 	try:
@@ -258,22 +257,17 @@ def onlineExam(request):
 		if request.method == 'POST':
 			candidate_id = int(request.session['userid'])
 			qid = int(request.POST['ques_id'])
-			user_answer = request.POST['user_answer']
-			print(user_answer)
-			candidate = Candidate.objects.get(fk_login=candidate_id)
-			question_obj = QuestionPaper.objects.get(id=qid)
-			result = Result(fk_candidate=candidate,fk_question=question_obj,mark=0)
-			print(question_obj.answer)
-			if question_obj.answer == user_answer:
-				result.mark = 1
-			else:
-				result.mark = 0
-			result.save()	
 			online_obj = QuestionPaper.objects.values().get(id=qid+1)
-			# online_obj.pop('answer')
+			online_obj.pop('answer')
+			request.session['current_question'] = online_obj['id']
 			return JsonResponse({'data':online_obj})
 		else:
-			online_obj = QuestionPaper.objects.get(id=1)
+			qid = None
+			# qid = request.session.get('current_question')
+			if qid:
+				online_obj = QuestionPaper.objects.values().get(id=qid)
+			else:
+				online_obj = QuestionPaper.objects.values().get(id=20)	
 			return render(request,'qp_view.html',{'online':online_obj})
 	except Exception as e:
 		print(str(e))
@@ -321,6 +315,8 @@ def payment(request):
 	try:
 		if request.method == 'POST':
 			desi = request.POST.get('desig')
+			print(desi)
+			print("**************")
 			emp_objs=EmployeeProfile.objects.filter(designation=desi)
 			json_data = list(emp_objs.values())
 			return JsonResponse(json_data,safe=False)
@@ -582,6 +578,7 @@ def projectReg(request):
 def taskAdd(request):
 	try:
 		if request.method == 'POST':
+			
 			print(request.POST)
 			ptitle = request.POST['pname']
 			print(ptitle)
@@ -610,7 +607,7 @@ def task_view(request):
 	return render(request, 'task_view.html',context)
 
 
-@csrf_exempt
+
 def assign(request):
 	try:
 		if request.method == 'POST':
@@ -619,31 +616,29 @@ def assign(request):
 			print(category)
 			teamlead = request.POST['tlead']
 			print(teamlead)
-			emp_obj = EmployeeProfile.objects.only('id')
-			print(emp_obj)
-			# emps = EmployeeProfile.objects.filter(designation='Other')
-			# print(emps)
-			# if emps == True:
-			# 	name = request.POST.getlist('employeecheckbox')
-			# 	print(name)
-			# 	emps = Login.objects.filter(username__in=name)
-			# 	print(emps)
-			assign_obj = ProjectAllocation(category=category, team_lead=teamlead,fk_employee_id=emp_obj)
-			print(assign_obj)
-			assign_obj.save()
-			assign_value={'username':employee,'response':assign_obj}
-			return render(request,'assign.html',user)
-			return render(request,'assign.html')
+			name = request.POST.getlist('employeecheckbox')
+			count = 0
+			login = Login.objects.filter(username__in=name)
+			print(login)
+			for obj in login:
+				assign_obj = ProjectAllocation(category=category, team_lead=teamlead,fk_login=obj)
+				assign_obj.save()
+				if assign_obj.id > 0:
+					count += 1
+			if count == len(name):
+				return HttpResponse('Success done')
+			else:
+				return HttpResponse('Failed')
+
 
 		else:
-			empname = EmployeeProfile.objects.filter(designation='Other')
-			print(empname.fname)
+			empname = EmployeeProfile.objects.filter(designation='Other').values('fk_login')
+			print(empname)
 			if empname != "":
-				employee = Login.objects.only('username')
+				employee = Login.objects.only('username').filter(id__in=empname)
 				print(employee)
-				if empname.id == fk_login_id:
-					response_obj = {'username':employee}
-					return render(request, 'assign.html',response_obj)
+				response_obj = {'username':employee}
+				return render(request, 'assign.html',response_obj)
 			
 	except Exception as e:
 			print(str(e))
@@ -699,3 +694,64 @@ def dept(request):
 		return HttpResponse("Failed")
 	
 
+def company(request):
+	try:
+		if request.method == 'POST':
+			title = request.POST['title']
+			print(title)
+			year = request.POST['year']
+			print(year)
+			address = request.POST['address']
+			print(address)
+			phone = request.POST['phone']
+			print(phone)
+			fax = request.POST['fax']
+			print(fax)
+			website = request.POST['site']
+			print(website)
+			email = request.POST['mail']
+			print(email)
+			company_obj = CompanyProfile(company_title=title, company_estb_year=year, address=address, phone=phone,fax=fax, website=website, email=email)
+			company_obj.save()
+			return HttpResponse("Success")
+
+		else:
+			return render(request, 'company.html')
+
+	except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed")
+	return render(request, 'company.html')
+
+
+def company_view(request):
+	company_obj = CompanyProfile.objects.all()
+	context = {'companylist':company_obj}
+	return render(request, 'company_profile.html',context)
+
+
+def project_view(request):
+	project_obj = Project.objects.all()
+	context = {'projectlist':project_obj}
+	return render(request, 'report_project.html',context)
+
+def resource(request):
+	try:
+		if request.method == 'POST':
+			resource = request.POST['resource']
+			print(resource)
+			types = request.POST['types']
+			print(types)
+			resource_obj = Resource(resource=resource, types=types)
+			print("helloooooo")
+			resource_obj.save()
+			return HttpResponse("Success")
+		else:
+			return render(request, 'resource_add.html')
+
+
+		
+	except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed")
+	return render(request, 'resource_add.html')

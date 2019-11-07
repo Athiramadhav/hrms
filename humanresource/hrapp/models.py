@@ -4,7 +4,7 @@ from django.db import models
 
 class CompanyProfile(models.Model):
 	company_title     = models.CharField(max_length=20)
-	company_estb_year = models.IntegerField()
+	company_estb_year = models.DateField()
 	address           = models.CharField(max_length=100)
 	phone             = models.IntegerField()
 	fax               = models.IntegerField()
@@ -116,7 +116,8 @@ class Dept(models.Model):
 class ProjectAllocation(models.Model):
 	category        = models.CharField(max_length=50)
 	team_lead       = models.CharField(max_length=50)
-	fk_employee_id = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+	fk_login        = models.ForeignKey(Login, on_delete=models.CASCADE)
+
 
 
 class Project(models.Model):
@@ -150,9 +151,9 @@ class EmployeeLeave(models.Model):
 	fk_employee_id  = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 class Resource(models.Model):
-	hardware_req  = models.CharField(max_length=50)
-	software_req  = models.CharField(max_length=50)
-	equipment_req = models.CharField(max_length=50)
+	resource  = models.CharField(max_length=50)
+	types     = models.CharField(max_length=50)
+	
 
 
 class ResourceAllocate(models.Model):

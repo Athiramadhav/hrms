@@ -1,0 +1,39 @@
+{% extends 'project_manager_home.html' %}
+{% block body %}
+
+<div class="container">
+    <form action="/hrapp/company/" method="POST" data-toggle="validator" role="form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <h1>Company Profile</h1>
+            <label>Company Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter Company Name" class="form-control" required>
+
+            <label>Established Year</label>
+            <input type="date" id="year" name="year" placeholder="Enter Year" class="form-control" required><br>
+
+            <label>Address</label>
+            <textarea name="address" id="address" class="form-control" placeholder="EnterAddress" required></textarea>
+
+            <label>Phone</label>
+            <input type="text" id="phone" name="phone" placeholder="Enter Phone" class="form-control" required>
+
+            <label>Fax</label>
+            <input type="text" id="fax" name="fax" placeholder="Enter Fax" class="form-control" required>
+
+            <label>Website</label>
+            <input type="text" id="site" name="site" placeholder="Enter Website" class="form-control" required>
+
+
+            <label>Email</label>
+            <input type="text" id="mail" name="mail" placeholder="Enter Company Email" class="form-control" required>
+
+            <button class="btn-btn-primary"> SUBMIT</button>
+
+
+        </div>
+    </form>
+
+</div>
+{% endblock %}

@@ -32,9 +32,13 @@ urlpatterns =[
 	path('evaluation/', views.performanceEvaluation),
 	path('vacancy/',views.vaccancy),
 	path('dept/', views.dept),
-	path('leave_view/',views.leaveReport),
+	path('company/', views.company),
+	path('companyprofile/', views.company_view),
+	path('projectview/', views.project_view),
+	path('resourceadd/', views.resource),
+	# path('leave_view/',views.leaveReport),
 	path('complaint_view/',views.complaintReport),
-	path('callletter/',views.callLetter),
+	path('callletter/',views.callLetter)
 	# path('payroll/', views.payroll)
 
 ]
