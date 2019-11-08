@@ -137,6 +137,7 @@ def employee_profile(request):
 def edit(request):
 	try:
 		emp_id = request.session['userid']
+		print(emp_id)
 		emp_object = EmployeeProfile.objects.get(fk_login_id=emp_id)
 		if request.method=='POST':
 			EmployeeProfile.objects.filter(id=emp_object.id).update(address=request.POST['emp_address'],phone=request.POST['emp_mobileno'],
@@ -253,7 +254,7 @@ def addQuestion(request):
 	return render(request,'question_paper.html')
 
 def fn_startExam(request):
-	#del request.session['time']
+	# del request.session['time']
 	time = request.session.get('time')
 	if time:
 		time = request.session['time']
@@ -265,6 +266,8 @@ def onlineExam(request):
 		if request.method == 'POST':
 			candidate_id = int(request.session['userid'])
 			qid = request.session['current_question']
+			user_answer = request.POST.get('user_ans')
+			print(user_answer)
 			online_obj = QuestionPaper.objects.values().get(id=qid+1)
 			online_obj.pop('answer')
 			request.session['current_question'] = online_obj['id']
@@ -273,9 +276,10 @@ def onlineExam(request):
 			time = request.session.get('time')
 			if 'time' in request.GET:
 				request.session['time'] = request.GET.get('time')
-				qid = request.session['current_question']
-				online_obj = QuestionPaper.objects.values().get(id=qid)
-				online_obj['time'] = request.session['time']
+				#qid = request.session['current_question']
+				#online_obj = QuestionPaper.objects.values().get(id=qid)
+				#online_obj['time'] = request.session['time']
+				return JsonResponse({'time':request.session['time']})
 			elif time:
 				qid = request.session['current_question']
 				online_obj = QuestionPaper.objects.values().get(id=qid)

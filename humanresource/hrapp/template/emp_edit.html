@@ -1,5 +1,4 @@
-{% extends 'project_manager_home.html' %}
-
+{% extends 'employee_home.html' %}
 {% block body %}
 
 <form action="/hrapp/edit/"  method="POST" style="border:1px solid #ccc">
@@ -21,7 +20,7 @@
     </div>
     <div class="form-group">
       <label>Mobile No:</label>
-      <input type="text" name="emp_mobileno" value="{{user.phone}}" class="form-control">
+      <input type="text" name="emp_mobileno" value="{{user.phone}}" maxlength="10" minlength="10" class="form-control">
     </div>
     <div class="form-group">
       <label>Employee Qualification:</label>
