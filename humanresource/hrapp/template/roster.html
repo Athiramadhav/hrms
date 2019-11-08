@@ -1,12 +1,14 @@
-{% extends 'project_maanger_home.html' %}
+{% extends 'project_manager_home.html' %}
 
 {% block body %}
 <div class="container">
-  <h2>ROSTER MANAGEMENT</h2>
+  
   <form action="hrapp/rosterview/" method="POST">
-      <div class="topnav-header">
-          <label>From date</label>&nbsp;<input type="date" name="">&nbsp;&nbsp;&nbsp;
-          <label>To date</label>&nbsp;<input type="date" name="">
+
+    <h2>ROSTER MANAGEMENT</h2>
+      <div class="form-group">
+          <label>From date</label>&nbsp;<input type="date" name="sdate" class="form control">&nbsp;&nbsp;
+          <label>To date</label>&nbsp;<input type="date" name="edate" class="form-control">&nbsp;&nbsp;
           <button  type="button" class="btn btn-primary">Continue</button>
         </div>
         <table class="table table-striped">
@@ -25,11 +27,12 @@
                 <td>{items.fk_employee_id}</td>
                 <td>{items.}</td>
               </tr>
+              {% endfor %}
 
           </tbody>
         </table>
         <!-- <button  type="button" class="btn btn-primary">SAVE</button> -->
-      
+      </div>
   </form>
 </div>
 {% endblock %}

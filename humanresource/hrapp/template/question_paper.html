@@ -9,6 +9,7 @@
     			$.ajax({
     				url:'http://127.0.0.1:8000/hrapp/questionpaper/',
     				type:'POST',
+					csrfmiddlewaretoken:'{{ csrf_token }}',
     				data:{
     					question:$('#question').val(),
     					option1:$('#option1').val(),
@@ -18,41 +19,41 @@
     					answer:$('#ans').val()
     				},
     				success: res =>{
-    					$.toast({
-    						text:res,
-    						heading:'Note',
-    						icon: 'success',
-    						showHideTransition: 'fade',
-    						allowToastClose: true,
-    						hideAfter: 1500,
-    						stack: 5,
-    						position:'bottom-left',
-    						loader: true,
-    						loaderBg:'#9EC600'
-    					});
-    					$('#question').val();
-    					$('#option1').val();
-    					$('#option2').val();
-    					$('#option3').val();
-    					$('#option4').val();
-    					$('#ans').val();
-    					setTimeout(() =>{
-    						location.reload();
-    					}, 1500);
-    				},
-    				error: r =>{
-    					$.toast({
-    						text:r,
-    						heading:'Note',
-    						icon: 'error',
-    						showHideTransition: 'fade',
-    						allowToastClose: true,
-    						hideAfter: 3000,
-    						stack: 5,
-    						position:'bottom-left',
-    						loader: true,
-    						loaderBg:'#9EC600'
-    					});
+						 $.toast({
+							 text:res,
+							 heading:'Note',
+							 icon: 'success',
+							 showHideTransition: 'fade',
+							 allowToastClose: true,
+							 hideAfter: 1500,
+							 stack: 5,
+							 position:'bottom-left',
+							 loader: true,
+							 loaderBg:'#9EC600'
+						});
+						$('#question').val();
+						$('#option1').val();
+						$('#option2').val();
+						$('#option3').val();
+						$('#option4').val();
+						$('#ans').val();
+						setTimeout(() =>{
+							location.reload();
+						}, 1500);
+					},
+					error: r =>{
+						$.toast({
+							text:r,
+							heading:'Note',
+							icon: 'error',
+							showHideTransition: 'fade',
+							allowToastClose: true,
+							hideAfter: 3000,
+							stack: 5,
+							position:'bottom-left',
+							loader: true,
+							loaderBg:'#9EC600'
+						});
     				}
     			});
       		});
@@ -61,29 +62,25 @@
 
 
     <div class="container">
-<form data-toggle="validator" role="form">
-  {% csrf_token %}
 	 
 	 	<h1>QUESTION</h1>
     	<hr>
 		<div class="form-group">
 			<label>Question :</label>
-			<textarea name="question" cols="50" rows="2" class="form-control question" id="question" required></textarea>
+			<textarea name="question" cols="50" rows="2" class="form-control question" id="question" required=""></textarea>
 		</div>
 		<div class="form-group" >
 			<label>Options:</label><br>
-			<input type="text" name="option1" placeholder="option 1" class="form-control question" id="option1" required>
-			<input type="text" name="option2" placeholder="option 2" class="form-control question" id="option2" required>
-			<input type="text" name="option3" placeholder="option 3" class="form-control question" id="option3" required>
-			<input type="text" name="option4" placeholder="option 4" class="form-control question" id="option4" required>
+			<input type="text" name="option1" placeholder="option 1" class="form-control question" id="option1" required="">
+			<input type="text" name="option2" placeholder="option 2" class="form-control question" id="option2" required="">
+			<input type="text" name="option3" placeholder="option 3" class="form-control question" id="option3" required="">
+			<input type="text" name="option4" placeholder="option 4" class="form-control question" id="option4" required="">
       <label>Answer:</label>
-      <input type="text" name="answer" placeholder="Type correct answer" class="form-control question" id="ans" required>
+      <input type="text" name="answer" placeholder="Type correct answer" class="form-control question" id="ans" required="">
 		</div>
 		<div class="clearfix">
       		<button type="button" class="cancelbtn">Cancel</button>
-     		 <button type="button" class="signupbtn">Add</button>
+     		 <button type="submit" class="signupbtn">Add</button>
    		 </div>
-	
-</form>
 </div>
 {% endblock %}

@@ -17,9 +17,9 @@
     <tbody>
       {% for list in complaintlist %}
       <tr>
-        <td>{{list.}}</td>
-        <td>{{list.}}</td>
-        <td>{{list.}}</td>
+        <td>{{list.fk_employee_id.id}}</td>
+        <td>{{list.fk_employee_id.fname}}</td>
+        <td>{{list.compaint_description}}</td>
         <td><button class="btn btn-primary" type="submit"><a href="/hrapp/complaint_view/" style="color: white">View Description</a></button></td>
       </tr>
       {% endfor %}

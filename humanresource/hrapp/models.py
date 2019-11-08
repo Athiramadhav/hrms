@@ -17,7 +17,7 @@ class Permission(models.Model):
 	permission_title = models.CharField(max_length=20)
 
 class Login(models.Model):
-	username = models.CharField(max_length=30)
+	username = models.CharField(max_length=50)
 	password = models.CharField(max_length=20)
 
 class EmployeeProfile(models.Model):
@@ -25,7 +25,7 @@ class EmployeeProfile(models.Model):
 	lname             = models.CharField(max_length=25)
 	gender            = models.CharField(max_length=25)
 	dob               = models.DateField(max_length=25)
-	address           = models.CharField(max_length=50)
+	address           = models.CharField(max_length=60)
 	phone             = models.CharField(max_length=25)
 	designation       = models.CharField(max_length=15)
 	emp_qualification = models.CharField(max_length=25)
@@ -41,7 +41,7 @@ class EmployeeProfile(models.Model):
 class Candidate(models.Model):
 	candidate_name = models.CharField(max_length=20)
 	dob            = models.DateField(max_length=20)
-	address        = models.CharField(max_length=50)
+	address        = models.CharField(max_length=60)
 	phone_no       = models.IntegerField()
 	gender         = models.CharField(max_length=15)
 	qualification  = models.CharField(max_length=15)
@@ -80,20 +80,20 @@ class CallLetter(models.Model):
 	join_time    = models.TimeField()
 
 class QuestionPaper(models.Model):
-	question = models.CharField(max_length=50)
-	option1  = models.CharField(max_length=20)
-	option2  = models.CharField(max_length=20)
-	option3  = models.CharField(max_length=20)
-	option4  = models.CharField(max_length=20)
-	answer   = models.CharField(max_length=20)
+	question = models.CharField(max_length=100)
+	option1  = models.CharField(max_length=50)
+	option2  = models.CharField(max_length=50)
+	option3  = models.CharField(max_length=50)
+	option4  = models.CharField(max_length=50)
+	answer   = models.CharField(max_length=50)
 
 class MockTest(models.Model):
-	mock_question = models.CharField(max_length=50)
-	option1       = models.CharField(max_length=20)
-	option2       = models.CharField(max_length=20)
-	option3       = models.CharField(max_length=20)
-	option4       = models.CharField(max_length=20)
-	mock_answer   = models.CharField(max_length=20)
+	mock_question = models.CharField(max_length=100)
+	option1       = models.CharField(max_length=50)
+	option2       = models.CharField(max_length=50)
+	option3       = models.CharField(max_length=50)
+	option4       = models.CharField(max_length=50)
+	mock_answer   = models.CharField(max_length=50)
 
 class ExamDetail(models.Model):
 	exam_startdate = models.DateField()
@@ -104,7 +104,7 @@ class ExamDetail(models.Model):
 
 class Result(models.Model):
 	fk_candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
-	fk_question  = models.ForeignKey(MockTest, on_delete=models.CASCADE)
+	fk_question  = models.ForeignKey(QuestionPaper, on_delete=models.CASCADE)
 	mark         = models.IntegerField()
 
 
@@ -128,26 +128,26 @@ class Project(models.Model):
 	project_start_date = models.DateField()
 	project_end_date   = models.DateField()
 	
-
-
 class Complaint(models.Model):
-	c_name               = models.CharField(max_length=25)
-	complaint_desg       = models.CharField(max_length=25)
-	complaint_dept       = models.CharField(max_length=25)
-	compaint_description = models.CharField(max_length=60)
+	compaint_description = models.CharField(max_length=200)
 	date_of_incident     = models.DateField()
 	time_of_incident     = models.TimeField()
 	fk_employee_id       = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
+
+class LeaveType(models.Model):
+	leave_type = models.CharField(max_length=20)
+	no_of_days = models.IntegerField()
+	status     = models.CharField(max_length=20)
 
 class EmployeeLeave(models.Model):
 	leave_available = models.IntegerField()
 	leave_taken     = models.IntegerField()
 	leave_remains   = models.IntegerField()
-	leave_type      = models.CharField(max_length=50)
 	from_date       = models.DateField(max_length=50)
 	to_date         = models.DateField(max_length=50)
 	no_of_days      = models.IntegerField()
-	leave_reason    = models.CharField(max_length=50)
+	leave_reason    = models.CharField(max_length=200)
+	fk_leave_type_id= models.ForeignKey(LeaveType, on_delete=models.CASCADE)
 	fk_employee_id  = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 class Resource(models.Model):
@@ -186,7 +186,7 @@ class CostEstimation(models.Model):
 class Intimation(models.Model):
 	mail                   = models.CharField(max_length=50)
 	intimation_date        = models.DateField()
-	intimation_description = models.CharField(max_length=60)
+	intimation_description = models.CharField(max_length=200)
 	fk_employee_id         = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 class Vacany(models.Model):
@@ -211,6 +211,7 @@ class PerformanceEvaluation(models.Model):
 class Payment(models.Model):
 	fk_employee_id    = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 	fk_leave_id       = models.ForeignKey(EmployeeLeave, on_delete=models.CASCADE)
+	date              = models.DateField()
 	charges_per_leave = models.IntegerField()
 	total_work_hrs    = models.IntegerField()
 	over_time_hrs     = models.IntegerField()

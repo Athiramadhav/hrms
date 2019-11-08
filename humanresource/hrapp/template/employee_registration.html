@@ -12,52 +12,66 @@
           data:{
             upload_image = $('#file').val(),
             fname = $('#fname').val(),
-			lname = $('#lname').val(),
-			gender = $('.gender').val(),
-			dob = $('#dob').val(),
-			address = $('#address').val(),
-			phone =$('#phone').val(),
-			email = $('#email').val(),
-			password =$('#password').val(),
-			designation = $('#designation').val(),
-			qualification = $('#qualification').val(),
-			experience = $('#experience').val(),
-			salary = $('#salary').val(),
-			join_date = $('#join_date').val(),
-    				},
-          
+			      lname = $('#lname').val(),
+			      gender = $('.gender').val(),
+			      dob = $('#dob').val(),
+			      address = $('#address').val(),
+			      phone =$('#phone').val(),
+			      email = $('#email').val(),
+			      password =$('#password').val(),
+			      designation = $('#designation').val(),
+			      qualification = $('#qualification').val(),
+			      experience = $('#experience').val(),
+			      salary = $('#salary').val(),
+			      join_date = $('#join_date').val(),
+    			},
           success: res =>{
-            $.toast({
-              text:res,
-              heading:'Note',
-              icon: 'success',
-              showHideTransition: 'fade',
-              allowToastClose: true,
-              hideAfter: 1500,
-              stack: 5,
-              position:'bottom-left',
-              loader: true,
-              loaderBg:'#9EC600'
-            });
-
-            
-            setTimeout(() =>{
-              location.reload();
-            }, 1500);
-          },
-          error: r =>{
-            $.toast({
-              text:r,
-              heading:'Note',
-              icon: 'error',
-              showHideTransition: 'fade',
-              allowToastClose: true,
-              hideAfter: 3000,
-              stack: 5,
-              position:'bottom-left',
-              loader: true,
-              loaderBg:'#9EC600'
-            });
+              console.log(res);
+              $.toast({
+    						text:res,
+    						heading:'Note',
+    						icon: 'success',
+    						showHideTransition: 'fade',
+    						allowToastClose: true,
+    						hideAfter: 1500,
+    						stack: 5,
+    						position:'bottom-left',
+    						loader: true,
+    						loaderBg:'#9EC600'
+              });
+              $('#file').val();
+              $('#fname').val();
+              $('#lname').val();
+              $('.gender').val();
+              $('#dob').val();
+              $('#address').val();
+              $('#phone').val();
+              $('#email').val();
+              $('#password').val();
+              $('#designation').val();
+              $('#qualification').val();
+              $('#experience').val();
+              $('#salary').val();
+              $('#join_date').val();
+              setTimeout(() =>{
+    						location.reload();
+    					}, 1500);
+              
+            },
+            error: r =>{
+              console.log(r);
+              $.toast({
+    						text:r,
+    						heading:'Note',
+    						icon: 'error',
+    						showHideTransition: 'fade',
+    						allowToastClose: true,
+    						hideAfter: 3000,
+    						stack: 5,
+    						position:'bottom-left',
+    						loader: true,
+    						loaderBg:'#9EC600'
+    					});
           }
         });
         });
@@ -65,11 +79,12 @@
 </script>
 
 
-<form action="/hrapp/register/"  method="POST" style="border:1px solid #ccc" enctype="multipart/form-data">
-  {% csrf_token %}
+
   <div class="container">
     <h1>EMPLOYEE REGISTRATION</h1>
     <hr>
+    <form action="/hrapp/register/"  method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
     <div class="form-group">
       <label>Upload image:</label>
       <input type="file" name="file_uploads" class="form-control" id="file" required>
@@ -109,9 +124,9 @@
     </div>
     <div class="form-group">
       <label>Designation:</label>
-        <input type="checkbox" name="emp_designation" value="HR Manager" required>HR Manager
-        <input type="checkbox" name="emp_designation" value="Project Manager" required>Project Manager
-        <input type="checkbox" name="emp_designation" value="Other" required>Other
+        <input type="checkbox" name="emp_designation" value="HR Manager">HR Manager
+        <input type="checkbox" name="emp_designation" value="Project Manager">Project Manager
+        <input type="checkbox" name="emp_designation" value="Other">Other
     </div>
     <div class="form-group">
       <label>Employee Qualification:</label>
@@ -134,6 +149,7 @@
       <button type="button" class="cancelbtn">Cancel</button>
       <button type="submit" class="signupbtn">Save</button>
     </div>
+  </form>
   </div>
-</form>
+
 {% endblock %}

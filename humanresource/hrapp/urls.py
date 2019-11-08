@@ -19,13 +19,17 @@ urlpatterns =[
 	path('payment/',views.payment),
 	path('emp_profile/',views.employee_profile),
 	path('edit/',views.edit),
+	path('delete/',views.delete),
 	path('interview/',views.interview),
 	path('exam_detail/',views.exam_detail),
 	path('intimation/',views.intimationDetails),
+	path('leave_type/',views.leaveType),
 	path('leaveform/', views.leaveApply),
 	path('assign/', views.assign),
 	path('projectreg/',views.projectReg),
 	path('taskadd/', views.taskAdd),
+	path('taskview/', views.task_view),
+	path('vacancyview/', views.vacancy_view),
     path('complaintreg/',views.complaintReg),
 	path('evaluation/', views.performanceEvaluation),
 	path('vacancy/',views.vaccancy),
@@ -34,9 +38,10 @@ urlpatterns =[
 	path('companyprofile/', views.company_view),
 	path('projectview/', views.project_view),
 	path('resourceadd/', views.resource),
-	# path('leave_view/',views.leaveReport),
-	# path('complaint_view/',views.complaintReport),
-	# path('callletter/',views.callLetter)
+	path('leave_view/',views.leaveReport),
+	path('complaint_view/',views.complaintReport),
+	path('callletter/',views.callLetter),
+	path('rosterview/', views.roster_view)
 	# path('payroll/', views.payroll)
 
 ]

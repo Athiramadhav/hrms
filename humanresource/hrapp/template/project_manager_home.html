@@ -130,7 +130,30 @@ button:hover {
   
           <li><a href="/hrapp/hr_home"><span class="glyphicon glyphicon-home"></span>  Home</a></li>
           <li><a href="/hrapp/emp_profile?id={{.id}}"><span class="glyphicon glyphicon-user"></span>  Profile</a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Mail</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-envelope" data-toggle="modal" data-target="#myModal"></span>  Mail</a></li>
+          <div class="modal fade" id="myModal" role="dialog">
+              <div class="modal-dialog" width=700px>
+                   <div class="modal-content">
+                      <div class="modal-header">
+                           <button type="button" class="close" data-dismiss="modal">&times;</button>
+                           <h4 class="modal-title">Employees List</h4>
+                      </div>
+               <div class="modal-body">
+                   <div id="subdiv" class="row">
+                       
+                           <div class="innerDiv col-lg-3" width=500px>
+                             <input type="checkbox" value="" name="" ><label></label>
+                             </div>
+                    
+                    </div>
+                 </div>
+               <div class="modal-footer">
+                 <button type="button" id="click" class="btn btn-default" data-dismiss="modal">SELECT</button>
+   
+             </div>
+           </div>
+         </div>
+       </div>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/hrapp/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>

@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
-from django.template import Template,loader
-from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
+from django.shortcuts import render,redirect
+from django.template import Template, loader
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import *
-import json
 from django.views.decorators.csrf import csrf_exempt
-
+from django.core.mail import send_mail
+from django.conf import settings
+import json
 # Create your views here.
 
 def userLogin(request):
@@ -13,10 +14,8 @@ def userLogin(request):
 			lusername = request.POST.get('username')
 			lpassword = request.POST.get('password')
 			user_obj=Login.objects.get(username=lusername, password=lpassword)
-			emp_details= EmployeeProfile.objects.get(fk_login=user_obj.id)
-
 			request.session['userid'] = user_obj.id
-			
+			emp_details= EmployeeProfile.objects.get(fk_login=user_obj.id)
 			if emp_details.designation=="HR Manager":
 				return HttpResponseRedirect('hr_home')
 			elif emp_details.designation == "Project Manager":
@@ -102,7 +101,14 @@ def registration(request):
 					emp_experience=vexperience,salary=vsalary,join_date=vjoin_date,upload_image=vupload_image,fk_login=login_obj)
 					emp_detail.save()
 					if emp_detail.id>0:
-						return HttpResponse('registration succecssful')
+						subject = ' REGISTRATION NOTIFICATION'
+						message = 'WELCOME '+vfname+' '+vlname+' TO THE COMPANY. YOU ARE SUCCESSFULLY REGISTERED AS OUR '+vdesignation+' WITH USERNAME:'+vemail+' password: '+vpassword+'.'
+						print(message)
+						email_from = settings.EMAIL_HOST_USER
+						recipient_list = [''+vemail+'']
+						print(recipient_list)
+						send_mail( subject, message, email_from, recipient_list )
+						# return HttpResponse('registration succecssful')
 		except Exception as e:
 			print(str(e))
 			return HttpResponse('registration failed')
@@ -126,8 +132,6 @@ def employee_profile(request):
 			return render(request, 'emp_profile.html', context)
 	except Exception as e:
 		print(str(e))
-	
-	\
 		return HttpResponse("failed")
 
 def edit(request):
@@ -147,6 +151,17 @@ def edit(request):
 	except Exception as e:
 		print(str(e))
 		return HttpResponse('failed')
+		
+@csrf_exempt
+def delete(request):
+	try:
+		user_id=request.GET.get('id')
+		print(user_id)
+		EmployeeProfile.objects.get(id=user_id).delete()
+		return HttpResponse('employee deleted')
+	except Exception as e:
+		print(str(e))
+		return HttpResponse('error')
 
 def candidateRegistration(request):
 	if request.method == 'POST' and request.FILES['resume_uploads']:
@@ -191,8 +206,8 @@ def candidateRegistration(request):
 											designation1='NIL',designation2='NIL',designation3='NIL',
 											period1='NIL',period2='NIL',period3='NIL',fk_candidate_id=candidate_detail,fk_resume_id=resume_detail)
 						experience_details.save()
-					if candidate_detail.id>0:
-						return HttpResponse('Registerd')
+					# if candidate_detail.id>0:
+					# 	return HttpResponse('Registerd')
 		except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed")
@@ -214,15 +229,22 @@ def candidate_resume(request):
 
 @csrf_exempt
 def addQuestion(request):
-	if request.method=='POST':
+	if request.method == 'POST':
 		try:
-			val_question = request.POST.get('question')
-			val_option1 = request.POST.get('option1')
+			val_questions = request.POST.get('question')
+			print(val_questions)
+			val_option1= request.POST.get('option1')
+			print(val_option1)
 			val_option2 = request.POST.get('option2')
+			print(val_option2)
 			val_option3 = request.POST.get('option3')
+			print(val_option3)
 			val_option4 = request.POST.get('option4')
-			val_ans = request.POST.get('answer')
-			exam_object = QuestionPaper(question=val_question, option1=val_option1, option2=val_option2, option3=val_option3, option4=val_option4, answer=val_ans)
+			print(val_option4)
+			val_answer = request.POST.get('answer')
+			print(val_answer)
+			exam_object = QuestionPaper(question=val_questions, option1=val_option1, option2=val_option2, option3=val_option3,
+						 option4=val_option4, answer=val_answer)
 			exam_object.save()
 			return HttpResponse('saved')
 		except Exception as e:
@@ -233,12 +255,19 @@ def addQuestion(request):
 def onlineExam(request):
 	try:
 		if request.method == 'POST':
+			candidate_id = int(request.session['userid'])
 			qid = int(request.POST['ques_id'])
 			online_obj = QuestionPaper.objects.values().get(id=qid+1)
 			online_obj.pop('answer')
+			request.session['current_question'] = online_obj['id']
 			return JsonResponse({'data':online_obj})
 		else:
-			online_obj = QuestionPaper.objects.get(id=1)
+			qid = None
+			# qid = request.session.get('current_question')
+			if qid:
+				online_obj = QuestionPaper.objects.values().get(id=qid)
+			else:
+				online_obj = QuestionPaper.objects.values().get(id=20)	
 			return render(request,'qp_view.html',{'online':online_obj})
 	except Exception as e:
 		print(str(e))
@@ -308,6 +337,13 @@ def interview(request):
 			lctn = request.POST.get('location')
 			intrvw_obj = Interview(interview_type=intvw_type,interview_Date=intrvw_dt,interview_time=intrvw_time,interview_location=lctn)
 			intrvw_obj.save()
+			subject = ' REGISTRATION NOTIFICATION'
+			message = ' You have cleared the online examination and is selected for the technical interview scheduled at '+lctn+ ' on '+intrvw_dt+ 'for further details vist our website.' 
+			print(message)
+			email_from = settings.EMAIL_HOST_USER
+			recipient_list = [''+vemail+'']
+			print(recipient_list)
+			send_mail( subject, message, email_from, recipient_list )
 			return HttpResponse('Registerd')
 	except Exception as e:
 		print(str(e))
@@ -324,50 +360,105 @@ def exam_detail(request):
 			ed_tym = request.POST.get('end_time')
 			drtn = request.POST.get('duration')
 			exam_obj = ExamDetail(exam_startdate =strt_dt,exam_enddate=ed_dt,exam_starttime =strt_tym,exam_endtime=ed_tym,exam_duration=drtn)
-			exam_obj.save()
+			# exam_obj.save()
 			subject = ' ONLINE EXAM NOTIFICATION'
-			message = ' your online examination is commenced to be conducted from'
-			print(message)
+			message = ' Exam notification is available in the site'
 			email_from = settings.EMAIL_HOST_USER
-			recipient = Candidate.objects.all()
-			print(recipient)
-			recipient_list = ['ami.mohan935@gmail.com']
+			print(email_from)
+			# recipient = Candidate.objects.all().filter(fk_login.username__in)
+			# print(recipient)
+			recipient_list = ['theerthakp95@gmail.com']
 			send_mail( subject, message, email_from, recipient_list )
-			return HttpResponse('success')
+			# return HttpResponse('success')
 	except Exception as e:
 		print(str(e))
 	return render(request, 'exam_details.html')
 
-
+@csrf_exempt
 def intimationDetails(request):
-	if request.method == 'POST':
-		try:
-			date = request.POST.get('date')
-			mail = request.POST.get('mail')
+	try:
+		if request.method == 'POST':
+			date = request.POST.get('mail_date')
+			mail = request.POST.get('email')
 			description = request.POST.get('reason')
 			intimate_obj = Intimation(mail=mail, intimation_date=date, intimation_description=description)
-			intimate_obj.save()
+			# intimate_obj.save()
+			subject = ' INTIMATION MAIL'
+			message = ''+description+''
+			print(message)
+			email_from = settings.EMAIL_HOST_USER
+			recipient_list = [''+mail+'']
+			print(recipient_list)
+			send_mail( subject, message, email_from, recipient_list )
 			return HttpResponse("Intimation Sent")
-		except Exception as e:
+	except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed To Sent")
 	return render(request, 'intimation.html')
+
+@csrf_exempt
+def leaveType(request):
+	try:
+		if request.method =='POST':
+			var_type = request.POST.get('type')
+			print(var_type)
+			var_day = request.POST.get('days')
+			print(var_day)
+			var_status = request.POST.get('status')
+			print(var_status)
+			leave_typ_obj = LeaveType(leave_type =var_type,no_of_days =var_day,status=var_status)
+			print(leave_typ_obj)
+			leave_typ_obj.save()
+			# return HttpResponse('success')
+	except Exception as e:
+		print(str(e))
+	return render(request, 'leave_type.html')
+
+def leaveAdd(request):
+	try:
+		leave_typ_obj=LeaveType.object.all()
+		print(leave_typ_obj)
+		# if request.method =='POST':
+	except Exception as e:
+		print(str(e))
+		
+def leaveReport(request):
+	return render(request, 'leave_report_view.html')
+
+def complaintReport(request):
+	try:
+
+		complaint_obj = Complaint.objects.all()
+		context = {'complaintlist':complaint_obj}
+		return render(request, 'complaint_view.html', context)
+
+	except Exception as e:
+		print(str(e))
+	
+@csrf_exempt
+def callLetter(request):
+	try:
+		if request.method == 'POST':
+			val_post = request.POST.get('post')
+			val_jn_dt = request.POST.get('join_date')
+			val_jn_tym = request.POST.get('join_time')
+			call_obj = CallLetter(post=val_post,join_date=val_jn_dt,join_time=val_jn_tym)
+			call_obj.save()
+	except Exception as e:
+		print(str(e))
+	return render(request, 'callletter.html')
 
 
 def complaintReg(request):
 	if request.method == 'POST':
 		try:
 			name = request.session['userid']
+			emp_obj  = EmployeeProfile.objects.get(id=name)
 			print(name)
-			print(request.POST)
-			cname = request.POST.get('compname')
-			cdesg = request.POST.get('cpost')
-			cdept = request.POST.get('cdept')
 			cact =request.POST.get('act')
 			date = request.POST.get('date')
 			time = request.POST.get('time')
-			comp_reg = Complaint(fk_employee_id=id, c_name=cname, complaint_desg=cdesg, complaint_dept=cdept,
-			           compaint_description=cact, date_of_incident=date, time_of_incident=time)
+			comp_reg = Complaint(compaint_description=cact, date_of_incident=date, time_of_incident=time,fk_employee_id=emp_obj)
 			comp_reg.save()
 			return HttpResponse("Registration Done")
 			return render(request,'employee_home.html')
@@ -382,11 +473,14 @@ def complaintReg(request):
 
 
 def performanceEvaluation(request):
-	if request.method == 'POST':
-		try:
+	try:
+		empname = EmployeeProfile.objects.filter(designation='Other')
+		print(empname)
+		emp_id = EmployeeProfile.objects.filter(id__in=empname)
+		print(emp_id)
+
+		if request.method == 'POST':
 			print(request.POST)
-			ename = request.POST.get('name')
-			id = request.POST.get('id')
 			dept = request.POST.get('dept')
 			pname = request.POST.get('pname')
 			date= request.POST.get('date')
@@ -401,14 +495,15 @@ def performanceEvaluation(request):
 			return HttpResponse("Completed")
 			return render(request,'project_manger_home.html')
 
-			
-		except Exception as a:
-			print(str(a))
-			return HttpResponse("Failed")
-
-	else:
+		else:
 		 emp_obj = EmployeeProfile.objects.all()
 		 return render(request, 'emp_performance_evaluation.html',{'employee' : emp_obj})
+		
+		
+	except Exception as a:
+		print(str(a))
+		return HttpResponse("Failed")
+
 	
 
 
@@ -473,7 +568,11 @@ def projectReg(request):
 			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate)
 			reg_obj.save()
-			return render(request,'project_register.html')
+			if reg_obj.id > 0:
+				context={}
+				context['currentproject']= reg_obj
+				print(context)
+				return render(request,'project_register.html', context)
 		except Exception as e:
 			print(str(e))
 			return render(request,'project_register.html',{'response':'Registration Failed'})
@@ -483,24 +582,34 @@ def projectReg(request):
 def taskAdd(request):
 	try:
 		if request.method == 'POST':
-			project_obj = Project.objects.all()
-			context = {projectlist: 'project_obj'}
-			print(request.POST)
-			ptitle = request.POST['pname']
-			print(ptitle)
-			task = request.POST['task']
+			pro_id = request.GET.get('id')
+			project_obj = Project.objects.get(id=pro_id)
+			task = request.POST.get('task')
 			print(task)
-			priority = request.POST['priority']
+			priority = request.POST.get('priority')
 			print(priority)
-			sdate = request.POST['sdate']
+			sdate = request.POST.get('sdate')
 			print(sdate)
-			edate = request.POST['duedate']
+			edate = request.POST.get('edate')
 			print(edate)
-			task_add_obj = TaskAdd(task_title=task, task_priority=priority, task_start_date=sdate, task_end_date  =edate)
-			return render(request,'task_add.html',context)
+			name = request.POST.get('team_lead')
+			print(name)
+			team = ProjectAllocation.objects.get(team_lead=name)
+			print(team)
+			task_add_obj = TaskAdd(fk_project_id=project_obj,task_title=task, task_priority=priority, task_start_date=sdate,
+			                         task_end_date=edate, fk_team_id=team)
+			task_add_obj.save()
 
 		else:
-			return render(request, 'task_add.html',{'task_add: task_obj'})
+			try:
+				project_obj = Project.objects.get(id=request.GET.get('id'))
+			except:
+				project_obj = {}
+			team_lead_obj = ProjectAllocation.objects.all()
+			context = {}
+			context["projectlist"]= project_obj
+			context["teamlist"]= team_lead_obj
+			return render(request,'task_add.html',context)
 	except Exception as e:
 			print(str(e))
 			return render(request,'task_add.html',{'response':'Failed'})
@@ -576,9 +685,18 @@ def vaccancy(request):
 
 
 def roster_view(request):
+	# if emp_name = EmployeeProfile.objects.filter(designation='Other'):
+
 	roster_obj = TaskAdd.objects.all()
 	context = {'rosterlist':roster_obj}
 	return render(request, 'roster.html',context)
+
+def vacancy_view(request):
+	vacancy_obj = Vacany.objects.all()
+	context = {'list': vacancy_obj}
+	print(context)
+	return render(request, 'report_vacancy.html',context)
+
 
 def dept(request):
 	try:
@@ -641,6 +759,11 @@ def project_view(request):
 	context = {'projectlist':project_obj}
 	return render(request, 'report_project.html',context)
 
+def task_view(request):
+	task_obj = TaskAdd.objects.all()
+	context = {'tasks':task_obj}
+	return render(request, 'task_view.html',context)
+
 def resource(request):
 	try:
 		if request.method == 'POST':
@@ -659,3 +782,21 @@ def resource(request):
 			print(str(e))
 			return HttpResponse("Failed")
 	return render(request, 'resource_add.html')
+
+
+def notification(request):
+	try:
+		if request.method == 'POST':
+			team_lead_obj = Login.objects.get(username=request.POST['email'])
+			print(team_lead_obj.username)
+			email_from = settings.EMAIL_HOST_USER
+			message = 'Your are assigned to the following project'
+			recipient_list=[team_lead_obj.username]
+			print(recipient_list)
+			send_mail('Hello',message,email_from,recipient_list)
+			
+except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed")
+	return render(request, 'taskadd.html')
+

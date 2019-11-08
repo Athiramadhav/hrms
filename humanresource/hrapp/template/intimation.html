@@ -1,6 +1,5 @@
 {% extends 'hr_home.html'%}
 
-{% block body %}
 
 {% block body %}
 <div class="container">
@@ -9,16 +8,16 @@
     {% csrf_token %}
     <div class="form-group">
       <label>Name:</label>
-      <input type="text" class="form-control" placeholder="Enter the Name of Employee" id="ename">
+      <input type="text" name="name" class="form-control" placeholder="Enter the Name of Employee">
 
       <label>Date:</label>
-      <input type="Date" name="" id="date" class="form-control">
+      <input type="Date" name="mail_date" class="form-control">
 
       <label>Email:</label>
-      <input type="text" name="" id="mail" class="form-control" placeholder="Enter the Employee Mail">
+      <input type="text" name="email" class="form-control" placeholder="Enter the Employee Mail">
 
       <label>Reason:</label>
-      <textarea class="form-control" id="reason"></textarea>
+      <textarea class="form-control" name="reason"></textarea>
       
     </div>
     <div class="clearfix">

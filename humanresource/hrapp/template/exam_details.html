@@ -6,20 +6,47 @@
            $.ajax({
              url:'http://127.0.0.1:8000/hrapp/exam_detail/',
              type:'POST',
-             data:{
-              sdate:$('#sdate').val(),
-    					stime:$('#stime').val(),
-    					edate:$('#edate').val(),
-    					etime:$('#etime').val(),
-    					duration:$('#duration').val(),
+            //  data:{
+            //   sdate:$('#sdate').val(),
+    				// 	stime:$('#stime').val(),
+    				// 	edate:$('#edate').val(),
+    				// 	etime:$('#etime').val(),
+    				// 	duration:$('#duration').val(),
     					
-    				},
+    				// },
             success: res =>{
-              console.log('.............');
+              console.log(res);
+              $.toast({
+    						text:res,
+    						heading:'Note',
+    						icon: 'success',
+    						showHideTransition: 'fade',
+    						allowToastClose: true,
+    						hideAfter: 1500,
+    						stack: 5,
+    						position:'bottom-left',
+    						loader: true,
+    						loaderBg:'#9EC600'
+              });
+              setTimeout(() =>{
+    						location.reload();
+    					}, 1500);
               
             },
-            error: res =>{
-              console.log(res);
+            error: r =>{
+              console.log(r);
+              $.toast({
+    						text:r,
+    						heading:'Note',
+    						icon: 'error',
+    						showHideTransition: 'fade',
+    						allowToastClose: true,
+    						hideAfter: 3000,
+    						stack: 5,
+    						position:'bottom-left',
+    						loader: true,
+    						loaderBg:'#9EC600'
+    					});
 
             }
 
@@ -51,27 +78,8 @@
     <button type="submit" class="signupbtn">Add</button>
   </div>
   </form>
-
- <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Notification</h4>
-        </div>
-        <div class="modal-body">
-          <p>text</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default"  data-dismiss="modal">Send</button>
-        </div>
-      </div>
-      
-    </div>
   </div>
-</div>
+
+ 
 
 {% endblock %}

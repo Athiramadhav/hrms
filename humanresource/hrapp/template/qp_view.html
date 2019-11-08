@@ -4,17 +4,32 @@
 
 <script type="text/javascript">
   $(document).ready( () => {
-    $('.signupbtn').click( (e) => {
-      const ques_id = e.currentTarget.id;
-      user_ans=$("input[name='answer']:checked").val();
-      options = $('.options');
+
+        var myVar = '';
+        time = -1;
+
+        function myTimer() {
+          time += 1;
+          $("#timer").val('00:00:'+time);
+        }
+        $('.start_btn').click(function(){
+          myVar = setInterval(myTimer, 1000);
+          $('.signupbtn').prop('disabled',false);
+      });
+      
+      $('.signupbtn').click( (e) => {
+        time = -1;
+        myVar;
+       ques_id = e.currentTarget.id;
+       user_ans=$("input[name='answer']:checked").val();
+       options = $('.options');
       $.ajax({
           url: "http://127.0.0.1:8000/hrapp/question_view/",
           type: "POST",
           data: {
-            ques_id:ques_id,
+            ques_id,
             csrfmiddlewaretoken:'{{ csrf_token }}',
-            user_answer:user_ans
+            user_answer:user_ans,
           },
           success: res => {
             // console.log(res);
@@ -26,7 +41,6 @@
             $('#option3').html(res.data['option3']);
             $('#option4').html(res.data['option4']);
             $('.signupbtn').attr('id',res.data['id']);
-              // if(ans==)
             if($("input[name='answer']").is('checked')){
               checkedCheckboxes.push($("input[name='answer']").val());
             }
@@ -49,8 +63,14 @@
 <form >
   {% csrf_token %}
    <div class="container">
-    <h1>ONLINE EXAM</h1>
-      <hr>
+    <h1>ONLINE EXAM</h1>{{online}}
+    <div class="start_btn">
+      Start Exam
+    </div>
+    <div>
+      <input type="text" readonly id="timer">
+    </div>
+    <hr />
     <div class="form-group">
       <label>Questions :</label>
       <textarea name="question" cols="50" rows="2" class="form-control" id="question">
@@ -70,7 +90,7 @@
     </div>
     <div class="clearfix">
           <button type="button" class="cancelbtn">Cancel</button>
-          <button type="button" class="signupbtn" id="{{online.id}}">Submit</button>
+          <button type="button" class="signupbtn" id="{{online.id}}" disabled>Submit</button>
        </div>
   </div>
 </form>
