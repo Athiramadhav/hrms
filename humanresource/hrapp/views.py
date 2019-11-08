@@ -54,7 +54,7 @@ def redirect_employee_home(request):
 # 	except Exception as e:
 # 		print(str(e))
 
-# 
+
 def redirect_project_manager_home(request):
 	try:
 		if 'userid' in request.session:
@@ -252,26 +252,57 @@ def addQuestion(request):
 			return HttpResponse('not saved')
 	return render(request,'question_paper.html')
 
+def fn_startExam(request):
+	#del request.session['time']
+	time = request.session.get('time')
+	if time:
+		time = request.session['time']
+		return render(request,'qp_view.html',{'time':time})
+	return render(request,'qp_view.html')
+
 def onlineExam(request):
 	try:
 		if request.method == 'POST':
 			candidate_id = int(request.session['userid'])
-			qid = int(request.POST['ques_id'])
+			qid = request.session['current_question']
 			online_obj = QuestionPaper.objects.values().get(id=qid+1)
 			online_obj.pop('answer')
 			request.session['current_question'] = online_obj['id']
 			return JsonResponse({'data':online_obj})
 		else:
-			qid = None
-			# qid = request.session.get('current_question')
-			if qid:
+			time = request.session.get('time')
+			if 'time' in request.GET:
+				request.session['time'] = request.GET.get('time')
+				qid = request.session['current_question']
 				online_obj = QuestionPaper.objects.values().get(id=qid)
+				online_obj['time'] = request.session['time']
+			elif time:
+				qid = request.session['current_question']
+				online_obj = QuestionPaper.objects.values().get(id=qid)
+				online_obj['time'] = request.session['time']
+
 			else:
-				online_obj = QuestionPaper.objects.values().get(id=20)	
-			return render(request,'qp_view.html',{'online':online_obj})
+				online_obj = QuestionPaper.objects.values().get(id=1)
+				request.session['current_question'] = online_obj['id']	
+			return JsonResponse({'data':online_obj})
+			
+						
 	except Exception as e:
 		print(str(e))
 		return HttpResponse("Failed to load")
+
+# def fn_exitExam(request):
+# 	if request.method == 'POST':
+# 		del request.session['time']
+# 		del request.session['current_question']
+# 		return render(request,'candidate_home.html')
+# 	del request.session['time']
+# 	qid = int(request.POST['ques_id'])
+# 	online_obj = QuestionPaper.objects.values().get(id=qid+1)
+# 	online_obj.pop('answer')
+# 	request.session['current_question'] = online_obj['id']
+# 	return JsonResponse({'data':online_obj})
+	
 
 		
 @csrf_exempt
@@ -360,7 +391,7 @@ def exam_detail(request):
 			ed_tym = request.POST.get('end_time')
 			drtn = request.POST.get('duration')
 			exam_obj = ExamDetail(exam_startdate =strt_dt,exam_enddate=ed_dt,exam_starttime =strt_tym,exam_endtime=ed_tym,exam_duration=drtn)
-			# exam_obj.save()
+			exam_obj.save()
 			subject = ' ONLINE EXAM NOTIFICATION'
 			message = ' Exam notification is available in the site'
 			email_from = settings.EMAIL_HOST_USER
@@ -382,7 +413,7 @@ def intimationDetails(request):
 			mail = request.POST.get('email')
 			description = request.POST.get('reason')
 			intimate_obj = Intimation(mail=mail, intimation_date=date, intimation_description=description)
-			# intimate_obj.save()
+			intimate_obj.save()
 			subject = ' INTIMATION MAIL'
 			message = ''+description+''
 			print(message)
@@ -630,7 +661,6 @@ def assign(request):
 			else:
 				return HttpResponse('Failed')
 
-
 		else:
 			empname = EmployeeProfile.objects.filter(designation='Other').values('fk_login')
 			print(empname)
@@ -755,3 +785,21 @@ def resource(request):
 			print(str(e))
 			return HttpResponse("Failed")
 	return render(request, 'resource_add.html')
+
+
+def forgotPassword(request):
+	try:
+		if request.method == 'POST':
+			user_obj = Login.objects.get(username= request.POST['email'])
+			print(user_obj.username)
+			email_from = settings.EMAIL_HOST_USER
+			message = 'Your password is {}'.format(user_obj.password)
+			recipient_list=[user_obj.username]
+			print(recipient_list)
+			send_mail('Hello',message,email_from,recipient_list)
+			return render(request, 'forgot_password.html',{'msg':'please check your email'})
+		return render(request, 'forgot_password.html')
+	
+	except Exception as e:
+		print(str(e))
+		return render(request, 'forgot_password.html',{'msg':'Email does not exist'})

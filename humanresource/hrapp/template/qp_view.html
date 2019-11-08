@@ -4,37 +4,24 @@
 
 <script type="text/javascript">
   $(document).ready( () => {
-
+        mytime = 0;
         var myVar = '';
-        time = -1;
+        invoke = '';
+        options = $('.options');
+        user_ans = '';
 
-        function myTimer() {
-          time += 1;
-          $("#timer").val('00:00:'+time);
-        }
-        $('.start_btn').click(function(){
-          myVar = setInterval(myTimer, 1000);
-          $('.signupbtn').prop('disabled',false);
-      });
-      
-      $('.signupbtn').click( (e) => {
-        time = -1;
-        myVar;
-       ques_id = e.currentTarget.id;
-       user_ans=$("input[name='answer']:checked").val();
-       options = $('.options');
-      $.ajax({
+        function getAJax(){
+        $.ajax({
           url: "http://127.0.0.1:8000/hrapp/question_view/",
           type: "POST",
           data: {
-            ques_id,
             csrfmiddlewaretoken:'{{ csrf_token }}',
             user_answer:user_ans,
           },
           success: res => {
             // console.log(res);
             res_keys = Object.keys(res.data);
-            console.log(res_keys);
+            time = -1;
             $('#question').html(res.data['question']);
             $('#option1').html(res.data['option1']);
             $('#option2').html(res.data['option2']);
@@ -55,7 +42,95 @@
             console.log(err);
           }
       });
+      }
+        function myTimer() {
+          time += 1;
+          $("#timer").val('00:00:'+time);
+          if(time==10){
+              getAJax();
+          }
+        }
+
+        function upDateTimer() {
+          console.log(time)
+          $.ajax({
+          url:"http://127.0.0.1:8000/hrapp/question_view",
+          type: 'GET',
+          data:{
+            time
+          },
+          success: res => {
+            res_keys = Object.keys(res.data);
+            time = Number(res.data['time']);
+            $('#question').html(res.data['question']);
+            $('#option1').html(res.data['option1']);
+            $('#option2').html(res.data['option2']);
+            $('#option3').html(res.data['option3']);
+            $('#option4').html(res.data['option4']);
+            $('.signupbtn').attr('id',res.data['id']);
+            if($("input[name='answer']").is('checked')){
+              checkedCheckboxes.push($("input[name='answer']").val());
+            }
+            for (op=0, v=2; op<options.length; op+=1,v++) {
+                options[op].value = res.data[res_keys[v]];
+              }
+              $("input[name='answer']").prop('checked', false);
+            },
+
+          error: err => {
+            console.log(err);
+          }
+      });
+        }
+        if($('#timer').val()!=''){
+          mytime = Number($('#timer').val());
+          time = mytime
+          myVar = setInterval(myTimer, 1000);
+        }
+        $('.start_btn').click(function(){
+          $('.form-group').show();
+          if(mytime==0){
+            time = -1;
+            myVar = setInterval(myTimer, 1000);
+          }
+          update = setInterval(upDateTimer,3000);
+
+          $.ajax({
+          url: "http://127.0.0.1:8000/hrapp/question_view",
+          type: "GET",
+          success: res => {
+            // console.log(res);
+            res_keys = Object.keys(res.data);
+            $('#question').html(res.data['question']);
+            $('#option1').html(res.data['option1']);
+            $('#option2').html(res.data['option2']);
+            $('#option3').html(res.data['option3']);
+            $('#option4').html(res.data['option4']);
+            $('.signupbtn').attr('id',res.data['id']);
+            if($("input[name='answer']").is('checked')){
+              checkedCheckboxes.push($("input[name='answer']").val());
+            }
+            for (op=0, v=2; op<options.length; op+=1,v++) {
+                options[op].value = res.data[res_keys[v]];
+                // console.log(options[op]);
+              }
+              $("input[name='answer']").prop('checked', false);
+            },
+
+          error: err => {
+            console.log(err);
+          }
+      });
+      });
+
+      
+      $('.signupbtn').click( (e) => {
+       user_ans=$("input[name='answer']:checked").val();
+      getAJax();
+      myVar;
     });
+
+    
   });
         
 </script>
@@ -63,35 +138,33 @@
 <form >
   {% csrf_token %}
    <div class="container">
-    <h1>ONLINE EXAM</h1>{{online}}
+    <h1>ONLINE EXAM</h1>
     <div class="start_btn">
       Start Exam
     </div>
     <div>
-      <input type="text" readonly id="timer">
+      <input type="text" readonly id="timer" {% if time %} value="{{time}}" {% endif %}>
     </div>
     <hr />
-    <div class="form-group">
+      <div class="form-group" hidden>
       <label>Questions :</label>
       <textarea name="question" cols="50" rows="2" class="form-control" id="question">
-        {{online.question}}
       </textarea>
-    </div>
-    <div class="form-group">
       <label>Answer:</label><br>
-      <input type="radio" name="answer" id="answer1" value="{{online.option1}}" class="options">
-      <label id="option1">{{online.option1}}</label><br>
-      <input type="radio" name="answer" id="answer2" value="{{online.option2}}" class="options">
-      <label id="option2">{{online.option2}}</label><br>
-      <input type="radio" name="answer" id="answer3" value="{{online.option3}}" class="options">
-      <label id="option3">{{online.option3}}</label><br>
-      <input type="radio" name="answer" id="answer4" value="{{online.option4}}" class="options">
-      <label id="option4">{{online.option4}}</label>
-    </div>
+      <input type="radio" name="answer" id="answer1"  class="options">
+      <label id="option1"></label><br>
+      <input type="radio" name="answer" id="answer2" class="options">
+      <label id="option2"></label><br>
+      <input type="radio" name="answer" id="answer3"  class="options">
+      <label id="option3"></label><br>
+      <input type="radio" name="answer" id="answer4"  class="options">
+      <label id="option4"></label>
+    
     <div class="clearfix">
           <button type="button" class="cancelbtn">Cancel</button>
-          <button type="button" class="signupbtn" id="{{online.id}}" disabled>Submit</button>
+          <button type="button" class="signupbtn" >Submit</button>
        </div>
+      </div>
   </div>
 </form>
 {% endblock %}
