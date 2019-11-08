@@ -583,7 +583,9 @@ def taskAdd(request):
 	try:
 		if request.method == 'POST':
 			pro_id = request.GET.get('id')
+			print(pro_id)
 			project_obj = Project.objects.get(id=pro_id)
+			print(pro_id)
 			task = request.POST.get('task')
 			print(task)
 			priority = request.POST.get('priority')
@@ -603,6 +605,7 @@ def taskAdd(request):
 		else:
 			try:
 				project_obj = Project.objects.get(id=request.GET.get('id'))
+				print(project_obj)
 			except:
 				project_obj = {}
 			team_lead_obj = ProjectAllocation.objects.all()
@@ -794,8 +797,7 @@ def notification(request):
 			recipient_list=[team_lead_obj.username]
 			print(recipient_list)
 			send_mail('Hello',message,email_from,recipient_list)
-			
-except Exception as e:
+	except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed")
 	return render(request, 'taskadd.html')
