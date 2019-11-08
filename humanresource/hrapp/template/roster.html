@@ -3,13 +3,14 @@
 {% block body %}
 <div class="container">
   
-  <form action="hrapp/rosterview/" method="POST">
-
+  <form action="/hrapp/rosterview/" method="POST">
+{{data}}
+    {% csrf_token %}
     <h2>ROSTER MANAGEMENT</h2>
       <div class="form-group">
           <label>From date</label>&nbsp;<input type="date" name="sdate" class="form control">&nbsp;&nbsp;
           <label>To date</label>&nbsp;<input type="date" name="edate" class="form-control">&nbsp;&nbsp;
-          <button  type="button" class="btn btn-primary">Continue</button>
+          <button  type="submit" class="btn btn-primary">Continue</button>
         </div>
         <table class="table table-striped">
           <thead>

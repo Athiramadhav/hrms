@@ -13,6 +13,7 @@ urlpatterns =[
 	path('candidate_view/',views.candidate_view),
 	path('candidate_resume/',views.candidate_resume),
 	path('questionpaper/',views.addQuestion),
+	path('startexam/',views.fn_startExam),
 	path('question_view/',views.onlineExam),
 	path('mocktest/',views.mockTest),
 	path('mockdisplay/',views.mockDisplay),
@@ -38,10 +39,11 @@ urlpatterns =[
 	path('companyprofile/', views.company_view),
 	path('projectview/', views.project_view),
 	path('resourceadd/', views.resource),
-	path('leave_view/',views.leaveReport),
+	# path('leave_view/',views.leaveReport),
 	path('complaint_view/',views.complaintReport),
 	path('callletter/',views.callLetter),
-	path('rosterview/', views.roster_view)
-	# path('payroll/', views.payroll)
+	path('rosterview/', views.roster_view),
+	# path('payroll/', views.payroll),
+	path('forgot_password/',views.forgotPassword)
 
 ]

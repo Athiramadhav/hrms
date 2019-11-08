@@ -54,7 +54,7 @@ def redirect_employee_home(request):
 # 	except Exception as e:
 # 		print(str(e))
 
-# 
+
 def redirect_project_manager_home(request):
 	try:
 		if 'userid' in request.session:
@@ -252,26 +252,57 @@ def addQuestion(request):
 			return HttpResponse('not saved')
 	return render(request,'question_paper.html')
 
+def fn_startExam(request):
+	#del request.session['time']
+	time = request.session.get('time')
+	if time:
+		time = request.session['time']
+		return render(request,'qp_view.html',{'time':time})
+	return render(request,'qp_view.html')
+
 def onlineExam(request):
 	try:
 		if request.method == 'POST':
 			candidate_id = int(request.session['userid'])
-			qid = int(request.POST['ques_id'])
+			qid = request.session['current_question']
 			online_obj = QuestionPaper.objects.values().get(id=qid+1)
 			online_obj.pop('answer')
 			request.session['current_question'] = online_obj['id']
 			return JsonResponse({'data':online_obj})
 		else:
-			qid = None
-			# qid = request.session.get('current_question')
-			if qid:
+			time = request.session.get('time')
+			if 'time' in request.GET:
+				request.session['time'] = request.GET.get('time')
+				qid = request.session['current_question']
 				online_obj = QuestionPaper.objects.values().get(id=qid)
+				online_obj['time'] = request.session['time']
+			elif time:
+				qid = request.session['current_question']
+				online_obj = QuestionPaper.objects.values().get(id=qid)
+				online_obj['time'] = request.session['time']
+
 			else:
-				online_obj = QuestionPaper.objects.values().get(id=20)	
-			return render(request,'qp_view.html',{'online':online_obj})
+				online_obj = QuestionPaper.objects.values().get(id=1)
+				request.session['current_question'] = online_obj['id']	
+			return JsonResponse({'data':online_obj})
+			
+						
 	except Exception as e:
 		print(str(e))
 		return HttpResponse("Failed to load")
+
+# def fn_exitExam(request):
+# 	if request.method == 'POST':
+# 		del request.session['time']
+# 		del request.session['current_question']
+# 		return render(request,'candidate_home.html')
+# 	del request.session['time']
+# 	qid = int(request.POST['ques_id'])
+# 	online_obj = QuestionPaper.objects.values().get(id=qid+1)
+# 	online_obj.pop('answer')
+# 	request.session['current_question'] = online_obj['id']
+# 	return JsonResponse({'data':online_obj})
+	
 
 		
 @csrf_exempt
@@ -360,7 +391,7 @@ def exam_detail(request):
 			ed_tym = request.POST.get('end_time')
 			drtn = request.POST.get('duration')
 			exam_obj = ExamDetail(exam_startdate =strt_dt,exam_enddate=ed_dt,exam_starttime =strt_tym,exam_endtime=ed_tym,exam_duration=drtn)
-			# exam_obj.save()
+			exam_obj.save()
 			subject = ' ONLINE EXAM NOTIFICATION'
 			message = ' Exam notification is available in the site'
 			email_from = settings.EMAIL_HOST_USER
@@ -382,7 +413,7 @@ def intimationDetails(request):
 			mail = request.POST.get('email')
 			description = request.POST.get('reason')
 			intimate_obj = Intimation(mail=mail, intimation_date=date, intimation_description=description)
-			# intimate_obj.save()
+			intimate_obj.save()
 			subject = ' INTIMATION MAIL'
 			message = ''+description+''
 			print(message)
@@ -414,20 +445,12 @@ def leaveType(request):
 		print(str(e))
 	return render(request, 'leave_type.html')
 
-def leaveAdd(request):
-	try:
-		leave_typ_obj=LeaveType.object.all()
-		print(leave_typ_obj)
-		# if request.method =='POST':
-	except Exception as e:
-		print(str(e))
-		
-def leaveReport(request):
-	return render(request, 'leave_report_view.html')
+	
+# def leaveReport(request):
+# 	return render(request, 'leave_report_view.html')
 
 def complaintReport(request):
 	try:
-
 		complaint_obj = Complaint.objects.all()
 		context = {'complaintlist':complaint_obj}
 		return render(request, 'complaint_view.html', context)
@@ -527,27 +550,34 @@ def costEstimation(request):
 	return render(request,'cost_estimation.html')
 
 def leaveApply(request):
-	if request.method =='POST':
-		try:
-			leave_available = request.POST.get('available')
-			leave_taken = request.POST.get('taken')
-			leave_remian = request.POST.get('remain')
+	try:
+		if request.method == 'POST':
+			leave_typ_obj = LeaveType.objects.all()
 			leave_type = request.POST.get('leavetype')
+			print(leave_type)
 			from_date = request.POST.get('fdate')
+			print(from_date)
 			to_date = request.POST.get('edate')
+			print(to_date)
 			days = request.POST.get('days')
+			print(days)
 			reason = request.POST.get('reason')
-			file_upload = request.FILES['fileupload']
+			print(reason)
 			leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
 			                          leave_remains=leave_remian, leave_type=leave_type, 
 									  from_date=from_date,to_date=to_date, no_of_days=days, 
 									  leave_reason=reason)
-			return HttpResponse("Appiled Successfully")
-			return render(request, 'employee_home.html')
-		except Exception as e:
-			print(str(e))
-			return HttpResponse("Failed To Sent")
+		else:
+			leave_typ_obj=LeaveType.objects.all()
+			context={}
+			context['data']=leave_typ_obj
+			print(context)
+			return render(request, 'leave_form.html', context)
+	except Exception as e:
+		print(str(e))
 	return render(request, 'leave_form.html')
+		
+
 
 def projectReg(request):
 	if request.method == 'POST':
@@ -582,7 +612,7 @@ def projectReg(request):
 def taskAdd(request):
 	try:
 		if request.method == 'POST':
-			pro_id = request.GET.get('id')
+			pro_id = request.POST.get('id')
 			print(pro_id)
 			project_obj = Project.objects.get(id=pro_id)
 			print(pro_id)
@@ -648,7 +678,6 @@ def assign(request):
 			else:
 				return HttpResponse('Failed')
 
-
 		else:
 			empname = EmployeeProfile.objects.filter(designation='Other').values('fk_login')
 			print(empname)
@@ -688,11 +717,12 @@ def vaccancy(request):
 
 
 def roster_view(request):
-	# if emp_name = EmployeeProfile.objects.filter(designation='Other'):
-
-	roster_obj = TaskAdd.objects.all()
-	context = {'rosterlist':roster_obj}
-	return render(request, 'roster.html',context)
+	if request.method == 'POST':
+		start_date = request.POST['sdate']
+		end_date   = request.POST['edate']
+		task_obj  = TaskAdd.objects.filter(task_start_date__gte=start_date,task_end_date__lte=end_date)
+		return render(request,'roster.html',{'data':task_obj})
+	return render(request, 'roster.html')
 
 def vacancy_view(request):
 	vacancy_obj = Vacany.objects.all()
@@ -800,5 +830,22 @@ def notification(request):
 	except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed")
-	return render(request, 'taskadd.html')
+	return render(request, 'resource_add.html')
 
+
+def forgotPassword(request):
+	try:
+		if request.method == 'POST':
+			user_obj = Login.objects.get(username= request.POST['email'])
+			print(user_obj.username)
+			email_from = settings.EMAIL_HOST_USER
+			message = 'Your password is {}'.format(user_obj.password)
+			recipient_list=[user_obj.username]
+			print(recipient_list)
+			send_mail('Hello',message,email_from,recipient_list)
+			return render(request, 'forgot_password.html',{'msg':'please check your email'})
+		return render(request, 'forgot_password.html')
+	
+	except Exception as e:
+		print(str(e))
+		return render(request, 'forgot_password.html',{'msg':'Email does not exist'})
