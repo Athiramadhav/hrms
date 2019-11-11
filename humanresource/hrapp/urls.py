@@ -44,6 +44,7 @@ urlpatterns =[
 	path('callletter/',views.callLetter),
 	path('rosterview/', views.roster_view),
 	# path('payroll/', views.payroll),
-	path('forgot_password/',views.forgotPassword)
+	path('forgot_password/',views.forgotPassword),
+	path('costestimate/', views.costEstimation)
 
 ]

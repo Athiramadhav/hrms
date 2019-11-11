@@ -1,4 +1,4 @@
-{% extends 'project_manager_home.html'%}
+{% extends 'employee_home.html' %}
 
 {% block body %}
 <style>
@@ -60,7 +60,7 @@ button:hover, a:hover {
       <h5>Joining Date:{{user.join_date}}</h5>
       <h5>E-mail id:{{user.fk_login.username}}</h5>
       <button type="submit"><a href="http://127.0.0.1:8000/hrapp/edit?id={{user.id}}" style="color: white"><i class=" glyphicon glyphicon-pencil"></i>Edit</a></button>
-  {% endif%}
+  {% endif %}
   </div>
  
   <div id="n">

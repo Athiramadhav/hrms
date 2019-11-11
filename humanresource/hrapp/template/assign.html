@@ -48,7 +48,10 @@
 
             <label>Team Lead Name</label>
             <select name="tlead">
-              <option>{{}}</option>
+              <option>Select Your Team Leader</option>
+              {% for tl in leader %}
+              <option value="{{tl}}">{{tl}}</option>
+              {% endfor %}
             </select>
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">SELECT EMPLOYEES</button>
             <div class="modal fade" id="myModal" role="dialog">
@@ -79,7 +82,7 @@
              <table class="table table-striped" id="list">
                 <tr>
                     <th rowspan="2" >S.No</th>
-                    <th colspan="4" >Category</th>
+                    <th colspan="4" align="center">Category</th>
                 </tr>
                 <tr>
                     <th>Developers</th>

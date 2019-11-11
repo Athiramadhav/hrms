@@ -6,7 +6,6 @@
   $(document).ready( () => {
         mytime = 0;
         var myVar = '';
-        invoke = '';
         options = $('.options');
         user_ans = '';
 
@@ -21,7 +20,6 @@
           success: res => {
             // console.log(res);
             res_keys = Object.keys(res.data);
-            time = -1;
             $('#question').html(res.data['question']);
             $('#option1').html(res.data['option1']);
             $('#option2').html(res.data['option2']);
@@ -47,6 +45,7 @@
           time += 1;
           $("#timer").val('00:00:'+time);
           if(time==10){
+            time = -1;
               getAJax();
           }
         }
@@ -62,19 +61,19 @@
           success: res => {
             res_keys = Object.keys(res.data);
             time = Number(res.data['time']);
-            $('#question').html(res.data['question']);
-            $('#option1').html(res.data['option1']);
-            $('#option2').html(res.data['option2']);
-            $('#option3').html(res.data['option3']);
-            $('#option4').html(res.data['option4']);
-            $('.signupbtn').attr('id',res.data['id']);
-            if($("input[name='answer']").is('checked')){
-              checkedCheckboxes.push($("input[name='answer']").val());
-            }
-            for (op=0, v=2; op<options.length; op+=1,v++) {
-                options[op].value = res.data[res_keys[v]];
-              }
-              $("input[name='answer']").prop('checked', false);
+            // $('#question').html(res.data['question']);
+            // $('#option1').html(res.data['option1']);
+            // $('#option2').html(res.data['option2']);
+            // $('#option3').html(res.data['option3']);
+            // $('#option4').html(res.data['option4']);
+            // $('.signupbtn').attr('id',res.data['id']);
+            // if($("input[name='answer']").is('checked')){
+            //   checkedCheckboxes.push($("input[name='answer']").val());
+            // }
+            // for (op=0, v=2; op<options.length; op+=1,v++) {
+            //     options[op].value = res.data[res_keys[v]];
+            //   }
+            //   $("input[name='answer']").prop('checked', false);
             },
 
           error: err => {
@@ -151,13 +150,13 @@
       <textarea name="question" cols="50" rows="2" class="form-control" id="question">
       </textarea>
       <label>Answer:</label><br>
-      <input type="radio" name="answer" id="answer1"  class="options">
+      <input type="radio" name="answer" id="answer1" class="options" value="{{data.option1}}">
       <label id="option1"></label><br>
-      <input type="radio" name="answer" id="answer2" class="options">
+      <input type="radio" name="answer" id="answer2" class="options" value="{{data.option2}}">
       <label id="option2"></label><br>
-      <input type="radio" name="answer" id="answer3"  class="options">
+      <input type="radio" name="answer" id="answer3" class="options" value="{{data.option3}}">
       <label id="option3"></label><br>
-      <input type="radio" name="answer" id="answer4"  class="options">
+      <input type="radio" name="answer" id="answer4" class="options" value="{{data.option4}}">
       <label id="option4"></label>
     
     <div class="clearfix">
