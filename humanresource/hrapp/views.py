@@ -164,6 +164,17 @@ def delete(request):
 		print(str(e))
 		return HttpResponse('error')
 
+def search(request):
+	try:
+		user_id = int(request.POST.get('emp_id'))
+		print(user_id)
+		emp_obj= EmployeeProfile.objects.get(id=user_id)
+		context = {'list':emp_obj}
+		return render(request, 'searchresult.html', context)
+	except Exception as e:
+		print(str(e))
+
+
 def candidateRegistration(request):
 	if request.method == 'POST' and request.FILES['resume_uploads']:
 		try:
@@ -260,14 +271,20 @@ def fn_startExam(request):
 		time = request.session['time']
 		return render(request,'qp_view.html',{'time':time})
 	return render(request,'qp_view.html')
-
 def onlineExam(request):
 	try:
 		if request.method == 'POST':
 			candidate_id = int(request.session['userid'])
+			candidate_obj = Candidate.objects.get(fk_login=candidate_id)
 			qid = request.session['current_question']
-			user_answer = request.POST.get('user_ans')
-			print(user_answer)
+			user_answer = request.POST['user_answer']
+			evaluation_obj = QuestionPaper.objects.get(id=qid)
+			if user_answer == evaluation_obj.answer:
+				result_obj=Result(fk_candidate=candidate_obj,fk_question=evaluation_obj,mark=1)
+				result_obj.save()
+			else:
+				result_obj=Result(fk_candidate=candidate_obj,fk_question=evaluation_obj,mark=0)
+				result_obj.save()
 			online_obj = QuestionPaper.objects.values().get(id=qid+1)
 			online_obj.pop('answer')
 			request.session['current_question'] = online_obj['id']
@@ -293,6 +310,8 @@ def onlineExam(request):
 						
 	except Exception as e:
 		print(str(e))
+		del request.session['time']
+		del request.session['current_question']
 		return HttpResponse("Failed to load")
 
 # def fn_exitExam(request):
@@ -345,6 +364,14 @@ def mockDisplay(request):
  		print(str(e))
  		return HttpResponse("Failed to load")
 
+def result(request):
+	try:
+		candidate_id = request.session['userid']
+		result_obj = Result.objects.getlist(id=candidate_id)
+		print(result_obj)
+	except Exception as e:
+		print(str(e))
+
 @csrf_exempt
 def payment(request):
 	try:
@@ -370,6 +397,7 @@ def interview(request):
 			intrvw_dt = request.POST.get('interview_dt')
 			intrvw_time = request.POST.get('interview_time')
 			lctn = request.POST.get('location')
+			vemail = request.POST.get('mail')
 			intrvw_obj = Interview(interview_type=intvw_type,interview_Date=intrvw_dt,interview_time=intrvw_time,interview_location=lctn)
 			intrvw_obj.save()
 			subject = ' REGISTRATION NOTIFICATION'
@@ -389,10 +417,11 @@ def interview(request):
 def exam_detail(request):
 	try:
 		if request.method =='POST':
-			strt_dt = request.POST.get('start_dt')
-			strt_tym = request.POST.get('start_time')
-			ed_dt = request.POST.get('end_dt')
-			ed_tym = request.POST.get('end_time')
+			strt_dt = request.POST.get('sdate')
+			print(strt_dt)
+			strt_tym = request.POST.get('stime')
+			ed_dt = request.POST.get('edate')
+			ed_tym = request.POST.get('etime')
 			drtn = request.POST.get('duration')
 			exam_obj = ExamDetail(exam_startdate =strt_dt,exam_enddate=ed_dt,exam_starttime =strt_tym,exam_endtime=ed_tym,exam_duration=drtn)
 			exam_obj.save()
@@ -400,8 +429,8 @@ def exam_detail(request):
 			message = ' Exam notification is available in the site'
 			email_from = settings.EMAIL_HOST_USER
 			print(email_from)
-			# recipient = Candidate.objects.all().filter(fk_login.username__in)
-			# print(recipient)
+			recipient = Candidate.objects.all()
+			print(recipient.fk_login.username)
 			recipient_list = ['theerthakp95@gmail.com']
 			send_mail( subject, message, email_from, recipient_list )
 			# return HttpResponse('success')

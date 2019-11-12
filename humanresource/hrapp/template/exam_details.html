@@ -2,18 +2,18 @@
 {% block body%}
 <script type="text/javascript">
    $('document').ready( ()=>{
-         $('.signup').click( ()=>{
+         $('.signupbtn').click( ()=>{
            $.ajax({
              url:'http://127.0.0.1:8000/hrapp/exam_detail/',
              type:'POST',
-            //  data:{
-            //   sdate:$('#sdate').val(),
-    				// 	stime:$('#stime').val(),
-    				// 	edate:$('#edate').val(),
-    				// 	etime:$('#etime').val(),
-    				// 	duration:$('#duration').val(),
+             data:{
+              sdate:$('#sdate').val(),
+    					stime:$('#stime').val(),
+    					edate:$('#edate').val(),
+    					etime:$('#etime').val(),
+    					duration:$('#duration').val(),
     					
-    				// },
+    				},
             success: res =>{
               console.log(res);
               $.toast({
@@ -28,6 +28,11 @@
     						loader: true,
     						loaderBg:'#9EC600'
               });
+              $('#sdate').val();
+    					$('#stime').val();
+    					$('#edate').val();
+    					$('#etime').val();
+    					$('#duration').val();
               setTimeout(() =>{
     						location.reload();
     					}, 1500);

@@ -1,0 +1,20 @@
+{% extends 'hr_home.html'%}
+{% block body%}
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if list%}
+            <tr>
+                <td>{{list.fname}}</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock%}
