@@ -1,5 +1,38 @@
 {% extends 'project_manager_home.html' %}
+
 {% block body %}
+<!-- <script type="text/javascript">
+     $('document').ready( () =>{
+       $('#click').click( ()=>{
+         $.ajax({
+             url:'http://127.0.0.1:8000/hrapp/assign/',
+             type:'POST',
+             data:{
+               category:$('selection').val(),
+               team_lead:$('tlead').val(),
+               
+
+               var table = $('#list').DataTable( {
+
+               columnDefs : [
+                    { targets : [4],
+                      render : function (data, type, row) {
+                               switch(data) {
+                               case 'Developer' : return ''; break;
+                               case '' : return ''; break;
+                               default  : return 'N/A';
+            }
+          }
+        }
+   ]
+             
+         })
+         
+
+       })
+     })
+
+</script> -->
 <div class="container">
     <h2>Assign</h2>
     <div class="form-group">
@@ -14,10 +47,15 @@
             </select><br>
 
             <label>Team Lead Name</label>
-            <input class="form-control has-feedback" id="tlead" placeholder="Enter Team Lead Name" name="tlead" required><br>
+            <select name="tlead">
+              <option>Select Your Team Leader</option>
+              {% for tl in leader %}
+              <option value="{{tl}}">{{tl}}</option>
+              {% endfor %}
+            </select>
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">SELECT EMPLOYEES</button>
             <div class="modal fade" id="myModal" role="dialog">
-               <div class="modal-dialog" width=700px>
+               <div class="modal-dialog" width="700px">
                     <div class="modal-content">
                        <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -26,7 +64,7 @@
                 <div class="modal-body">
                     <div id="subdiv" class="row">
                         {% for user in username %}
-                            <div class="innerDiv col-lg-3" width=500px>
+                            <div class="innerDiv col-lg-3" width="500px">
                               <input type="checkbox" value="{{user.username}}" name="employeecheckbox" ><label>{{user.username}}</label>
                               </div>
                         {% endfor %}
@@ -52,6 +90,7 @@
                     <th>Designing</th>
                     <th>Full Stack Developers</th>
                 </tr>
+              
                 <tr>
                   <td>
                     {{response.id}}

@@ -25,7 +25,8 @@
       height: 100%;
     }
     .sidenav a{
-      font-color:;
+      font-size:14px;
+    
     }
     
     footer {
@@ -128,12 +129,12 @@ button:hover {
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
   
-          <li><a href="/hrapp/hr_home"><span class="glyphicon glyphicon-home"></span>  Home</a></li>
-          <li><a href="/hrapp/emp_profile/"><span class="glyphicon glyphicon-user"></span>  Profile</a></li>
-          <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Mail</a></li>
+          <li><a href="/hrapp/hr_home"><span class="glyphicon glyphicon-home"></span>  HOME</a></li>
+          <li><a href="/hrapp/emp_profile/"><span class="glyphicon glyphicon-user"></span>  PROFILE</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  MAIL</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/hrapp/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          <li><a href="/hrapp/logout"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
   
         </ul>
       </div>
@@ -144,16 +145,20 @@ button:hover {
 <div class="container-fluid text-center">    
   <div class="row content">
     <div class="col-md-2 sidenav">
-      <p><a href="/hrapp/company"><span class="glyphicon glyphicon-plus"></span>  Company Profile</a></p>
+      <p><a href="/hrapp/company/"><span class="glyphicon glyphicon-plus"></span>  Company Profile</a></p>
       <p><a href="/hrapp/leave"><span class="glyphicon glyphicon-eye-open"></span> Leave Management</a></p>
-      <p><a href="/hrapp/"><span class="glyphicon glyphicon-list-alt"></span>  Attendance</a></p>
-      <p><a href="/hrapp/"><span class="glyphicon glyphicon-eye-open"></span>  Roster Management</a></p>
-      <p><a href="/hrapp/payroll"><span class="glyphicon glyphicon-file"></span>  Payroll</a></p>
+      <p><a href="/hrapp/projectreg/"><span class="glyphicon glyphicon-list-alt"></span>  Project Register</a></p>
+      <p><a href="/hrapp/rosterview/"><span class="glyphicon glyphicon-eye-open"></span>  Roster Management</a></p>
+      <p><a href="/hrapp/payroll/"><span class="glyphicon glyphicon-file"></span>  Payroll</a></p>
       <p><a href="/hrapp/evaluation/"><span class="glyphicon glyphicon-eye-open"></span>  Performance Evaluation</a></p>
-      <p><a href="/hrapp"><span class="glyphicon glyphicon-book"></span>  Resource Management</a></p>
-      <p><a href="/hrapp/mocktest/"><span class="glyphicon glyphicon-book"></span>  Complaints</a></p>
-      <p><a href="/hrapp/vacancy"><span class="glyphicon glyphicon-folder-open"></span>  Vacancy</a></p>
-      <p><a href="/hrapp/"><span class="glyphicon glyphicon-pencil"></span>  Report</a></p>
+      <p><a href="/hrapp/resourceadd/"><span class="glyphicon glyphicon-book"></span>  Resource Management</a></p>
+      <p><a href="/hrapp/complaint_view/"><span class="glyphicon glyphicon-book"></span>  Complaints</a></p>
+      <p><a href="/hrapp/vacancy/"><span class="glyphicon glyphicon-folder-open"></span>  Vacancy</a></p>
+      <p><a href="/hrapp/"><span class="glyphicon glyphicon-pencil"></span>  Report</a><ul class="dropdown-menu">
+        <li><a href="/hrapp/leave_report_view/">Leave</a></li>
+        <li><a href="/hrapp/projectview/">Project</a></li>
+        <li><a href="/hrapp/complaint_view/">Complaints</a></li>
+      </ul></p>
       </div>
     
     <div class="col-md-10 text-left">

@@ -7,13 +7,14 @@
     {% csrf_token %}
     <div class="form-group">
       <label>Project Name</label>
-      <input class="form-control" id="pname" placeholder="Enter Project Title" name="ptitle" value="{{projectlist.project_title}}"><br>
-
+      {% if projectlist %}
+      <input class="form-control" id="pname" name="ptitle" value="{{projectlist.project_title}}"><br>
+      {% endif %}
       <label>Task</label>
       <input class="form-control" id="task" placeholder="Enter Task Name" name="task"><br>
 
       <label>Priority</label>
-      <input type="text" id="priority" placeholder="Set Priority" class="form-control"><br>
+      <input type="text" id="priority" name="priority" placeholder="Set Priority" class="form-control"><br>
     
       <label>Start Date</label>
       <input type="Date" name="sdate" class="form-control" placeholder="Enter Start Date" id="sdate"><br>
@@ -22,10 +23,16 @@
       <input type="Date" class="form-control" id="duedate" placeholder="Enter Ending Date" name="edate"><br>
     
       <label>Team Lead</label>
-      <input class="form-control" id="tlead" placeholder="Enter Team Lead Name"><br>
-    
-      <button type="submit" class="btn btn-default"><a href="/hrapp/projectreg/">Back</a></button>
-      <button type="submit" class="btn btn-default">Continue</button>
+
+      <select name="team_lead"  class="form-control">
+        {% for lead in teamlist %}
+        <option name="team_lead">{{lead.team_lead}}</option>
+        {% endfor %}
+      </select><br>
+      <div class="clearfix">
+      		<button type="submit" class="cancelbtn"><a href="/hrapp/projectreg/">BACK</button>
+     		 <button type="submit" class="signupbtn"><a href="/hrapp/resourceallocate/"></a>CONTINUE</button>
+   		 </div>
     </div>
   </form>
  </div>

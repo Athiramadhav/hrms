@@ -1,0 +1,9 @@
+{% extends 'project_manager_home.html' %}
+{% block body %}
+<div class="container">
+    <form action="/hrapp/resourceallocate/"  method="POST">
+        {% csrf tok%}
+
+    </form>
+
+</div>

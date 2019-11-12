@@ -157,12 +157,7 @@ class Resource(models.Model):
 
 
 class ResourceAllocate(models.Model):
-	project_title      = models.CharField(max_length=25)
 	dept               = models.CharField(max_length=25)
-	task_title         = models.CharField(max_length=25)
-	resource_type      = models.CharField(max_length=25)
-	resource_available = models.CharField(max_length=25)
-	resource_allocated = models.CharField(max_length=25)
 	fk_resource_id     = models.ForeignKey(Resource, on_delete=models.CASCADE)
 	fk_project_id      = models.ForeignKey(Project, on_delete=models.CASCADE)
 	

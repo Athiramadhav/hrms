@@ -6,7 +6,7 @@
 		<h2>COMPLAINT REGISTRATION</h2>
 		<form action="/hrapp/complaintreg/" method="POST">
 			{% csrf_token %}
-			<div class="form-group">
+			<!-- <div class="form-group">
 				<label>Name</label>
           <input type="text" name="name" placeholder="" class="form-control" value="{{employee.fname}} {{employee.lname}}">
           <span style="color: red" id="msg"></span><br>
@@ -14,11 +14,7 @@
 			    <label>Id</label>
 			    <input type="text" id="id" placeholder="" class="form-control" value={{employee.id}}><br>
 
-			    <label>Designation</label>
-			    <select class="form-control" name="post">
-			    	<option>{{employee.designation}}</option>
-			    </select><br>
-
+			    
 			    <label>Departement</label>
 			    <select class="form-control" name="dept">
 			    	<option>Planning</option>
@@ -42,9 +38,9 @@
 			    	<option>Coding</option>
 			    	<option>Development</option>
 			    	<option>Testing</option>
-			    </select><br>
+			    </select><br>-->
 
-			    <label>Please describe the specific act(s)</label>
+			     <label>Please describe the specific act(s)</label>  
 			    <textarea class="form-control" name="act"></textarea><br>
 
 			    <label>Date</label>

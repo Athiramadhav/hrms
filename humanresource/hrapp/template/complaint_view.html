@@ -11,15 +11,18 @@
       <tr>
         <th>Emp_id</th>
         <th>Employee Name</th>
-        <th></th>
+        <th>Description</th>
       </tr>
     </thead>
     <tbody>
+      {% for list in complaintlist %}
       <tr>
-        <td></td>
-        <td></td>
+        <td>{{list.fk_employee_id.id}}</td>
+        <td>{{list.fk_employee_id.fname}}</td>
+        <td>{{list.compaint_description}}</td>
         <td><button class="btn btn-primary" type="submit"><a href="/hrapp/complaint_view/" style="color: white">View Description</a></button></td>
       </tr>
+      {% endfor %}
     </tbody>
   </table>
   </form>

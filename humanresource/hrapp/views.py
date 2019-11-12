@@ -478,20 +478,19 @@ def leaveType(request):
 		print(str(e))
 	return render(request, 'leave_type.html')
 
-def leaveAdd(request):
-	try:
-		leave_typ_obj=LeaveType.object.all()
-		print(leave_typ_obj)
-		# if request.method =='POST':
-	except Exception as e:
-		print(str(e))
-		
-def leaveReport(request):
-	return render(request, 'leave_report_view.html')
+	
+# def leaveReport(request):
+# 	return render(request, 'leave_report_view.html')
 
 def complaintReport(request):
-	return render(request, 'complaint_view.html')
+	try:
+		complaint_obj = Complaint.objects.all()
+		context = {'complaintlist':complaint_obj}
+		return render(request, 'complaint_view.html', context)
 
+	except Exception as e:
+		print(str(e))
+	
 @csrf_exempt
 def callLetter(request):
 	try:
@@ -510,23 +509,12 @@ def complaintReg(request):
 	if request.method == 'POST':
 		try:
 			name = request.session['userid']
+			emp_obj  = EmployeeProfile.objects.get(id=name)
 			print(name)
-			print(request.POST)
-			ename = request.POST['name']
-			eid = request.POST['id']
-			edesg = request.POST['post']
-			edept = request.POST.get('dept')
-			eaddress = request.POST.get('addr')
-			ephone = request.POST.get('phone')
-			cname = request.POST.get('compname')
-			cdesg = request.POST.get('cpost')
-			cdept = request.POST.get('cdept')
 			cact =request.POST.get('act')
 			date = request.POST.get('date')
 			time = request.POST.get('time')
-			comp_reg = Complaint(e_name=ename, e_desgination=edesg, e_dept=edept, e_addr=eaddress,
-			           e_phone=ephone,fk_employee_id=id, c_name=cname, complaint_desg=cdesg, complaint_dept=cdept,
-			           compaint_description=cact, date_of_incident=date, time_of_incident=time)
+			comp_reg = Complaint(compaint_description=cact, date_of_incident=date, time_of_incident=time,fk_employee_id=emp_obj)
 			comp_reg.save()
 			return HttpResponse("Registration Done")
 			return render(request,'employee_home.html')
@@ -541,11 +529,14 @@ def complaintReg(request):
 
 
 def performanceEvaluation(request):
-	if request.method == 'POST':
-		try:
+	try:
+		empname = EmployeeProfile.objects.filter(designation='Other')
+		print(empname)
+		emp_id = EmployeeProfile.objects.filter(id__in=empname)
+		print(emp_id)
+
+		if request.method == 'POST':
 			print(request.POST)
-			ename = request.POST.get('name')
-			id = request.POST.get('id')
 			dept = request.POST.get('dept')
 			pname = request.POST.get('pname')
 			date= request.POST.get('date')
@@ -560,14 +551,15 @@ def performanceEvaluation(request):
 			return HttpResponse("Completed")
 			return render(request,'project_manger_home.html')
 
-			
-		except Exception as a:
-			print(str(a))
-			return HttpResponse("Failed")
-
-	else:
+		else:
 		 emp_obj = EmployeeProfile.objects.all()
 		 return render(request, 'emp_performance_evaluation.html',{'employee' : emp_obj})
+		
+		
+	except Exception as a:
+		print(str(a))
+		return HttpResponse("Failed")
+
 	
 
 
@@ -591,27 +583,34 @@ def costEstimation(request):
 	return render(request,'cost_estimation.html')
 
 def leaveApply(request):
-	if request.method =='POST':
-		try:
-			leave_available = request.POST.get('available')
-			leave_taken = request.POST.get('taken')
-			leave_remian = request.POST.get('remain')
+	try:
+		if request.method == 'POST':
+			leave_typ_obj = LeaveType.objects.all()
 			leave_type = request.POST.get('leavetype')
+			print(leave_type)
 			from_date = request.POST.get('fdate')
+			print(from_date)
 			to_date = request.POST.get('edate')
+			print(to_date)
 			days = request.POST.get('days')
+			print(days)
 			reason = request.POST.get('reason')
-			file_upload = request.FILES['fileupload']
+			print(reason)
 			leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
 			                          leave_remains=leave_remian, leave_type=leave_type, 
 									  from_date=from_date,to_date=to_date, no_of_days=days, 
 									  leave_reason=reason)
-			return HttpResponse("Appiled Successfully")
-			return render(request, 'employee_home.html')
-		except Exception as e:
-			print(str(e))
-			return HttpResponse("Failed To Sent")
+		else:
+			leave_typ_obj=LeaveType.objects.all()
+			context={}
+			context['data']=leave_typ_obj
+			print(context)
+			return render(request, 'leave_form.html', context)
+	except Exception as e:
+		print(str(e))
 	return render(request, 'leave_form.html')
+		
+
 
 def projectReg(request):
 	if request.method == 'POST':
@@ -632,7 +631,11 @@ def projectReg(request):
 			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate)
 			reg_obj.save()
-			return render(request,'project_register.html')
+			if reg_obj.id > 0:
+				context={}
+				context['currentproject']= reg_obj
+				print(context)
+				return render(request,'project_register.html', context)
 		except Exception as e:
 			print(str(e))
 			return render(request,'project_register.html',{'response':'Registration Failed'})
@@ -642,23 +645,35 @@ def projectReg(request):
 def taskAdd(request):
 	try:
 		if request.method == 'POST':
-			
-			print(request.POST)
-			ptitle = request.POST['pname']
-			print(ptitle)
-			task = request.POST['task']
+			project_obj = Project.objects.get(id=request.session['project_id'])
+			print(project_obj)
+			task = request.POST.get('task')
 			print(task)
-			priority = request.POST['priority']
+			priority = request.POST.get('priority')
 			print(priority)
-			sdate = request.POST['sdate']
+			sdate = request.POST.get('sdate')
 			print(sdate)
-			edate = request.POST['duedate']
+			edate = request.POST.get('edate')
 			print(edate)
-			task_add_obj = TaskAdd(task_title=task, task_priority=priority, task_start_date=sdate, task_end_date  =edate)
-			return render(request,'task_add.html',{'response':' Successfull'})
+			name = request.POST.get('team_lead')
+			print(name)
+			team = ProjectAllocation.objects.get(team_lead=name)
+			print(team)
+			task_add_obj = TaskAdd(fk_project_id=project_obj,task_title=task, task_priority=priority, task_start_date=sdate,
+			                         task_end_date=edate, fk_team_id=team)
+			task_add_obj.save()
 
 		else:
-			return render(request, 'task_add.html',{'task_add: task_obj'})
+			try:
+				project_obj = Project.objects.get(id=request.GET.get('id'))
+				request.session['project_id'] = project_obj.id
+			except:
+				project_obj = {}
+			team_lead_obj = ProjectAllocation.objects.all()
+			context = {}
+			context["projectlist"]= project_obj
+			context["teamlist"]= team_lead_obj
+			return render(request,'task_add.html',context)
 	except Exception as e:
 			print(str(e))
 			return render(request,'task_add.html',{'response':'Failed'})
@@ -695,12 +710,17 @@ def assign(request):
 				return HttpResponse('Failed')
 
 		else:
-			empname = EmployeeProfile.objects.filter(designation='Other').values('fk_login')
+			empname = EmployeeProfile.objects.filter(designation='Other')
 			print(empname)
 			if empname != "":
 				employee = Login.objects.only('username').filter(id__in=empname)
-				print(employee)
-				response_obj = {'username':employee}
+				team_leader = [] 
+				for e in empname:
+					team_leader.append(e.fname)
+				response_obj = {}
+				response_obj['username'] = employee
+				response_obj['leader']   = team_leader
+
 				return render(request, 'assign.html',response_obj)
 			
 	except Exception as e:
@@ -733,9 +753,19 @@ def vaccancy(request):
 
 
 def roster_view(request):
-	roster_obj = TaskAdd.objects.all()
-	context = {'rosterlist':roster_obj}
-	return render(request, 'roster.html',context)
+	if request.method == 'POST':
+		start_date = request.POST['sdate']
+		end_date   = request.POST['edate']
+		task_obj  = TaskAdd.objects.filter(task_start_date__gte=start_date,task_end_date__lte=end_date)
+		return render(request,'roster.html',{'data':task_obj})
+	return render(request, 'roster.html')
+
+def vacancy_view(request):
+	vacancy_obj = Vacany.objects.all()
+	context = {'list': vacancy_obj}
+	print(context)
+	return render(request, 'report_vacancy.html',context)
+
 
 def dept(request):
 	try:
@@ -798,6 +828,11 @@ def project_view(request):
 	context = {'projectlist':project_obj}
 	return render(request, 'report_project.html',context)
 
+def task_view(request):
+	task_obj = TaskAdd.objects.all()
+	context = {'tasks':task_obj}
+	return render(request, 'task_view.html',context)
+
 def resource(request):
 	try:
 		if request.method == 'POST':
@@ -811,9 +846,23 @@ def resource(request):
 			return HttpResponse("Success")
 		else:
 			return render(request, 'resource_add.html')
+			
+	except Exception as e:
+			print(str(e))
+			return HttpResponse("Failed")
+	return render(request, 'resource_add.html')
 
 
-		
+def notification(request):
+	try:
+		if request.method == 'POST':
+			team_lead_obj = Login.objects.get(username=request.POST['email'])
+			print(team_lead_obj.username)
+			email_from = settings.EMAIL_HOST_USER
+			message = 'Your are assigned to the following project'
+			recipient_list=[team_lead_obj.username]
+			print(recipient_list)
+			send_mail('Hello',message,email_from,recipient_list)
 	except Exception as e:
 			print(str(e))
 			return HttpResponse("Failed")

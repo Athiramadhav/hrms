@@ -1,7 +1,7 @@
 {% extends 'project_home.html' %}
 {% block body %}
 <div class="container">
-		<form>
+		<form method="POST" action="/hrapp/taskview/">
 		<h2>TASK VIEW</h2>
 		<table  class="table table-hover">
 			<tr>
@@ -19,7 +19,7 @@
 			<tbody>
 				{% for task in tasks %}
 				<tr>
-					<td>{{task.project_title}}</td>
+					<td>{{task.fk_project_id.project_title}}</td>
 					<td>{{task.id}}</td>
 					<td>{{task.task_title}}</td>
 					<td>{{task.task_priority}}</td>
@@ -28,10 +28,10 @@
 					<td>{{task.fk_team_id}}</td>
 				</tr>
 				{% endfor %}
-			</tbody>
-							<td><button class="btn btn-primary">OK</button></td>
+			</tbody><br>
+							
 		</table>
-
+		<button class="btn btn-primary">OK</button>
 	</form>
 		
 	</div>
