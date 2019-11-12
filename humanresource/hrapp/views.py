@@ -166,7 +166,7 @@ def delete(request):
 
 def search(request):
 	try:
-		user_id = int(request.POST.get('emp_id'))
+		user_id = request.GET.get('emp_id')
 		print(user_id)
 		emp_obj= EmployeeProfile.objects.get(id=user_id)
 		context = {'list':emp_obj}
@@ -438,6 +438,15 @@ def exam_detail(request):
 		print(str(e))
 	return render(request, 'exam_details.html')
 
+def examDetailView(request):
+	try:
+		detail_obj = ExamDetail.objects.all()
+		print(detail_obj)
+		context= {'lists':detail_obj}
+		return render(request,'exam_detail_view.html', context)
+	except Exception as e:
+		print(str(e))
+
 @csrf_exempt
 def intimationDetails(request):
 	try:
@@ -498,8 +507,17 @@ def callLetter(request):
 			val_post = request.POST.get('post')
 			val_jn_dt = request.POST.get('join_date')
 			val_jn_tym = request.POST.get('join_time')
+			mail= request.POST.get('mail')
 			call_obj = CallLetter(post=val_post,join_date=val_jn_dt,join_time=val_jn_tym)
 			call_obj.save()
+			subject = ' CALL LETTER'
+			message = 'We are happy to appoint you  as our new ' +val_post+ 'in our company. Please join on'+val_jn_dt+'at'+val_jn_tym+'.'
+			print(message)
+			email_from = settings.EMAIL_HOST_USER
+			recipient_list = [''+mail+'']
+			print(recipient_list)
+			send_mail( subject, message, email_from, recipient_list )
+			return HttpResponse("Intimation Sent")
 	except Exception as e:
 		print(str(e))
 	return render(request, 'callletter.html')

@@ -1,0 +1,34 @@
+{% extends 'candidate_home.html'%}
+
+{% block body %}
+<div class="container">
+        <form action="/hrapp/exam_detail_view" method="GET">
+        <h2>EXAMINATION DETAIL</h2>
+        <hr>    
+<table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Exam start Date</th>
+            <th>Exam End Date</th>
+            <th>Exam start time</th>
+            <th>Exam end time</th>
+            <th>Total duration</th>
+          </tr>
+        </thead>
+         <tbody>
+        {% for list in lists %}
+        <tr>
+          <td>{{list.exam_startdate}}</td>
+          <td>{{list.exam_enddate}}</td>
+          <td>{{list.exam_starttime}}</td>
+          <td>{{list.exam_endtime}}</td>
+          <td>{{list.exam_duration}}</td>
+    
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </form>
+      </div>
+
+{% endblock %}

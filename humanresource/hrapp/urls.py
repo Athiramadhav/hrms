@@ -25,6 +25,7 @@ urlpatterns =[
 	path('search/',views.search),
 	path('interview/',views.interview),
 	path('exam_detail/',views.exam_detail),
+	path('exam_detail_view',views.examDetailView),
 	path('intimation/',views.intimationDetails),
 	path('leave_type/',views.leaveType),
 	path('leaveform/', views.leaveApply),
