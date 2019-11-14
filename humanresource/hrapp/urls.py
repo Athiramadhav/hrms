@@ -42,7 +42,7 @@ urlpatterns =[
 	path('companyprofile/', views.company_view),
 	path('projectview/', views.project_view),
 	path('resourceadd/', views.resource),
-	# path('leave_view/',views.leaveReport),
+	path('leave_view/',views.leaveReport),
 	path('complaint_view/',views.complaintReport),
 	path('callletter/',views.callLetter),
 	path('rosterview/', views.roster_view),

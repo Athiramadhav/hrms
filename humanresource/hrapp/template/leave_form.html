@@ -25,24 +25,25 @@
             </tbody>
           </table>
 
-        <label>Type Of Leave</label>
-			    <select id="leavetype">
+        <label>Type Of Leave:</label>
+          <select id="leavetype" style="width: 200px;">
+            <option value="0" selected>select</option>
             {% for list in data %}
             <option value="{{list.leave_type}}">{{list.leave_type}}</option>
             {% endfor %}
 					</select>
 
-			<label> From Date</label>
+			<label> From Date:</label>
 			<input type="Date" name="fdate"placeholder="Enter From Date">
 
-			<label>To Date</label>
+			<label>To Date:</label>
 			<input type="Date" name="edate" placeholder="Enter To Date"><br>
 
-			<label>Number Of Days</label>
+			<label>Number Of Days:</label>
 			<input type="text" name="days" placeholder="Enter the Number of Days">
 
-			<label>Reason</label>
-      <input type="text" name="reason" placeholder="Enter the Reason" class="form-control">
+			<label>Reason:</label>
+      <textarea name="reason" placeholder="Enter the Reason" class="form-control" style="height: 300px;"></textarea>
       
       <div class="clearfix">
         <button type="button" class="cancelbtn">Cancel</button>

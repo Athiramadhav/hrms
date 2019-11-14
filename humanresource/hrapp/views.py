@@ -164,15 +164,20 @@ def delete(request):
 		print(str(e))
 		return HttpResponse('error')
 
+@csrf_exempt
 def search(request):
 	try:
-		user_id = request.GET.get('emp_id')
-		print(user_id)
-		emp_obj= EmployeeProfile.objects.get(id=user_id)
-		context = {'list':emp_obj}
-		return render(request, 'searchresult.html', context)
+		if request.method == 'POST':
+			print('.................................')
+			user_id = request.POST.get('empid')
+			print(user_id)
+			emp_obj= EmployeeProfile.objects.get(id=user_id)
+			context = {'list':emp_obj}
+			return render(request, 'searchresult.html', context)
 	except Exception as e:
 		print(str(e))
+		return render(request,'searchresult.html',{'msg':'id does not exist'})
+	return render(request, 'searchresult.html')
 
 
 def candidateRegistration(request):
@@ -488,8 +493,8 @@ def leaveType(request):
 	return render(request, 'leave_type.html')
 
 	
-# def leaveReport(request):
-# 	return render(request, 'leave_report_view.html')
+def leaveReport(request):
+	return render(request, 'leave_report_view.html')
 
 def complaintReport(request):
 	try:
@@ -604,6 +609,8 @@ def leaveApply(request):
 	try:
 		if request.method == 'POST':
 			leave_typ_obj = LeaveType.objects.all()
+			# leave_available = leave_typ_obj.no_of_days
+			# print(leave_available)
 			leave_type = request.POST.get('leavetype')
 			print(leave_type)
 			from_date = request.POST.get('fdate')
@@ -714,6 +721,7 @@ def assign(request):
 			teamlead = request.POST['tlead']
 			print(teamlead)
 			name = request.POST.getlist('employeecheckbox')
+			print(name)
 			count = 0
 			login = Login.objects.filter(username__in=name)
 			print(login)

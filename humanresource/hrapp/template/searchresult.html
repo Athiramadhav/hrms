@@ -1,20 +1,37 @@
 {% extends 'hr_home.html'%}
 {% block body%}
 <div class="container">
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if list%}
-            <tr>
-                <td>{{list.fname}}</td>
-            </tr>
-            {% endif %}
-        </tbody>
-    </table>
+        <h1>SEARCH EMPLOYEE BY ID</h1>
+        <hr>
+        <form action="/hrapp/search/"  method="POST">
+            <label>Employee id:</label>
+            <input type="text" name="empid" placeholder="Enter employee id" style="width: 200px;"><span style="color: red;">{{msg}}</span><br>
+            <button class="btn btn-primary" type="submit" style="width: 200px;">search</button>
+        </form>
+        <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Emp_id</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Designation</th>
+                    <th>Email</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if list %}
+                <tr>
+                  <td>{{list.id}}</td>
+                  <td>{{list.fname}}{{list.lname}}</td>
+                  <td>{{list.phone}}</td>
+                  <td>{{list.emp_experience}}</td>
+                  <td>{{list.fk_login.username}}</td>
+                  
+                </tr>
+                {% endif %}
+                </tbody>
+              </table>
 </div>
 
 {% endblock%}

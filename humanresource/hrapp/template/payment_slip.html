@@ -49,33 +49,38 @@
   <h2>PAYMENT SLIP</h2>   
   <hr>
   <form action="/hrapp/payment/" method="POST">
-  <div class="form-group">
-    <label>Designation:</label>
-    <select class="form-control" name="desig" id="desi">
-      <option value="0">Select</option>
-      <option  value="HR Manager">HR Manager</option>
-      <option value="Project Manager">Project Manager</option>
-      <option value="Other">Other</option>
-    </select>
-    <label>Employee id:</label>
-    <select class="form-control" name="empid" id="empid">
-      <option selected>select</option>
-      <option  value="" selected></option>
-    </select>
-    <label>Employee name:</label>
-    <input type="text" id="emp_name" class="form-control" placeholder="">
-    <label>No of unpaid leaves taken:</label>
-    <input type="text" name="leaves" class="form-control">
-    <label>Deduction per leave:</label>
-    <input type="text" name="deduction_amt" class="form-control">
-    <label>Total working Hrs:</label>
-    <input type="text" name="working_hrs" class="form-control">
-    <label>Over Time Hrs:</label>
-    <input type="text" name="overtime" class="form-control">
-    <label>charges per hr:</label>
-    <input type="text" name="charge" class="form-control">
-
-  </div>      
+    <table class="table table-borderless" color="white">
+      <tr>
+        <th><label>Designation:</label></th>
+        <td><select name="desig" id="desi" style="width: 200px; height: 30px;">
+            <option value="0">Select</option>
+            <option  value="HR Manager">HR Manager</option>
+            <option value="Project Manager">Project Manager</option>
+            <option value="Other">Other</option>
+          </select></td>
+          <th><label>Employee id:</label></th>
+          <td><select name="empid" id="empid" style="width: 200px; height: 30px;">
+              <option selected>select</option>
+              <option  value="" selected></option>
+            </select></td>
+            <th><label>Employee name:</label></th>
+            <td><input type="text" id="emp_name" class="form-control" placeholder="" style="width: 200px;"></td>
+      </tr>
+      <tr>
+        <th><label>No of unpaid leaves taken:</label></th>
+        <td><input type="text" name="leaves" class="form-control" style="width: 200px;"></td>
+        <th><label>Deduction per leave:</label></th>
+        <td><input type="text" name="deduction_amt" class="form-control" style="width: 200px;"></td>
+      </tr>
+      <tr>
+        <th><label>Total working Hrs:</label></th>
+        <td><input type="text" name="working_hrs" class="form-control" style="width: 200px;"></td>
+        <th><label>Over Time Hrs:</label></th>
+        <td><input type="text" name="overtime" class="form-control" style="width: 200px;"></td>
+        <th><label>charges per hr:</label></th>
+        <td><input type="text" name="charge" class="form-control" style="width: 200px;"></td>
+      </tr>
+      </table>
   <hr>   
   <table class="table table-bordered">
     <thead>
