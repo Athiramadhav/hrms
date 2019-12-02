@@ -8,6 +8,7 @@
     $("#desi").change( ()=>{
       desig = $('#desi').val();
       userid= $('.userid').val();
+      
       console.log(desig);
       users = []
       $.ajax({
@@ -46,10 +47,14 @@
 </script>
 
 <div class="container">
-  <h2>PAYMENT SLIP</h2>   
+  <h2>PAYMENT SLIP</h2>
   <hr>
   <form action="/hrapp/payment/" method="POST">
-    <table class="table table-borderless" color="white">
+    <table>
+      <tr>
+        <th><label>Date:</label></th>
+        <td><input type="date"></td>
+      </tr>
       <tr>
         <th><label>Designation:</label></th>
         <td><select name="desig" id="desi" style="width: 200px; height: 30px;">

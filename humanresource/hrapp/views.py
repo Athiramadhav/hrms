@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.template import Template, loader
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import *
+from django.db.models import Sum
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.conf import settings
@@ -371,9 +372,13 @@ def mockDisplay(request):
 
 def result(request):
 	try:
-		candidate_id = request.session['userid']
-		result_obj = Result.objects.getlist(id=candidate_id)
+		login_id = request.session['userid']
+		candidate_id = Candidate.objects.get(fk_login=login_id)
+		print(candidate_id)
+		result_obj = Result.objects.filter(fk_candidate_id=candidate_id).aggregate(Sum('mark'))['mark__sum']
 		print(result_obj)
+		context = {'candidate':candidate_id,'result':result_obj}
+		return render(request, 'result_view.html', context)
 	except Exception as e:
 		print(str(e))
 
@@ -608,9 +613,10 @@ def costEstimation(request):
 def leaveApply(request):
 	try:
 		if request.method == 'POST':
+			user_id = request.session['userid']
 			leave_typ_obj = LeaveType.objects.all()
-			# leave_available = leave_typ_obj.no_of_days
-			# print(leave_available)
+			leave_available = leave_typ_obj.no_of_days
+			print(leave_available)
 			leave_type = request.POST.get('leavetype')
 			print(leave_type)
 			from_date = request.POST.get('fdate')
@@ -621,14 +627,15 @@ def leaveApply(request):
 			print(days)
 			reason = request.POST.get('reason')
 			print(reason)
-			leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
-			                          leave_remains=leave_remian, leave_type=leave_type, 
-									  from_date=from_date,to_date=to_date, no_of_days=days, 
-									  leave_reason=reason)
+			# leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
+			#                           leave_remains=leave_remian,from_date=from_date,to_date=to_date,no_of_days=days, 
+			# 						  leave_reason=reason,fk_leave_type_id=,fk_employee_id=)
 		else:
 			leave_typ_obj=LeaveType.objects.all()
+			leave_total = LeaveType.objects.all().aggregate(Sum('no_of_days'))['no_of_days__sum']
 			context={}
 			context['data']=leave_typ_obj
+			context['totalleave'] = leave_total
 			print(context)
 			return render(request, 'leave_form.html', context)
 	except Exception as e:
@@ -802,7 +809,7 @@ def dept(request):
 			print(dept)
 			dept_obj = Dept(dept_name=dept, fk_employee_id=id)
 			dept_obj.save()
-			return render("Added")
+			# return HttpResponse("Added")
 			return render(request,'employee_home.html')
 		else:
 			user_id = request.session['userid']
@@ -854,10 +861,6 @@ def project_view(request):
 	context = {'projectlist':project_obj}
 	return render(request, 'report_project.html',context)
 
-def task_view(request):
-	task_obj = TaskAdd.objects.all()
-	context = {'tasks':task_obj}
-	return render(request, 'task_view.html',context)
 
 def resource(request):
 	try:

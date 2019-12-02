@@ -1,6 +1,10 @@
+{% extends 'candidate_home.html'%}
+
+{% block body %}
 <div class="container">
   <h2>RESULT</h2>
-  <p></p>            
+  <p>Your result for the online exam is as follows</p>  
+  <hr>         
   <table class="table table-striped">
     <thead>
       <tr>
@@ -11,10 +15,11 @@
     </thead>
     <tbody>
       <tr>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{{candidate.id}}</td>
+        <td>{{candidate.candidate_name}}</td>
+        <td>{{result}}</td>
       </tr>
     </tbody>
   </table>
 </div>
+{% endblock %}
