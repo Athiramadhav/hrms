@@ -45,6 +45,11 @@
     #myNavbar{
       float: right;
     }
+    .clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
 
 
     input[type=text], input[type=password] {
@@ -112,6 +117,68 @@ button:hover {
   width:100%;
   height:600px;
 }
+.carousel-caption{
+  color: black;
+}
+
+#myNavbar{
+  overflow: hidden;
+  background-color: #333;
+
+}
+
+.navbar-brand{
+  font-style:comic-sans;
+  font-size: 40px;
+}
+
+.row content{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+.container {
+  padding: 16px;
+  width: 100%;
+  height:100%;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+     width: 100%;
+   }
+ }
+
 
   </style>
 </head>
@@ -124,7 +191,7 @@ button:hover {
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>                        
         </button>
-        <a class="navbar-brand" href="#">Extent</a>
+        <a class="navbar-brand" href="#">EXTENT</a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
@@ -132,7 +199,12 @@ button:hover {
           <li><a href="/hrapp/hr_home"><span class="glyphicon glyphicon-home"></span>  HOME</a></li>
           <li><a href="/hrapp/emp_profile/"><span class="glyphicon glyphicon-user"></span>  PROFILE</a></li>
           <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  MAIL</a></li>
-        </ul>
+          <!-- <li>REPORT
+            <ul>
+              <li><a href="/hrapp/projectview/">PROJECT VIEW</a></li>
+            </ul>
+          </li>
+        </ul> -->
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/hrapp/logout"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
   
@@ -145,19 +217,20 @@ button:hover {
 <div class="container-fluid text-center">    
   <div class="row content">
     <div class="col-md-2 sidenav">
-      <p><a href="/hrapp/company/"><span class="glyphicon glyphicon-plus"></span>  Company Profile</a></p>
-      <p><a href="/hrapp/leave"><span class="glyphicon glyphicon-eye-open"></span> Leave Management</a></p>
-      <p><a href="/hrapp/projectreg/"><span class="glyphicon glyphicon-list-alt"></span>  Project Register</a></p>
-      <p><a href="/hrapp/rosterview/"><span class="glyphicon glyphicon-eye-open"></span>  Roster Management</a></p>
-      <p><a href="/hrapp/payroll/"><span class="glyphicon glyphicon-file"></span>  Payroll</a></p>
-      <p><a href="/hrapp/evaluation/"><span class="glyphicon glyphicon-eye-open"></span>  Performance Evaluation</a></p>
-      <p><a href="/hrapp/resourceadd/"><span class="glyphicon glyphicon-book"></span>  Resource Management</a></p>
-      <p><a href="/hrapp/complaint_view/"><span class="glyphicon glyphicon-book"></span>  Complaints</a></p>
-      <p><a href="/hrapp/vacancy/"><span class="glyphicon glyphicon-folder-open"></span>  Vacancy</a></p>
-      <p><a href="/hrapp/"><span class="glyphicon glyphicon-pencil"></span>  Report</a><ul class="dropdown-menu">
-        <li><a href="/hrapp/leave_report_view/">Leave</a></li>
-        <li><a href="/hrapp/projectview/">Project</a></li>
-        <li><a href="/hrapp/complaint_view/">Complaints</a></li>
+      <p><a href="/hrapp/companyprofile/"><span class="glyphicon glyphicon-plus"></span>  COMPANY PROFILE</a></p>
+      <p><a href="/hrapp/leave"><span class="glyphicon glyphicon-eye-open"></span> LEAVE MANAGEMENT</a></p>
+      <p><a href="/hrapp/projectreg/"><span class="glyphicon glyphicon-list-alt"></span>  NEW PROJECT</a></p>
+      <p><a href="/hrapp/rosterview/"><span class="glyphicon glyphicon-eye-open"></span>  ROSTER MANAGEMENT</a></p>
+      <p><a href="/hrapp/costestimate/"><span class="glyphicon glyphicon-file"></span>  COST ESTIMATION</a></p>
+      <p><a href="/hrapp/assign/"><span class="glyphicon glyphicon-file"></span> ASSIGN CATEGORY</a></p>
+      <p><a href="/hrapp/evaluation/"><span class="glyphicon glyphicon-eye-open"></span>  PERFORMANCE EVALUATION</a></p>
+      <p><a href="/hrapp/resourceadd/"><span class="glyphicon glyphicon-book"></span>  RESOURCE MANAGEMENT</a></p>
+      <!-- <p><a href="/hrapp/complaint_view/"><span class="glyphicon glyphicon-book"></span>  </a></p> -->
+      <p><a href="/hrapp/vacancy/"><span class="glyphicon glyphicon-folder-open"></span>  ADD VACANCY</a></p>
+      <p><a href="/hrapp/projectview/"><span class="glyphicon glyphicon-pencil"></span> PROJECT REPORT</a></p>
+      <p><a href="/hrapp/leave_report_view/">Leave View</a></p>
+      <p><a href="/hrapp/projectview/">Vacancy</a></p>
+        <p><a href="/hrapp/taskview/">Tasks</a></p>
       </ul></p>
       </div>
     
@@ -177,26 +250,26 @@ button:hover {
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
       <div class="item active">
-        <img src="{% static 'images/company.jpg' %}" height="1000px" alt="Chania">
+        <img src="{% static 'images/asset.jpg' %}" height="1000px" alt="project manager home">
         <div class="carousel-caption">
-          <h3>Los Angeles</h3>
-          <p>LA is always so much fun!</p>
+          <!-- <h3>Los Angeles</h3>
+          <p>LA is always so much fun!</p> -->
         </div>
       </div>
   
       <div class="item">
-        <img src=" {% static 'images/office.jpg' %}" alt="Chicago">
+        <img src=" {% static 'images/bigstock.jpg' %}" alt="project manager home">
         <div class="carousel-caption">
-          <h3>Chicago</h3>
-          <p>Thank you, Chicago!</p>
+          <!-- <h3>Chicago</h3>
+          <p>Thank you, Chicago!</p> -->
         </div>
       </div>
   
       <div class="item">
-        <img src="{% static 'images/business.jpg' %}" alt="New York">
+        <img src="{% static 'images/software.jpg' %}" alt="project manager home">
         <div class="carousel-caption">
-          <h3>New York</h3>
-          <p>We love the Big Apple!</p>
+          <!-- <h3>New York</h3>
+          <p>We love the Big Apple!</p> -->
         </div>
       </div>
 

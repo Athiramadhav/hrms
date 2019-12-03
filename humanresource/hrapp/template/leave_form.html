@@ -8,15 +8,15 @@
       <h2>Leave Application</h2>
 			<div class="form-group">
           <p>You must submit requests for absences, other than sick leave, two days prior to the first day you will be absent.</p> 
-          <table class="table table-bordered">
+          <!-- <table class="table table-bordered">
             <thead>
-              <tr>
+             <tr>
               <th>Leave available</th>
               <th>Leave Taken</th>
               <th>Leave Remaining</th>
-            </tr>
+            </tr> 
             </thead>
-            <tbody>
+            <tbody> -->
               <tr>
                 <td></td>
                 <td></td>
@@ -24,29 +24,31 @@
               </tr>
             </tbody>
           </table>
-
+        <label>Employee Id</label>
+        <input type="text" class="form-control" value="{{emp_id}}" readonly>
         <label>Type Of Leave</label>
-			    <select id="leavetype">
+			    <select  class="form-control" name="leavetype">
             {% for list in data %}
             <option value="{{list.leave_type}}">{{list.leave_type}}</option>
             {% endfor %}
-					</select>
+          </select><br>
+
 
 			<label> From Date</label>
-			<input type="Date" name="fdate"placeholder="Enter From Date">
+			<input class="form-control" type="Date" name="fdate"placeholder="Enter From Date" required><br>
 
 			<label>To Date</label>
-			<input type="Date" name="edate" placeholder="Enter To Date"><br>
+			<input class="form-control" type="Date" name="edate" placeholder="Enter To Date"required><br>
 
 			<label>Number Of Days</label>
-			<input type="text" name="days" placeholder="Enter the Number of Days">
+			<input class="form-control" type="text" name="days" placeholder="Enter the Number of Days" required>
 
 			<label>Reason</label>
-      <input type="text" name="reason" placeholder="Enter the Reason" class="form-control">
+      <input type="text" name="reason" placeholder="Enter the Reason" class="form-control" required>
       
       <div class="clearfix">
         <button type="button" class="cancelbtn">Cancel</button>
-        <button type="submit" class="signupbtn">Add</button>
+        <button type="submit" class="signupbtn">Apply</button>
       </div>
 
 		</div>	

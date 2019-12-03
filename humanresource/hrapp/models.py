@@ -140,9 +140,6 @@ class LeaveType(models.Model):
 	status     = models.CharField(max_length=20)
 
 class EmployeeLeave(models.Model):
-	leave_available = models.IntegerField()
-	leave_taken     = models.IntegerField()
-	leave_remains   = models.IntegerField()
 	from_date       = models.DateField(max_length=50)
 	to_date         = models.DateField(max_length=50)
 	no_of_days      = models.IntegerField()
@@ -157,7 +154,6 @@ class Resource(models.Model):
 
 
 class ResourceAllocate(models.Model):
-	dept               = models.CharField(max_length=25)
 	fk_resource_id     = models.ForeignKey(Resource, on_delete=models.CASCADE)
 	fk_project_id      = models.ForeignKey(Project, on_delete=models.CASCADE)
 	
@@ -192,8 +188,6 @@ class Vacany(models.Model):
 	time_period       = models.DateField()
 
 class PerformanceEvaluation(models.Model):
-	emp_name        = models.CharField(max_length=25)
-	emp_dept        = models.CharField(max_length=25)
 	date            = models.DateField(max_length=25)
 	project         = models.CharField(max_length=25)
 	emp_duty        = models.CharField(max_length=100)

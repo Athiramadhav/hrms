@@ -6,6 +6,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.conf import settings
 import json
+from django.db.models import Sum
+import datetime
+
+from django import forms
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
+
+
 # Create your views here.
 
 def userLogin(request):
@@ -519,12 +527,14 @@ def performanceEvaluation(request):
 			                    emp_duty=duty, emp_strength=strength, emp_weakness=weakness, 
 								plan_to_improve=skill_improve)
 			evaluate_obj.save()
+			
 			return HttpResponse("Completed")
 			return render(request,'project_manger_home.html')
 
 		else:
 		 emp_obj = EmployeeProfile.objects.all()
-		 return render(request, 'emp_performance_evaluation.html',{'employee' : emp_obj})
+		 project_obj = Project.objects.all()
+		 return render(request, 'emp_performance_evaluation.html',{'employee' : emp_obj,'projectlist':project_obj})
 		
 		
 	except Exception as a:
@@ -541,7 +551,8 @@ def costEstimation(request):
 			software = request.POST.get('software')
 			hardware = request.POST.get('hardware')
 			equipment = request.POST.get('equipment')
-			total_cost =request.POST.get('total')
+			
+			total_cost =request.POST.get(software+hardware+equipment)
 			cost_obj = CostEstimation(software_cost=software, hardware_cost=hardware, 
 			            equipment_cost=equipment,total_cost=total_cost)
 			cost_obj.save()
@@ -555,10 +566,14 @@ def costEstimation(request):
 
 def leaveApply(request):
 	try:
+		emp_id = request.session['userid']
+		print(emp_id)
+		# emp_object = EmployeeProfile.objects.get(fk_login_id=emp_id)
+		# print(emp_object)
 		if request.method == 'POST':
 			leave_typ_obj = LeaveType.objects.all()
-			leave_type = request.POST.get('leavetype')
-			print(leave_type)
+			# emp_id = EmployeeProfile.objects.get('id')
+			# print(emp_id)
 			from_date = request.POST.get('fdate')
 			print(from_date)
 			to_date = request.POST.get('edate')
@@ -567,10 +582,11 @@ def leaveApply(request):
 			print(days)
 			reason = request.POST.get('reason')
 			print(reason)
-			leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
-			                          leave_remains=leave_remian, leave_type=leave_type, 
-									  from_date=from_date,to_date=to_date, no_of_days=days, 
-									  leave_reason=reason)
+			# leave_type = request.POST.get('leavetype')
+			# print(leave_type)
+			leave_obj = EmployeeLeave(  from_date=from_date,to_date=to_date, no_of_days=days, 
+									  leave_reason=reason, fk_leave_type_id=leave_type_obj
+									  )
 		else:
 			leave_typ_obj=LeaveType.objects.all()
 			context={}
@@ -597,11 +613,16 @@ def projectReg(request):
 			print(manager)
 			sdate = request.POST.get('psdate')
 			print(sdate)
+			if sdata < datetime.date.today():
+				raise ValidationError(_('Invalid date - renewal in past'))
 			edate = request.POST.get('pedate')
 			print(edate)
 			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
 				      project_cost=cost, project_start_date=sdate, project_end_date=edate)
-			reg_obj.save()
+			if project_start_date < project_end_date:
+				reg_obj.save()
+
+			
 			if reg_obj.id > 0:
 				context={}
 				context['currentproject']= reg_obj
@@ -673,6 +694,13 @@ def assign(request):
 			for obj in login:
 				assign_obj = ProjectAllocation(category=category, team_lead=teamlead,fk_login=obj)
 				assign_obj.save()
+				subject = ' PROJECT ASSIGNED'
+				message = ' You are assigned to  nee team under'+teamlead+'.' 
+				print(message)
+				email_from = settings.EMAIL_HOST_USER
+				recipient_list = [''+vemail+'']
+				print(recipient_list)
+				send_mail( subject, message, email_from, recipient_list )
 				if assign_obj.id > 0:
 					count += 1
 			if count == len(name):
@@ -856,3 +884,19 @@ def forgotPassword(request):
 	except Exception as e:
 		print(str(e))
 		return render(request, 'forgot_password.html',{'msg':'Email does not exist'})
+
+def resourceallocate(request):
+	try:
+		if request.method == 'POST':
+			project_obj = Project.objects.get(id=request.session['project_id'])
+			print(project_obj)
+			name = request.POST.get('resource_name')
+			print(name)
+			r_name = Resource.objects.get(resource=name)
+			print(r_name)
+			resource_allocate_obj = ResourceAllocate(fk_resource_id=name,fk_project_id=project_obj)
+		return render(request, 'task_add.html')
+
+	except Exception as e:
+		print(str(e))
+		return render(request, 'task_add.html',{'msg':'Please reenter '})

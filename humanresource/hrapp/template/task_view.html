@@ -1,4 +1,4 @@
-{% extends 'project_home.html' %}
+{% extends 'project_manager_home.html' %}
 {% block body %}
 <div class="container">
 		<form method="POST" action="/hrapp/taskview/">
@@ -7,6 +7,7 @@
 			<tr>
 				<thead>
 						<th>Project Name</th>
+						<th>Task Id</th>
 						<th>Task Title</th>
 						<th>Priority</th>
 						<th>Start Date</th>
@@ -25,7 +26,7 @@
 					<td>{{task.task_priority}}</td>
 					<td>{{task.task_start_date}}</td>
 					<td>{{task.task_end_date}}</td>
-					<td>{{task.fk_team_id}}</td>
+					<td>{{task.fk_team_id.team_lead}}</td>
 				</tr>
 				{% endfor %}
 			</tbody><br>

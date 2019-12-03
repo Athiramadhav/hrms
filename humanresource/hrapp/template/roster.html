@@ -2,31 +2,33 @@
 
 {% block body %}
 <div class="container">
-  
+  {{data}}
   <form action="/hrapp/rosterview/" method="POST">
-{{data}}
     {% csrf_token %}
     <h2>ROSTER MANAGEMENT</h2>
       <div class="form-group">
-          <label>From date</label>&nbsp;<input type="date" name="sdate" class="form control">&nbsp;&nbsp;
-          <label>To date</label>&nbsp;<input type="date" name="edate" class="form-control">&nbsp;&nbsp;
-          <button  type="submit" class="btn btn-primary">Continue</button>
+          <label>From date</label>&nbsp;<input type="date" name="sdate" class="form control" required>&nbsp;&nbsp;<br><br>
+          <label>To date</label>&nbsp;<input type="date" name="edate" class="form-control"required>&nbsp;&nbsp;
+          <button  type="submit" class="cancelbtn">Continue</button>
         </div>
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Employee Name</th>
-              <th>Departement</th>
+              <th>Team Lead Name</th>
               <th>Project</th>
               <th>Task</th>
             
             </tr>
           </thead>
           <tbody>
-              {% for items in rosterlist %}
+              {% for task in data %}
+            
               <tr>
-                <td>{items.fk_employee_id}</td>
-                <td>{items.}</td>
+                <td>{{task.fk_team_id.team_lead}}</td>
+                <td>{{task.fk_project_id.project_title}}</td>
+                <td>{{task.task_title}}</td>
+                <!-- <td>{{task.fk_project_id.project_title}}</td> -->
+          
               </tr>
               {% endfor %}
 

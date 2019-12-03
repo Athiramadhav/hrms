@@ -4,18 +4,19 @@
 <div class="container">
 	<h2>Cost Estimation</h2>
 	<form action="/hrapp/costestimate/" method="POST">
+		{% csrf_token %}
 		<div class="form-group">
 			<label>Software</label>
-		    <input type="text"  class="form-control" id="software" placeholder="Enter Software Estimation" required><br>
+		    <input type="text"  class="form-control" name="software" id="software" placeholder="Enter Software Estimation" required><br>
 
 		    <label>Hardware</label>
-		    <input type="text"  class="form-control" id="hardware" placeholder="Enter Hardware Estimation"required><br>
+		    <input type="text"  class="form-control" id="hardware" name="hardware" placeholder="Enter Hardware Estimation"required><br>
 
 		    <label>Equipment</label>
-		    <input type="text"  class="form-control" id="equipment" placeholder="Enter Equipment Estimation"><br>
+		    <input type="text"  class="form-control" id="equipment" name="equipment" placeholder="Enter Equipment Estimation"><br>
 
 		    <label>Total Cost</label>
-		    <input type="text"  class="form-control" id="total"><br>
+		    <input type="text"  class="form-control" id="total" name="total"><br>
 
 		    <button class="btn btn-primary">SAVE</button>
 

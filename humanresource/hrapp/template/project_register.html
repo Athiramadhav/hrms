@@ -11,32 +11,32 @@
     <div class="form-group">
       {{tlead}}
       <label>Title</label>
-      <input class="form-control" id="title" placeholder="Enter Project Title" name="ptitle">
+      <input class="form-control" id="title" placeholder="Enter Project Title" name="ptitle" required>
     </div>
 
     <div class="form-group">
-      <label>Sponser</label>
-      <input class="form-control" id="spnsr" placeholder="Enter Sponser Name" name="psponser">
+      <label>Client</label>
+      <input class="form-control" id="spnsr" placeholder="Enter Sponser Name" name="psponser"required>
     </div>
 
     <div class="form-group">
       <label>Cost Estimation</label>
-      <input class="form-control"  id="cost_estimate" placeholder="Enter Cost Estimation" name="pcost">
+      <input class="form-control"  id="cost_estimate" placeholder="Enter Cost Estimation" name="pcost" pattern="{,0-9}" required>
     </div>
 
     <div class="form-group">
       <label>Manager</label>
-      <input class="form-control" id="manager" placeholder="Enter Project Manager Name" name="pmanger">
+      <input class="form-control" id="manager" placeholder="Enter Project Manager Name" name="pmanger" required>
     </div>
 
     <div class="form-group">
       <label>Start Date</label>
-      <input type="Date" class="form-control" id="strt_date" placeholder="Enter Starting Date" name="psdate">
+      <input type="Date" class="form-control" id="strt_date" placeholder="Enter Starting Date" name="psdate" required>
     </div>
 
     <div class="form-group">
       <label>End Date</label>
-      <input type="Date" class="form-control" id="end_date" placeholder="Enter Ending Date" name="pedate">
+      <input type="Date" class="form-control" id="end_date" placeholder="Enter Ending Date" name="pedate" required>
     </div>
 
     <!-- <div class="form-group">
@@ -47,9 +47,13 @@
         {% endfor %}
       </select>    </div> -->
 
-
-    <button type="submit" class="btn btn-info" id="submit">OK</a></button>
-    <button type="submit" class="btn btn-info" id="cancel"><a href="/hrapp/taskadd?id={{currentproject.id}}">CONTINUE</a></button>
+ <!-- <div class="clearfix"> -->
+    <!-- <button  class="cancelbtn" id="submit">SAVE</a></button>
+    <button  class="signupbtn" id="cancel"><a href="/hrapp/taskadd?id={{currentproject.id}}">CONTINUE</a></button>
+     </div>  -->
+<button>SAVE</button>
+<button><a href="/hrapp/taskadd?id={{currentproject.id}}">CONTINUE</a></button>
+     -->
   </form>
 </div>
 </div>

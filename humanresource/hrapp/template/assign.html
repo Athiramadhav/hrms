@@ -34,11 +34,11 @@
 
 </script> -->
 <div class="container">
-    <h2>Assign</h2>
+    <h2>ASSIGN EMPLOYEES</h2>
     <div class="form-group">
          <form action="/hrapp/assign/" method="POST" data-toggle="validator" role="form"> 
             {% csrf_token %}
-            <label>Category</label>
+            <label>CATEGORY</label>
             <select class="form-control" name="selection">
                 <option value="Developer">Developers</option>
                 <option value="Coding">Coding</option>
@@ -46,25 +46,25 @@
                 <option value="Full Stack">Full Stack Developers</option>
             </select><br>
 
-            <label>Team Lead Name</label>
-            <select name="tlead">
+            <label>TEAM LEAD </label>
+            <select name="tlead" class="form-control">
               <option>Select Your Team Leader</option>
               {% for tl in leader %}
               <option value="{{tl}}">{{tl}}</option>
               {% endfor %}
             </select>
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">SELECT EMPLOYEES</button>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">SELECT EMPLOYEES</button>
             <div class="modal fade" id="myModal" role="dialog">
-               <div class="modal-dialog" width="700px">
+               <div class="modal-dialog" width="100%">
                     <div class="modal-content">
                        <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Employees List</h4>
+                            <h4 class="modal-title">Employees Username</h4>
                        </div>
                 <div class="modal-body">
                     <div id="subdiv" class="row">
                         {% for user in username %}
-                            <div class="innerDiv col-lg-3" width="500px">
+                            <div class="innerDiv col-lg-3" width="800px">
                               <input type="checkbox" value="{{user.username}}" name="employeecheckbox" ><label>{{user.username}}</label>
                               </div>
                         {% endfor %}
@@ -79,7 +79,7 @@
         </div>
      <br><br> 
              <br>
-             <table class="table table-striped" id="list">
+             <!-- <table class="table table-striped" id="list">
                 <tr>
                     <th rowspan="2" >S.No</th>
                     <th colspan="4" align="center">Category</th>
@@ -99,7 +99,7 @@
                     {{response.category}}
                   </td>
                 </tr>
-            </table>
+            </table> -->
             <button type="submit" class="btn btn-default" onclick="home.html">Back</button>
              <button type="submit" id="continue" class="btn btn-default">Continue</button><br><br>
              

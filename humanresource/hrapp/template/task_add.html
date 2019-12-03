@@ -8,30 +8,30 @@
     <div class="form-group">
       <label>Project Name</label>
       {% if projectlist %}
-      <input class="form-control" id="pname" name="ptitle" value="{{projectlist.project_title}}"><br>
+      <input class="form-control" id="pname" name="ptitle" value="{{projectlist.project_title}}" required><br>
       {% endif %}
       <label>Task</label>
-      <input class="form-control" id="task" placeholder="Enter Task Name" name="task"><br>
+      <input class="form-control" id="task" placeholder="Enter Task Name" name="task" required><br>
 
       <label>Priority</label>
-      <input type="text" id="priority" name="priority" placeholder="Set Priority" class="form-control"><br>
+      <input type="text" id="priority" name="priority" placeholder="Set Priority" class="form-control" pattern="{,0-9}" required><br>
     
       <label>Start Date</label>
-      <input type="Date" name="sdate" class="form-control" placeholder="Enter Start Date" id="sdate"><br>
+      <input type="Date" name="sdate" class="form-control" placeholder="Enter Start Date" id="sdate" required><br>
 
       <label>Due Date</label>
-      <input type="Date" class="form-control" id="duedate" placeholder="Enter Ending Date" name="edate"><br>
+      <input type="Date" class="form-control" id="duedate" placeholder="Enter Ending Date" name="edate" required><br>
     
       <label>Team Lead</label>
 
-      <select name="team_lead"  class="form-control">
+      <select name="team_lead"  class="form-control" required>
         {% for lead in teamlist %}
-        <option name="team_lead">{{lead.team_lead}}</option>
+        <option name="team_lead" >{{lead.team_lead}}</option>
         {% endfor %}
       </select><br>
       <div class="clearfix">
       		<button type="submit" class="cancelbtn"><a href="/hrapp/projectreg/">BACK</button>
-     		 <button type="submit" class="signupbtn"><a href="/hrapp/resourceallocate/"></a>CONTINUE</button>
+     		 <button type="submit" class="signupbtn"><a href="/hrapp/resourceallocate/">CONTINUE</button>
    		 </div>
     </div>
   </form>

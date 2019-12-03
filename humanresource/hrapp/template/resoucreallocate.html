@@ -1,8 +1,30 @@
 {% extends 'project_manager_home.html' %}
 {% block body %}
+
 <div class="container">
     <form action="/hrapp/resourceallocate/"  method="POST">
-        {% csrf tok%}
+        {% csrf token %}
+        <div class="form-group">
+                <label>Project Name</label>
+                {% if projectlist %}
+                <input class="form-control" id="pname" name="ptitle" value="{{projectlist.project_title}}"><br>
+                {% endif %}
+                
+                <label>Resources</label>
+               <select name="team_lead"  class="form-control">
+                        {% for lead in teamlist %}
+                        <option name="resource_name">{{lead.team_lead}}</option>
+                        {% endfor %}
+                      </select><br>
+                
+                      <div class="clearfix">
+                            <button type="button" class="cancelbtn">SAVE</button>
+                            <button type="submit" class="signupbtn"><a href="project_manager_home"></a>DONE</button>
+                          </div>
+              
+                
+
+        </div>
 
     </form>
 
