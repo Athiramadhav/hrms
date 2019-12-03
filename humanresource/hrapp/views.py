@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.template import Template, loader
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import *
+from django.db.models import Sum
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.conf import settings
@@ -172,6 +173,22 @@ def delete(request):
 		print(str(e))
 		return HttpResponse('error')
 
+@csrf_exempt
+def search(request):
+	try:
+		if request.method == 'POST':
+			print('.................................')
+			user_id = request.POST.get('empid')
+			print(user_id)
+			emp_obj= EmployeeProfile.objects.get(id=user_id)
+			context = {'list':emp_obj}
+			return render(request, 'searchresult.html', context)
+	except Exception as e:
+		print(str(e))
+		return render(request,'searchresult.html',{'msg':'id does not exist'})
+	return render(request, 'searchresult.html')
+
+
 def candidateRegistration(request):
 	if request.method == 'POST' and request.FILES['resume_uploads']:
 		try:
@@ -268,14 +285,20 @@ def fn_startExam(request):
 		time = request.session['time']
 		return render(request,'qp_view.html',{'time':time})
 	return render(request,'qp_view.html')
-
 def onlineExam(request):
 	try:
 		if request.method == 'POST':
 			candidate_id = int(request.session['userid'])
+			candidate_obj = Candidate.objects.get(fk_login=candidate_id)
 			qid = request.session['current_question']
-			user_answer = request.POST.get('user_ans')
-			print(user_answer)
+			user_answer = request.POST['user_answer']
+			evaluation_obj = QuestionPaper.objects.get(id=qid)
+			if user_answer == evaluation_obj.answer:
+				result_obj=Result(fk_candidate=candidate_obj,fk_question=evaluation_obj,mark=1)
+				result_obj.save()
+			else:
+				result_obj=Result(fk_candidate=candidate_obj,fk_question=evaluation_obj,mark=0)
+				result_obj.save()
 			online_obj = QuestionPaper.objects.values().get(id=qid+1)
 			online_obj.pop('answer')
 			request.session['current_question'] = online_obj['id']
@@ -301,6 +324,8 @@ def onlineExam(request):
 						
 	except Exception as e:
 		print(str(e))
+		del request.session['time']
+		del request.session['current_question']
 		return HttpResponse("Failed to load")
 
 # def fn_exitExam(request):
@@ -353,6 +378,18 @@ def mockDisplay(request):
  		print(str(e))
  		return HttpResponse("Failed to load")
 
+def result(request):
+	try:
+		login_id = request.session['userid']
+		candidate_id = Candidate.objects.get(fk_login=login_id)
+		print(candidate_id)
+		result_obj = Result.objects.filter(fk_candidate_id=candidate_id).aggregate(Sum('mark'))['mark__sum']
+		print(result_obj)
+		context = {'candidate':candidate_id,'result':result_obj}
+		return render(request, 'result_view.html', context)
+	except Exception as e:
+		print(str(e))
+
 @csrf_exempt
 def payment(request):
 	try:
@@ -378,6 +415,7 @@ def interview(request):
 			intrvw_dt = request.POST.get('interview_dt')
 			intrvw_time = request.POST.get('interview_time')
 			lctn = request.POST.get('location')
+			vemail = request.POST.get('mail')
 			intrvw_obj = Interview(interview_type=intvw_type,interview_Date=intrvw_dt,interview_time=intrvw_time,interview_location=lctn)
 			intrvw_obj.save()
 			subject = ' REGISTRATION NOTIFICATION'
@@ -397,10 +435,11 @@ def interview(request):
 def exam_detail(request):
 	try:
 		if request.method =='POST':
-			strt_dt = request.POST.get('start_dt')
-			strt_tym = request.POST.get('start_time')
-			ed_dt = request.POST.get('end_dt')
-			ed_tym = request.POST.get('end_time')
+			strt_dt = request.POST.get('sdate')
+			print(strt_dt)
+			strt_tym = request.POST.get('stime')
+			ed_dt = request.POST.get('edate')
+			ed_tym = request.POST.get('etime')
 			drtn = request.POST.get('duration')
 			exam_obj = ExamDetail(exam_startdate =strt_dt,exam_enddate=ed_dt,exam_starttime =strt_tym,exam_endtime=ed_tym,exam_duration=drtn)
 			exam_obj.save()
@@ -408,14 +447,23 @@ def exam_detail(request):
 			message = ' Exam notification is available in the site'
 			email_from = settings.EMAIL_HOST_USER
 			print(email_from)
-			# recipient = Candidate.objects.all().filter(fk_login.username__in)
-			# print(recipient)
+			recipient = Candidate.objects.all()
+			print(recipient.fk_login.username)
 			recipient_list = ['theerthakp95@gmail.com']
 			send_mail( subject, message, email_from, recipient_list )
 			# return HttpResponse('success')
 	except Exception as e:
 		print(str(e))
 	return render(request, 'exam_details.html')
+
+def examDetailView(request):
+	try:
+		detail_obj = ExamDetail.objects.all()
+		print(detail_obj)
+		context= {'lists':detail_obj}
+		return render(request,'exam_detail_view.html', context)
+	except Exception as e:
+		print(str(e))
 
 @csrf_exempt
 def intimationDetails(request):
@@ -458,8 +506,8 @@ def leaveType(request):
 	return render(request, 'leave_type.html')
 
 	
-# def leaveReport(request):
-# 	return render(request, 'leave_report_view.html')
+def leaveReport(request):
+	return render(request, 'leave_report_view.html')
 
 def complaintReport(request):
 	try:
@@ -477,8 +525,17 @@ def callLetter(request):
 			val_post = request.POST.get('post')
 			val_jn_dt = request.POST.get('join_date')
 			val_jn_tym = request.POST.get('join_time')
+			mail= request.POST.get('mail')
 			call_obj = CallLetter(post=val_post,join_date=val_jn_dt,join_time=val_jn_tym)
 			call_obj.save()
+			subject = ' CALL LETTER'
+			message = 'We are happy to appoint you  as our new ' +val_post+ 'in our company. Please join on'+val_jn_dt+'at'+val_jn_tym+'.'
+			print(message)
+			email_from = settings.EMAIL_HOST_USER
+			recipient_list = [''+mail+'']
+			print(recipient_list)
+			send_mail( subject, message, email_from, recipient_list )
+			return HttpResponse("Intimation Sent")
 	except Exception as e:
 		print(str(e))
 	return render(request, 'callletter.html')
@@ -571,9 +628,17 @@ def leaveApply(request):
 		# emp_object = EmployeeProfile.objects.get(fk_login_id=emp_id)
 		# print(emp_object)
 		if request.method == 'POST':
+			user_id = request.session['userid']
 			leave_typ_obj = LeaveType.objects.all()
+<<<<<<< HEAD
 			# emp_id = EmployeeProfile.objects.get('id')
 			# print(emp_id)
+=======
+			leave_available = leave_typ_obj.no_of_days
+			print(leave_available)
+			leave_type = request.POST.get('leavetype')
+			print(leave_type)
+>>>>>>> b92f33127501b38993b5b605b3e057b53c326414
 			from_date = request.POST.get('fdate')
 			print(from_date)
 			to_date = request.POST.get('edate')
@@ -582,15 +647,23 @@ def leaveApply(request):
 			print(days)
 			reason = request.POST.get('reason')
 			print(reason)
+<<<<<<< HEAD
 			# leave_type = request.POST.get('leavetype')
 			# print(leave_type)
 			leave_obj = EmployeeLeave(  from_date=from_date,to_date=to_date, no_of_days=days, 
 									  leave_reason=reason, fk_leave_type_id=leave_type_obj
 									  )
+=======
+			# leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
+			#                           leave_remains=leave_remian,from_date=from_date,to_date=to_date,no_of_days=days, 
+			# 						  leave_reason=reason,fk_leave_type_id=,fk_employee_id=)
+>>>>>>> b92f33127501b38993b5b605b3e057b53c326414
 		else:
 			leave_typ_obj=LeaveType.objects.all()
+			leave_total = LeaveType.objects.all().aggregate(Sum('no_of_days'))['no_of_days__sum']
 			context={}
 			context['data']=leave_typ_obj
+			context['totalleave'] = leave_total
 			print(context)
 			return render(request, 'leave_form.html', context)
 	except Exception as e:
@@ -688,6 +761,7 @@ def assign(request):
 			teamlead = request.POST['tlead']
 			print(teamlead)
 			name = request.POST.getlist('employeecheckbox')
+			print(name)
 			count = 0
 			login = Login.objects.filter(username__in=name)
 			print(login)
@@ -775,7 +849,7 @@ def dept(request):
 			print(dept)
 			dept_obj = Dept(dept_name=dept, fk_employee_id=id)
 			dept_obj.save()
-			return render("Added")
+			# return HttpResponse("Added")
 			return render(request,'employee_home.html')
 		else:
 			user_id = request.session['userid']
@@ -827,10 +901,6 @@ def project_view(request):
 	context = {'projectlist':project_obj}
 	return render(request, 'report_project.html',context)
 
-def task_view(request):
-	task_obj = TaskAdd.objects.all()
-	context = {'tasks':task_obj}
-	return render(request, 'task_view.html',context)
 
 def resource(request):
 	try:

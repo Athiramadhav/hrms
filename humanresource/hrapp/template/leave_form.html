@@ -18,22 +18,30 @@
             </thead>
             <tbody> -->
               <tr>
-                <td></td>
+                <td>{{totalleave}}</td>
                 <td></td>
                 <td></td>
               </tr>
             </tbody>
           </table>
+<<<<<<< HEAD
         <label>Employee Id</label>
         <input type="text" class="form-control" value="{{emp_id}}" readonly>
         <label>Type Of Leave</label>
 			    <select  class="form-control" name="leavetype">
+=======
+
+        <label>Type Of Leave:</label>
+          <select id="leavetype" style="width: 200px;">
+            <option value="0" selected>select</option>
+>>>>>>> b92f33127501b38993b5b605b3e057b53c326414
             {% for list in data %}
             <option value="{{list.leave_type}}">{{list.leave_type}}</option>
             {% endfor %}
           </select><br>
 
 
+<<<<<<< HEAD
 			<label> From Date</label>
 			<input class="form-control" type="Date" name="fdate"placeholder="Enter From Date" required><br>
 
@@ -45,6 +53,19 @@
 
 			<label>Reason</label>
       <input type="text" name="reason" placeholder="Enter the Reason" class="form-control" required>
+=======
+			<label> From Date:</label>
+			<input type="Date" name="fdate"placeholder="Enter From Date">
+
+			<label>To Date:</label>
+			<input type="Date" name="edate" placeholder="Enter To Date"><br>
+
+			<label>Number Of Days:</label>
+			<input type="text" name="days" placeholder="Enter the Number of Days">
+
+			<label>Reason:</label>
+      <textarea name="reason" placeholder="Enter the Reason" class="form-control" style="height: 300px;"></textarea>
+>>>>>>> b92f33127501b38993b5b605b3e057b53c326414
       
       <div class="clearfix">
         <button type="button" class="cancelbtn">Cancel</button>

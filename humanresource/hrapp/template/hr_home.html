@@ -134,7 +134,31 @@ button:hover {
 
         <li><a href="/hrapp/hr_home"><span class="glyphicon glyphicon-home"></span>  Home</a></li>
         <li><a href="/hrapp/emp_profile/"><span class="glyphicon glyphicon-user"></span>  Profile</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>  Mail</a></li>
+        <li><a href="/hrapp/search/"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+
+            <!-- <div class="modal fade" id="myModal" role="dialog">
+               <div class="modal-dialog" width=700px>
+                    <div class="modal-content">
+                      <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Search Employee by ID</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div id="subdiv" class="row">
+                            <div class="innerDiv col-lg-4" width=500px>
+                              <input type="text" name="empid" id="id" placeholder="Enter employee id">
+                            </div>
+                        </div>
+                      </div>
+                <div class="modal-footer">
+                  <button type="button" id="click" class="btn btn-default" data-dismiss="modal">Search</button>
+                </div>
+            </div>
+          </div>
+        </div> -->
+
+
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/hrapp/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -147,18 +171,19 @@ button:hover {
 <div class="container-fluid text-center">    
   <div class="row content">
     <div class="col-md-2 sidenav">
-      <p><a href="/hrapp/"><span class="glyphicon glyphicon-plus"></span>  Attendance</a></p>
-      <p><a href="/hrapp/register"><span class="glyphicon glyphicon-plus"></span>  Register Employee</a></p>
+      <p><a href="/hrapp/register/"><span class="glyphicon glyphicon-plus"></span>  Register Employee</a></p>
       <p><a href="/hrapp/employee_view"><span class="glyphicon glyphicon-eye-open"></span>  Employee details</a></p>
       <p><a href="/hrapp/intimation/"><span class="glyphicon glyphicon-envelope"></span>  Intimation Mail</a></p>
       <p><a href="/hrapp/complaint_view/"><span class="glyphicon glyphicon-list-alt"></span>  Complaints</a></p>
       <p><a href="/hrapp/leave_type/"><span class="glyphicon glyphicon-list-alt"></span>  Leave type</a></p>
       <p><a href="/hrapp/leave_view/"><span class="glyphicon glyphicon-file"></span>  Leave Report</a></p>
       <p><a href="/hrapp/payment/"><span class="glyphicon glyphicon-eye-open"></span>  Payment Detail</a></p>
+      <p><a href="/hrapp/vacancyview/"><span class="glyphicon glyphicon-folder-open"></span>  Vacancy</a></p>
       <p><a href="/hrapp/candidate_view/"><span class="glyphicon glyphicon-eye-open"></span>  Candidate Detail</a></p>
       <p><a href="/hrapp/exam_detail/"><span class="glyphicon glyphicon-book"></span>  Examination Details</a></p>
-      <p><a href="/hrapp/mocktest/"><span class="glyphicon glyphicon-book"></span>  Create Mock Test</a></p>
-      <p><a href="/hrapp/questionpaper"><span class="glyphicon glyphicon-folder-open"></span>  Online Examination</a></p>
+      <!-- <p><a href="/hrapp/mocktest/"><span class="glyphicon glyphicon-book"></span>  Create Mock Test</a></p> -->
+      <p><a href="/hrapp/questionpaper/"><span class="glyphicon glyphicon-folder-open"></span>  Online Examination</a></p>
+      <p><a href="/hrapp/result"><span class="glyphicon glyphicon-folder-open"></span>  Result</a></p>
       <p><a href="/hrapp/interview/"><span class="glyphicon glyphicon-pencil"></span>  Interview</a></p>
       <p><a href="/hrapp/callletter/"><span class="glyphicon glyphicon-envelope"></span>  Call letter</a></p>
     </div>
@@ -229,10 +254,12 @@ button:hover {
     
   </div>
 </div>
+<!-- <div>
+    <footer class="container-fluid text-center">
+        <p>Footer Text</p>
+      </footer>
+</div> -->
 
-<footer class="container-fluid text-center">
-  <p>Footer Text</p>
-</footer>
 
 </body>
 </html>

@@ -18,8 +18,16 @@
             user_answer:user_ans,
           },
           success: res => {
-            // console.log(res);
-            res_keys = Object.keys(res.data);
+            console.log(res);
+            if(res == 'Failed to load'){
+                clearInterval(myVar);
+                clearInterval(update);
+                $('.signupbtn').hide();
+                $('#start').hide();
+                $('#finish').show();
+            }
+            else{
+              res_keys = Object.keys(res.data);
             $('#question').html(res.data['question']);
             $('#option1').html(res.data['option1']);
             $('#option2').html(res.data['option2']);
@@ -34,6 +42,7 @@
                 // console.log(options[op]);
               }
               $("input[name='answer']").prop('checked', false);
+            }
             },
 
           error: err => {
@@ -59,21 +68,8 @@
             time
           },
           success: res => {
-            res_keys = Object.keys(res.data);
-            time = Number(res.data['time']);
-            // $('#question').html(res.data['question']);
-            // $('#option1').html(res.data['option1']);
-            // $('#option2').html(res.data['option2']);
-            // $('#option3').html(res.data['option3']);
-            // $('#option4').html(res.data['option4']);
-            // $('.signupbtn').attr('id',res.data['id']);
-            // if($("input[name='answer']").is('checked')){
-            //   checkedCheckboxes.push($("input[name='answer']").val());
-            // }
-            // for (op=0, v=2; op<options.length; op+=1,v++) {
-            //     options[op].value = res.data[res_keys[v]];
-            //   }
-            //   $("input[name='answer']").prop('checked', false);
+            //res_keys = Object.keys(res.data);
+            time = Number(res['time']);
             },
 
           error: err => {
@@ -86,7 +82,7 @@
           time = mytime
           myVar = setInterval(myTimer, 1000);
         }
-        $('.start_btn').click(function(){
+        $('.btn-success').click(function(){
           $('.form-group').show();
           if(mytime==0){
             time = -1;
@@ -124,7 +120,9 @@
 
       
       $('.signupbtn').click( (e) => {
-       user_ans=$("input[name='answer']:checked").val();
+        time = -1;
+        user_ans=$("input[name='answer']:checked").val();
+       console.log(user_ans)
       getAJax();
       myVar;
     });
@@ -138,13 +136,17 @@
   {% csrf_token %}
    <div class="container">
     <h1>ONLINE EXAM</h1>
-    <div class="start_btn">
-      Start Exam
+    <div id="start">
+      <button type="button" class="btn btn-success" style="width: 200px;">START</button>
+    </div>
+    <div id="finish" hidden>
+      <button class="btn btn-danger" style="width: 200px;">FINISH</button>
     </div>
     <div>
-      <input type="text" readonly id="timer" {% if time %} value="{{time}}" {% endif %}>
+      <input type="text" readonly id="timer" {% if time %} value="{{time}}" {% endif %} style="width: 200px;">
     </div>
     <hr />
+    
       <div class="form-group" hidden>
       <label>Questions :</label>
       <textarea name="question" cols="50" rows="2" class="form-control" id="question">
