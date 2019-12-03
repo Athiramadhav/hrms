@@ -144,7 +144,7 @@ class EmployeeLeave(models.Model):
 	to_date         = models.DateField(max_length=50)
 	no_of_days      = models.IntegerField()
 	leave_reason    = models.CharField(max_length=200)
-	fk_leave_type_id= models.ForeignKey(LeaveType, on_delete=models.CASCADE)
+	leave_type      = models.CharField(max_length=50)
 	fk_employee_id  = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
 
 class Resource(models.Model):

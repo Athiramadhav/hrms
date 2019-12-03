@@ -3,9 +3,9 @@
 {% block body %}
 <div class="container">
   <h2>PROJECT REGISTRATION</h2>
-  <div id="toast" hidden>{{response}}</div>
   
-  <form action="/hrapp/projectreg/" method="POST">
+  
+  <form action="/hrapp/projectreg/" method="POST" id="form1">
 
     {% csrf_token %}
     <div class="form-group">
@@ -39,21 +39,18 @@
       <input type="Date" class="form-control" id="end_date" placeholder="Enter Ending Date" name="pedate" required>
     </div>
 
-    <!-- <div class="form-group">
-      <label>Team Lead</label>
-      <select class="form-control" id="teamlead">
-        {% for user in tlead %}
-        <option value="{{user.team_lead}}">{{user.team_lead}}</option>
-        {% endfor %}
-      </select>    </div> -->
-
- <!-- <div class="clearfix"> -->
-    <!-- <button  class="cancelbtn" id="submit">SAVE</a></button>
-    <button  class="signupbtn" id="cancel"><a href="/hrapp/taskadd?id={{currentproject.id}}">CONTINUE</a></button>
-     </div>  -->
-<button>SAVE</button>
-<button><a href="/hrapp/taskadd?id={{currentproject.id}}">CONTINUE</a></button>
-     -->
+    
+ <!-- <div class="clearfix"> 
+    <button type="button" class="cancelbtn" id="submit">SAVE</button>
+    <button  type="button" class="signupbtn" id="cancel"><a href="/hrapp/taskadd?id={{currentproject.id}}">CONTINUE</a></button>
+     </div> 
+      --> 
+      <table>
+        <td><button class="btn btn-primary">Save</button></td>
+        <td></td>
+        <td>
+        <td><button class="btn btn-primary">Cancel</button></td>
+      </table>
   </form>
 </div>
 </div>

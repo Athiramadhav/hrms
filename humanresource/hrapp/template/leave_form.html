@@ -24,49 +24,36 @@
               </tr>
             </tbody>
           </table>
-<<<<<<< HEAD
-        <label>Employee Id</label>
-        <input type="text" class="form-control" value="{{emp_id}}" readonly>
-        <label>Type Of Leave</label>
-			    <select  class="form-control" name="leavetype">
-=======
 
-        <label>Type Of Leave:</label>
+        <!-- <label>Type Of Leave:</label>
           <select id="leavetype" style="width: 200px;">
             <option value="0" selected>select</option>
->>>>>>> b92f33127501b38993b5b605b3e057b53c326414
             {% for list in data %}
             <option value="{{list.leave_type}}">{{list.leave_type}}</option>
             {% endfor %}
-          </select><br>
+          </select><br> -->
 
 
-<<<<<<< HEAD
-			<label> From Date</label>
-			<input class="form-control" type="Date" name="fdate"placeholder="Enter From Date" required><br>
-
-			<label>To Date</label>
-			<input class="form-control" type="Date" name="edate" placeholder="Enter To Date"required><br>
-
-			<label>Number Of Days</label>
-			<input class="form-control" type="text" name="days" placeholder="Enter the Number of Days" required>
-
-			<label>Reason</label>
-      <input type="text" name="reason" placeholder="Enter the Reason" class="form-control" required>
-=======
 			<label> From Date:</label>
-			<input type="Date" name="fdate"placeholder="Enter From Date">
+			<input type="Date" name="fdate"placeholder="Enter From Date" required>
 
 			<label>To Date:</label>
-			<input type="Date" name="edate" placeholder="Enter To Date"><br>
+			<input type="Date" name="edate" placeholder="Enter To Date" required><br>
 
 			<label>Number Of Days:</label>
-			<input type="text" name="days" placeholder="Enter the Number of Days">
+			<input type="text" name="days" placeholder="Enter the Number of Days" pattern="{,0-9}" required>
 
 			<label>Reason:</label>
-      <textarea name="reason" placeholder="Enter the Reason" class="form-control" style="height: 300px;"></textarea>
->>>>>>> b92f33127501b38993b5b605b3e057b53c326414
-      
+      <textarea name="reason" placeholder="Enter the Reason" class="form-control" style="height: 300px;" required></textarea><br>
+
+      <label>Leave Type</label>
+      <select required name="leave_type">
+        <option>Casual</option>
+        <option>Sick</option>
+        <option>Maternity</option>
+        <option>Parental</option>
+        <option>Other</option>
+      </select>
       <div class="clearfix">
         <button type="button" class="cancelbtn">Cancel</button>
         <button type="submit" class="signupbtn">Apply</button>

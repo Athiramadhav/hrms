@@ -6,10 +6,12 @@
 
     {% csrf_token %}
     <div class="form-group">
-      <label>Project Name</label>
-      {% if projectlist %}
-      <input class="form-control" id="pname" name="ptitle" value="{{projectlist.project_title}}" required><br>
-      {% endif %}
+        <select name="p_name"  class="form-control" required>
+            {% for list in projectlist %}
+            <option name="team_lead" >{{list.project_title}}</option>
+            {% endfor %}
+        </select><br>
+
       <label>Task</label>
       <input class="form-control" id="task" placeholder="Enter Task Name" name="task" required><br>
 
@@ -29,10 +31,14 @@
         <option name="team_lead" >{{lead.team_lead}}</option>
         {% endfor %}
       </select><br>
-      <div class="clearfix">
+      
+      <button class="btn btn-info"><a href="/hrapp/project_manager_home"> CANCEL</a></button>
+      <button class="btn btn-link">SAVE</button>
+
+      <!-- <div class="clearfix">
       		<button type="submit" class="cancelbtn"><a href="/hrapp/projectreg/">BACK</button>
      		 <button type="submit" class="signupbtn"><a href="/hrapp/resourceallocate/">CONTINUE</button>
-   		 </div>
+   		 </div> -->
     </div>
   </form>
  </div>

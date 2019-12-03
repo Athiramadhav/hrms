@@ -10,9 +10,6 @@ import json
 from django.db.models import Sum
 import datetime
 
-from django import forms
-from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
 
 
 # Create your views here.
@@ -507,16 +504,15 @@ def leaveType(request):
 
 	
 def leaveReport(request):
-	return render(request, 'leave_report_view.html')
-
-def complaintReport(request):
 	try:
-		complaint_obj = Complaint.objects.all()
-		context = {'complaintlist':complaint_obj}
-		return render(request, 'complaint_view.html', context)
-
+		leave_obj = EmployeeLeave.objects.all()
+		context = {'leavelist':leave_obj}
+		return render(request, 'leave_report_view.html', context)
 	except Exception as e:
 		print(str(e))
+	return render(request, 'leave_report_view.html')
+
+		
 	
 @csrf_exempt
 def callLetter(request):
@@ -539,6 +535,16 @@ def callLetter(request):
 	except Exception as e:
 		print(str(e))
 	return render(request, 'callletter.html')
+
+
+def complaintReport(request):
+	try:
+		complaint_obj = Complaint.objects.all()
+		context = {'complaintlist':complaint_obj}
+		return render(request, 'complaint_view.html', context)
+
+	except Exception as e:
+		print(str(e))
 
 
 def complaintReg(request):
@@ -623,22 +629,11 @@ def costEstimation(request):
 
 def leaveApply(request):
 	try:
-		emp_id = request.session['userid']
-		print(emp_id)
-		# emp_object = EmployeeProfile.objects.get(fk_login_id=emp_id)
-		# print(emp_object)
+		
 		if request.method == 'POST':
-			user_id = request.session['userid']
-			leave_typ_obj = LeaveType.objects.all()
-<<<<<<< HEAD
-			# emp_id = EmployeeProfile.objects.get('id')
-			# print(emp_id)
-=======
-			leave_available = leave_typ_obj.no_of_days
-			print(leave_available)
-			leave_type = request.POST.get('leavetype')
-			print(leave_type)
->>>>>>> b92f33127501b38993b5b605b3e057b53c326414
+			name = request.session['userid']
+			emp_obj  = EmployeeProfile.objects.get(id=name)
+			print(name)
 			from_date = request.POST.get('fdate')
 			print(from_date)
 			to_date = request.POST.get('edate')
@@ -647,17 +642,10 @@ def leaveApply(request):
 			print(days)
 			reason = request.POST.get('reason')
 			print(reason)
-<<<<<<< HEAD
-			# leave_type = request.POST.get('leavetype')
-			# print(leave_type)
-			leave_obj = EmployeeLeave(  from_date=from_date,to_date=to_date, no_of_days=days, 
-									  leave_reason=reason, fk_leave_type_id=leave_type_obj
-									  )
-=======
-			# leave_obj = EmployeeLeave(leave_available=leave_available, leave_taken=leave_taken,
-			#                           leave_remains=leave_remian,from_date=from_date,to_date=to_date,no_of_days=days, 
-			# 						  leave_reason=reason,fk_leave_type_id=,fk_employee_id=)
->>>>>>> b92f33127501b38993b5b605b3e057b53c326414
+			leave_type = request.POST.get('leave_type')
+			print(leave_type)
+			leave_obj = EmployeeLeave(from_date=from_date,to_date=to_date,no_of_days=days,leave_reason=reason,leave_type=leave_type,fk_employee_id=emp_obj)
+			leave_obj.save()
 		else:
 			leave_typ_obj=LeaveType.objects.all()
 			leave_total = LeaveType.objects.all().aggregate(Sum('no_of_days'))['no_of_days__sum']
@@ -686,16 +674,10 @@ def projectReg(request):
 			print(manager)
 			sdate = request.POST.get('psdate')
 			print(sdate)
-			if sdata < datetime.date.today():
-				raise ValidationError(_('Invalid date - renewal in past'))
 			edate = request.POST.get('pedate')
 			print(edate)
-			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, 
-				      project_cost=cost, project_start_date=sdate, project_end_date=edate)
-			if project_start_date < project_end_date:
-				reg_obj.save()
-
-			
+			reg_obj = Project(project_title=title, project_sponser=sponser, project_manger=manager, project_cost=cost, project_start_date=sdate, project_end_date=edate)
+			reg_obj.save()
 			if reg_obj.id > 0:
 				context={}
 				context['currentproject']= reg_obj
@@ -710,7 +692,9 @@ def projectReg(request):
 def taskAdd(request):
 	try:
 		if request.method == 'POST':
-			project_obj = Project.objects.get(id=request.session['project_id'])
+			# project_obj = Project.objects.get(id=request.session['project_id'])
+			# print(project_obj)
+			project_obj = request.POST.get('p_name')
 			print(project_obj)
 			task = request.POST.get('task')
 			print(task)
@@ -736,7 +720,9 @@ def taskAdd(request):
 				project_obj = {}
 			team_lead_obj = ProjectAllocation.objects.all()
 			context = {}
-			context["projectlist"]= project_obj
+			project_obj_list = Project.objects.all()
+			context = {}
+			context["projectlist"]= project_obj_list
 			context["teamlist"]= team_lead_obj
 			return render(request,'task_add.html',context)
 	except Exception as e:
